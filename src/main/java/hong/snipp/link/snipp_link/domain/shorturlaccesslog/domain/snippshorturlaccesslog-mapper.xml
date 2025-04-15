@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hong.snipp.link.snipp_link.domain.shorturlaccesslog.domain.SnipShortUrlAccessLogMapper">
+
+    <insert id="insert" parameterType="SnipShortUrlAccessLog">
+        /* snipShortUrlAccessLog.insert */
+        INSERT INTO SNP_SHORTEN_URL_ACCESS_LOG (
+             SHORT_URL
+            ,USER_UID
+            ,ACCESS_IP
+            ,ACCESS_USER_AGENT
+            ,ACCESS_DATE
+            ,ACCESS_TP
+        ) VALUES (
+             #{shortUrl}
+            ,#{userUid}
+            ,#{accessIp}
+            ,#{accessUserAgent}
+            ,NOW()
+            ,#{accessTp}
+        )
+    </insert>
+
+    <select id="page" parameterType="SnipShortUrlAccessLogParam" resultType="SnipShortUrlAccessLogList">
+        /* snipShortUrlAccessLog.page */
+        SELECT SSUAL.UID AS LOG_UID
+              ,SSUAL.SHORT_URL
+              ,SSU.ORIGIN_URL AS ORIGIN_URL
+              ,SSUAL.USER_UID
+              ,SSUAL.ACCESS_IP
+              ,SSUAL.ACCESS_USER_AGENT
+              ,SSUAL.ACCESS_DATE
+              ,SSUAL.ACCESS_TP
+          FROM SNP_SHORTEN_URL_ACCESS_LOG SSUAL
+          INNER JOIN SNP_SHORTEN_URL SSU ON SSU.SHORT_URL = SSUAL.SHORT_URL
+        WHERE 1 = 1
+        <if test="(startDate != null and startDate != '') and (endDate != null and endDate != '')">
+          AND SSUAL.ACCESS_DATE BETWEEN #{startDate} AND #{endDate}
+        </if>
+        <if test="accessTp != null and accessTp != ''">
+          AND SSUAL.ACCESS_TP = #{accessTp}
+        </if>
+        ORDER BY SSUAL.ACCESS_DATE DESC
+        <if test="startNumber != null and endNumber != null">
+        LIMIT #{endNumber} OFFSET #{startNumber}
+        </if>
+    </select>
+
+    <select id="list" parameterType="SnipShortUrlAccessLogParam" resultType="SnipShortUrlAccessLogList">
+        /* snipShortUrlAccessLog.list */
+        SELECT SSUAL.UID AS LOG_UID
+              ,SSUAL.SHORT_URL
+              ,SSU.ORIGIN_URL AS ORIGIN_URL
+              ,SSUAL.USER_UID
+              ,SSUAL.ACCESS_IP
+              ,SSUAL.ACCESS_USER_AGENT
+              ,SSUAL.ACCESS_DATE
+              ,SSUAL.ACCESS_TP
+          FROM SNP_SHORTEN_URL_ACCESS_LOG SSUAL
+          INNER JOIN SNP_SHORTEN_URL SSU ON SSU.SHORT_URL = SSUAL.SHORT_URL
+        WHERE 1 = 1
+        <if test="(startDate != null and startDate != '') and (endDate != null and endDate != '')">
+          AND SSUAL.ACCESS_DATE BETWEEN #{startDate} AND #{endDate}
+        </if>
+        <if test="accessTp != null and accessTp != ''">
+          AND SSUAL.ACCESS_TP = #{accessTp}
+        </if>
+        ORDER BY SSUAL.ACCESS_DATE DESC
+    </select>
+
+    <select id="count" parameterType="SnipShortUrlAccessLogParam" resultType="int">
+        /* snipShortUrlAccessLog.count */
+        SELECT COUNT(*)
+          FROM SNP_SHORTEN_URL_ACCESS_LOG SSUAL
+          INNER JOIN SNP_SHORTEN_URL SSU ON SSU.SHORT_URL = SSUAL.SHORT_URL
+        WHERE 1 = 1
+        <if test="(startDate != null and startDate != '') and (endDate != null and endDate != '')">
+          AND SSUAL.ACCESS_DATE BETWEEN #{startDate} AND #{endDate}
+        </if>
+        <if test="accessTp != null and accessTp != ''">
+          AND SSUAL.ACCESS_TP = #{accessTp}
+        </if>
+    </select>
+</mapper>

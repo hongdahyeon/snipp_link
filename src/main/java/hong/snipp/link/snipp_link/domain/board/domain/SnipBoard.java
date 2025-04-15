@@ -1,0 +1,64 @@
+package hong.snipp.link.snipp_link.domain.board.domain;
+
+import hong.snipp.link.snipp_link.domain.board.dto.request.SnipBoardChange;
+import hong.snipp.link.snipp_link.domain.board.dto.request.SnipBoardSave;
+import hong.snipp.link.snipp_link.global.bean.audit.AuditBean;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+/**
+ * packageName    : hong.snipp.link.snipp_link.domain.board.domain
+ * fileName       : SnipBoard
+ * author         : work
+ * date           : 2025-04-15
+ * description    : 게시글 엔티티
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2025-04-15        work       최초 생성
+ */
+@Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class SnipBoard extends AuditBean {
+
+    private Long uid;
+    private Long bbsUid;
+    private String title;
+    private String content;
+    private String deleteAt;
+
+    /**
+     * @method      SnipBoard 생성자 1
+     * @author      work
+     * @date        2025-04-15
+     * @deacription 게시글 저장용 생성자
+    **/
+    public SnipBoard(SnipBoardSave request) {
+        this.bbsUid = request.getBbsUid();
+        this.title = request.getTitle();
+        this.content = request.getContent();
+    }
+
+    /**
+     * @method      SnipBoard 생성자 2
+     * @author      work
+     * @date        2025-04-15
+     * @deacription 게시글 수정용 생성자
+    **/
+    public SnipBoard(Long uid, SnipBoardChange request) {
+        this.uid = uid;
+        this.title = request.getTitle();
+        this.content = request.getContent();
+    }
+
+    /**
+     * @method      SnipBoard 생성자 3
+     * @author      work
+     * @date        2025-04-15
+     * @deacription 게시글 삭제용 생성자
+    **/
+    public SnipBoard(Long boardUid) {
+        this.uid = boardUid;
+    }
+
+}

@@ -2,6 +2,15 @@ spring:
   datasource:
     url: jdbc:mariadb://localhost:3306/snipp_link?allowPublicKeyRetrieval=true&useSSL=false
     username: hong
-    password: '0427'
+    password: ENC(QOV4BYBY1WUIO0hm0uON4l4KqO8EgLkXDBkCbMisSE7/J3VKfs0DdeDxej21dC5o)
     driver-class-name: org.mariadb.jdbc.Driver
     allow-multi-query: true
+
+hong:
+  short-url:
+    secret-key: ENC(y1vnk0wEj21ZWHvsNs5PBS205F6TA98LcopBnfWPcFqkpp1fBOYZL6ILqh5zldH0kth2rHmhC/52C6EuEDnmxg==)
+  base-url: 'http://localhost:8083'
+
+jasypt:
+  encryptor:
+    bean: 'snippLinkEncryptor'
