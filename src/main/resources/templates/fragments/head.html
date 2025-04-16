@@ -1,0 +1,20 @@
+<th:block th:fragment="head">
+
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&family=Noto+Sans+KR&display=swap">
+
+  <!-- Favicon-->
+  <link rel="shortcut icon" type="image/x-icon" th:href="@{'/assets/src/favicon/favicon.ico'}" />
+
+  <!-- Bootstrap icons-->
+  <link th:href="@{'/assets/css/core/bootstrap-icons.css'}" rel="stylesheet" />
+
+  <!-- Core theme CSS (includes Bootstrap)-->
+  <link th:href="@{'/assets/css/core/styles.css'}" rel="stylesheet" />
+
+  <style>
+    :root { --bs-font-sans-serif: 'Montserrat', 'Noto Sans KR', Helvetica, Arial, serif !important; }
+    .header-navbar, .navigation { font-family: 'Montserrat', 'Noto Sans KR', Helvetica, Arial, serif !important; }
+  </style>
+
+</th:block>

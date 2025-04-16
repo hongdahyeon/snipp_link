@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+
+  <th:block layout:fragment="content">
+    <!-- Page content-->
+    <section class="py-5">
+      <div class="container px-5">
+
+        <!-- Contact form-->
+        <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+
+          <div class="text-center mb-5">
+            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+              <i class="bi bi-person"></i>
+            </div>
+            <h1 class="fw-bolder">Login</h1>
+            <p class="lead fw-normal text-muted mb-0">Welcome to Snipp Link!</p>
+          </div>
+
+          <div class="row gx-5 justify-content-center">
+            <div class="col-lg-8 col-xl-6">
+
+              <form method="post" action="/loginProc" id="form">
+                <!-- userId input-->
+                <div class="form-floating mb-3">
+                  <input class="form-control" id="userId" type="text" placeholder="" required>
+                  <label for="userId">유저ID</label>
+                  <div class="invalid-feedback">필수값입니다.</div>
+                </div>
+
+                <!-- password input-->
+                <div class="form-floating mb-3">
+                  <input class="form-control" id="password" type="password" placeholder="" required>
+                  <label for="password">패스워드</label>
+                  <div class="invalid-feedback">필수값입니다.</div>
+                </div>
+
+                <!-- Login Button-->
+                <div class="d-grid">
+                  <button class="btn btn-primary btn-lg" id="btn-login" type="submit">로그인</button>
+                </div>
+              </form>
+
+              <hr style="border: none; border-top: 3px dotted #000000; margin: 20px auto; width: 90%;">
+
+              <div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
+                <p>소셜 로그인</p>
+                <img src="/assets/src/img/login/sm-google.png" alt="Google 로그인" style="margin: 0 10px; cursor: pointer;" id="kakao-login-btn">
+                <img src="/assets/src/img/login/sm-naver.png" alt="Naver 로그인" style="margin: 0 10px; cursor: pointer;" id="naver-login-btn">
+                <img src="/assets/src/img/login/sm-kakao.png" alt="Kakao 로그인" style="margin: 0 10px; cursor: pointer;" id="google-login-btn">
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </th:block>
+
+  <th:block layout:fragment="script">
+    <script th:src="@{'/assets/js/page/login.js'}"></script>
+    <script th:inline="javascript">
+      $(function(e) {
+        /* 카카오톡 로그인 */
+        $("#kakao-login-btn").on("click", () => window.location.href = '/oauth2/authorization/kakao')
+
+        /* 네이버 로그인 */
+        $("#naver-login-btn").on("click", () => window.location.href = '/oauth2/authorization/naver')
+
+        /* 구글 로그인 */
+        $("#google-login-btn").on("click", () => window.location.href = '/oauth2/authorization/google')
+      });
+    </script>
+  </th:block>
+
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+  <head>
+    <title>Snipp Link</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <th:block th:replace="~{fragments/head :: head}"></th:block>
+    <th:block layout:fragment="head"></th:block>
+  </head>
+
+  <body class="d-flex flex-column h-100">
+    <main class="flex-shrink-0">
+      <th:block th:replace="~{fragments/header-nav :: header-nav}"></th:block>
+      <th:block layout:fragment="content"></th:block>
+    </main>
+    <th:block th:replace="~{fragments/footer :: footer}"></th:block>
+  </body>
+
+</html>

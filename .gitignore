@@ -35,3 +35,5 @@ out/
 
 ### VS Code ###
 .vscode/
+/node_modules/
+/src/main/java/hong/snipp/link/snipp_link/global/config/JasyptConfigTest.java
