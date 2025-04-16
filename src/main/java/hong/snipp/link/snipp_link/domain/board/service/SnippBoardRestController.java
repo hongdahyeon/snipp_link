@@ -1,10 +1,10 @@
 package hong.snipp.link.snipp_link.domain.board.service;
 
-import hong.snipp.link.snipp_link.domain.board.dto.request.SnipBoardChange;
-import hong.snipp.link.snipp_link.domain.board.dto.request.SnipBoardParam;
-import hong.snipp.link.snipp_link.domain.board.dto.request.SnipBoardSave;
-import hong.snipp.link.snipp_link.domain.board.dto.response.SnipBoardList;
-import hong.snipp.link.snipp_link.domain.board.dto.response.SnipBoardView;
+import hong.snipp.link.snipp_link.domain.board.dto.request.SnippBoardChange;
+import hong.snipp.link.snipp_link.domain.board.dto.request.SnippBoardParam;
+import hong.snipp.link.snipp_link.domain.board.dto.request.SnippBoardSave;
+import hong.snipp.link.snipp_link.domain.board.dto.response.SnippBoardList;
+import hong.snipp.link.snipp_link.domain.board.dto.response.SnippBoardView;
 import hong.snipp.link.snipp_link.global.bean.page.Page;
 import hong.snipp.link.snipp_link.global.bean.page.Pageable;
 import jakarta.validation.Valid;
@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * packageName    : hong.snipp.link.snipp_link.domain.board.service
- * fileName       : SnipBoardRestController
+ * fileName       : SnippBoardRestController
  * author         : work
  * date           : 2025-04-15
  * description    : 게시글 관련 API
@@ -24,13 +24,14 @@ import java.util.List;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
+ * 2025-04-16        work       snip -> snipp 변경
  */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/snipp/api/board")
-public class SnipBoardRestController {
+public class SnippBoardRestController {
 
-    private final SnipBoardService service;
+    private final SnippBoardService service;
 
     /**
      *
@@ -41,7 +42,7 @@ public class SnipBoardRestController {
      * @date        2025-04-15
     **/
     @PostMapping
-    public ResponseEntity saveBoard(@RequestBody @Valid SnipBoardSave request) {
+    public ResponseEntity saveBoard(@RequestBody @Valid SnippBoardSave request) {
         service.saveBoard(request);
         return ResponseEntity.ok().build();
     }
@@ -55,7 +56,7 @@ public class SnipBoardRestController {
      * @date        2025-04-15
     **/
     @PutMapping("/{uid}")
-    public ResponseEntity changeBoard(@PathVariable("uid") Long uid, @RequestBody @Valid SnipBoardChange request) {
+    public ResponseEntity changeBoard(@PathVariable("uid") Long uid, @RequestBody @Valid SnippBoardChange request) {
         service.changeBoard(uid, request);
         return ResponseEntity.ok().build();
     }
@@ -70,7 +71,7 @@ public class SnipBoardRestController {
     **/
     @GetMapping("/{uid}")
     public ResponseEntity findBoardByUid(@PathVariable("uid") Long uid) {
-        SnipBoardView boardByUid = service.findBoardByUid(uid);
+        SnippBoardView boardByUid = service.findBoardByUid(uid);
         return ResponseEntity.ok(boardByUid);
     }
 
@@ -83,8 +84,8 @@ public class SnipBoardRestController {
      * @date        2025-04-15
     **/
     @GetMapping("/page")
-    public ResponseEntity findAllBoardPage(@Valid SnipBoardParam param, Pageable pageable) {
-        Page<SnipBoardList> allBoardPage = service.findAllBoardPage(param, pageable);
+    public ResponseEntity findAllBoardPage(@Valid SnippBoardParam param, Pageable pageable) {
+        Page<SnippBoardList> allBoardPage = service.findAllBoardPage(param, pageable);
         return ResponseEntity.ok(allBoardPage);
     }
 
@@ -97,8 +98,8 @@ public class SnipBoardRestController {
      * @date        2025-04-15
     **/
     @GetMapping("/list")
-    public ResponseEntity findAllBoardList(@Valid SnipBoardParam param) {
-        List<SnipBoardList> allBoardList = service.findAllBoardList(param);
+    public ResponseEntity findAllBoardList(@Valid SnippBoardParam param) {
+        List<SnippBoardList> allBoardList = service.findAllBoardList(param);
         return ResponseEntity.ok(allBoardList);
     }
 

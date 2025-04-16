@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * packageName    : hong.snipp.link.snipp_link.domain.board.domain
- * fileName       : SnipBoardMapper
+ * fileName       : SnippBoardMapper
  * author         : work
  * date           : 2025-04-15
  * description    : 게시글 매퍼
@@ -13,9 +13,10 @@ import org.apache.ibatis.annotations.Mapper;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
+ * 2025-04-16        work       snip -> snipp 변경
  */
 @Mapper
-public interface SnipBoardMapper extends BaseMapper<SnipBoard> {
+public interface SnippBoardMapper extends BaseMapper<SnippBoard> {
 
     int countAllBoard(Long bbsUid);
 }

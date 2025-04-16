@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * packageName    : hong.snipp.link.snipp_link.domain.bbs.dto.request
- * fileName       : SnipBbsChange
+ * fileName       : SnippBbsChange
  * author         : work
  * date           : 2025-04-15
  * description    : 게시판 수정 요청 DTO
@@ -16,9 +16,10 @@ import lombok.NoArgsConstructor;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
+ * 2025-04-16        work       snip -> snipp 변경
  */
 @Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SnipBbsChange {
+public class SnippBbsChange {
 
     @NotBlank
     private String bbsNm;

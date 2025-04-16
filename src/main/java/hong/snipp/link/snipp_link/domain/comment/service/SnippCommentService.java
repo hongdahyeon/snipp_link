@@ -1,10 +1,10 @@
 package hong.snipp.link.snipp_link.domain.comment.service;
 
-import hong.snipp.link.snipp_link.domain.comment.domain.SnipComment;
-import hong.snipp.link.snipp_link.domain.comment.domain.SnipCommentMapper;
-import hong.snipp.link.snipp_link.domain.comment.dto.request.SnipCommentChange;
-import hong.snipp.link.snipp_link.domain.comment.dto.request.SnipCommentSave;
-import hong.snipp.link.snipp_link.domain.comment.dto.response.SnipCommentList;
+import hong.snipp.link.snipp_link.domain.comment.domain.SnippComment;
+import hong.snipp.link.snipp_link.domain.comment.domain.SnippCommentMapper;
+import hong.snipp.link.snipp_link.domain.comment.dto.request.SnippCommentChange;
+import hong.snipp.link.snipp_link.domain.comment.dto.request.SnippCommentSave;
+import hong.snipp.link.snipp_link.domain.comment.dto.response.SnippCommentList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * packageName    : hong.snipp.link.snipp_link.domain.comment.service
- * fileName       : SnipCommentService
+ * fileName       : SnippCommentService
  * author         : work
  * date           : 2025-04-15
  * description    : 댓글 관련 서비스
@@ -21,12 +21,13 @@ import java.util.List;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
+ * 2025-04-16        work       snip -> snipp 변경
  */
 @Service
 @RequiredArgsConstructor
-public class SnipCommentService {
+public class SnippCommentService {
 
-    private final SnipCommentMapper mapper;
+    private final SnippCommentMapper mapper;
 
     /**
      * @method      saveComment
@@ -35,8 +36,8 @@ public class SnipCommentService {
      * @deacription 댓글 저장
     **/
     @Transactional
-    public void saveComment(SnipCommentSave request) {
-        mapper.insert(new SnipComment(request));
+    public void saveComment(SnippCommentSave request) {
+        mapper.insert(new SnippComment(request));
     }
 
     /**
@@ -46,8 +47,8 @@ public class SnipCommentService {
      * @deacription 댓글 수정
     **/
     @Transactional
-    public void changeComment(Long uid, SnipCommentChange request) {
-        mapper.update(new SnipComment(uid, request));
+    public void changeComment(Long uid, SnippCommentChange request) {
+        mapper.update(new SnippComment(uid, request));
     }
 
     /**
@@ -57,7 +58,7 @@ public class SnipCommentService {
      * @deacription 게시글 하위 댓글 목록 조회
     **/
     @Transactional(readOnly = true)
-    public List<SnipCommentList> findAllCommentList(Long boardUid) {
+    public List<SnippCommentList> findAllCommentList(Long boardUid) {
         return mapper.getAllCommentList(boardUid);
     }
 
@@ -69,6 +70,6 @@ public class SnipCommentService {
     **/
     @Transactional
     public void deleteComment(Long commentUid) {
-        mapper.delete(new SnipComment(commentUid));
+        mapper.delete(new SnippComment(commentUid));
     }
 }

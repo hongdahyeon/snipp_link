@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * packageName    : hong.snipp.link.snipp_link.domain.bbs.domain
- * fileName       : SnipBbsMapper
+ * fileName       : SnippBbsMapper
  * author         : work
  * date           : 2025-04-15
  * description    : 게시판 매퍼
@@ -13,7 +13,8 @@ import org.apache.ibatis.annotations.Mapper;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
+ * 2025-04-16        work       snip -> snipp 변경
  */
 @Mapper
-public interface SnipBbsMapper extends BaseMapper<SnipBbs> {
+public interface SnippBbsMapper extends BaseMapper<SnippBbs> {
 }

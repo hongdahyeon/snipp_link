@@ -1,10 +1,10 @@
 package hong.snipp.link.snipp_link.domain.bbs.service;
 
-import hong.snipp.link.snipp_link.domain.bbs.dto.request.SnipBbsChange;
-import hong.snipp.link.snipp_link.domain.bbs.dto.request.SnipBbsParam;
-import hong.snipp.link.snipp_link.domain.bbs.dto.request.SnipBbsSave;
-import hong.snipp.link.snipp_link.domain.bbs.dto.response.SnipBbsList;
-import hong.snipp.link.snipp_link.domain.bbs.dto.response.SnipBbsView;
+import hong.snipp.link.snipp_link.domain.bbs.dto.request.SnippBbsChange;
+import hong.snipp.link.snipp_link.domain.bbs.dto.request.SnippBbsParam;
+import hong.snipp.link.snipp_link.domain.bbs.dto.request.SnippBbsSave;
+import hong.snipp.link.snipp_link.domain.bbs.dto.response.SnippBbsList;
+import hong.snipp.link.snipp_link.domain.bbs.dto.response.SnippBbsView;
 import hong.snipp.link.snipp_link.domain.code.BbsTp;
 import hong.snipp.link.snipp_link.global.bean.page.Page;
 import hong.snipp.link.snipp_link.global.bean.page.Pageable;
@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * packageName    : hong.snipp.link.snipp_link.domain.bbs.service
- * fileName       : SnipBbsRestController
+ * fileName       : SnippBbsRestController
  * author         : work
  * date           : 2025-04-15
  * description    : 게시판 관련 API
@@ -27,13 +27,14 @@ import java.util.List;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
+ * 2025-04-16        work       snip -> snipp 변경
  */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/snipp/api/bbs")
-public class SnipBbsRestController {
+public class SnippBbsRestController {
 
-    private final SnipBbsService service;
+    private final SnippBbsService service;
 
     /**
      *
@@ -44,7 +45,7 @@ public class SnipBbsRestController {
      * @date        2025-04-15
     **/
     @PostMapping
-    public ResponseEntity saveBbs(@RequestBody @Valid SnipBbsSave request) {
+    public ResponseEntity saveBbs(@RequestBody @Valid SnippBbsSave request) {
         if( !BbsTp.isValidCode(request.getBbsTp()) ) {
             throw new SnippException("유효하지 않은 게시판 유형 코드입니다.", HttpStatus.BAD_REQUEST);
         }
@@ -61,7 +62,7 @@ public class SnipBbsRestController {
      * @date        2025-04-15
     **/
     @PutMapping("/{uid}")
-    public ResponseEntity changeBbs(@PathVariable("uid") Long uid, @RequestBody @Valid SnipBbsChange request) {
+    public ResponseEntity changeBbs(@PathVariable("uid") Long uid, @RequestBody @Valid SnippBbsChange request) {
         service.changeBbs(uid, request);
         return ResponseEntity.ok().build();
     }
@@ -76,7 +77,7 @@ public class SnipBbsRestController {
     **/
     @GetMapping("/{uid}")
     public ResponseEntity findBbsByUid(@PathVariable("uid") Long uid) {
-        SnipBbsView bbsByUid = service.findBbsByUid(uid);
+        SnippBbsView bbsByUid = service.findBbsByUid(uid);
         return ResponseEntity.ok(bbsByUid);
     }
 
@@ -89,8 +90,8 @@ public class SnipBbsRestController {
      * @date        2025-04-15
     **/
     @GetMapping("/page")
-    public ResponseEntity findAllBbsPage(@Valid SnipBbsParam param, Pageable pageable) {
-        Page<SnipBbsList> allBbsPage = service.findAllBbsPage(param, pageable);
+    public ResponseEntity findAllBbsPage(@Valid SnippBbsParam param, Pageable pageable) {
+        Page<SnippBbsList> allBbsPage = service.findAllBbsPage(param, pageable);
         return ResponseEntity.ok(allBbsPage);
     }
 
@@ -103,8 +104,8 @@ public class SnipBbsRestController {
      * @date        2025-04-15
     **/
     @GetMapping("/list")
-    public ResponseEntity findAllBbsList(@Valid SnipBbsParam param) {
-        List<SnipBbsList> allBbsList = service.findAllBbsList(param);
+    public ResponseEntity findAllBbsList(@Valid SnippBbsParam param) {
+        List<SnippBbsList> allBbsList = service.findAllBbsList(param);
         return ResponseEntity.ok(allBbsList);
     }
 

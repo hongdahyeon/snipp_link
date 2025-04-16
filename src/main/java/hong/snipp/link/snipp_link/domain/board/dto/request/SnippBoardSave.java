@@ -1,28 +1,32 @@
-package hong.snipp.link.snipp_link.domain.board.dto.response;
+package hong.snipp.link.snipp_link.domain.board.dto.request;
 
-import hong.snipp.link.snipp_link.global.bean.audit.AuditMetaData;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * packageName    : hong.snipp.link.snipp_link.domain.board.dto.response
- * fileName       : SnipBoardList
+ * packageName    : hong.snipp.link.snipp_link.domain.board.dto.request
+ * fileName       : SnippBoardSave
  * author         : work
  * date           : 2025-04-15
- * description    : 게시글 목록 조회 응답 DTO
+ * description    : 게시글 저장 요청 DTO
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
+ * 2025-04-16        work       snip -> snipp 변경
  */
 @Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SnipBoardList extends AuditMetaData {
+public class SnippBoardSave {
 
-    private Long boardUid;
+    @NotNull
     private Long bbsUid;
-    private String title;
-    private String content;
-    private String deleteAt;
 
+    @NotBlank
+    private String title;
+
+    @NotBlank
+    private String content;
 }

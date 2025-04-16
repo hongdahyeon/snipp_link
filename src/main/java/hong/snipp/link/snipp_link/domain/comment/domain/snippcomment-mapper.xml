@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="hong.snipp.link.snipp_link.domain.comment.domain.SnipCommentMapper">
+<mapper namespace="hong.snipp.link.snipp_link.domain.comment.domain.SnippCommentMapper">
 
-    <insert id="insert" parameterType="SnipComment">
-        /* snipComment.insert */
+    <insert id="insert" parameterType="SnippComment">
+        /* snippComment.insert */
         INSERT INTO SNP_COMMENT (
              BOARD_UID
             ,CONTENT
@@ -23,8 +23,8 @@
         )
     </insert>
 
-    <update id="update" parameterType="SnipComment">
-        /* snipComment.update */
+    <update id="update" parameterType="SnippComment">
+        /* snippComment.update */
         UPDATE SNP_COMMENT
            SET CONTENT = #{content}
               ,UPDT_UID = #{updtUid}
@@ -32,8 +32,8 @@
          WHERE UID = #{uid}
     </update>
 
-    <select id="getAllCommentList" parameterType="Long" resultType="SnipCommentList">
-        /* snipComment.getAllCommentList */
+    <select id="getAllCommentList" parameterType="Long" resultType="SnippCommentList">
+        /* snippComment.getAllCommentList */
         SELECT SC.UID AS COMMENT_UID
               ,SC.BOARD_UID
               ,SC.CONTENT
@@ -50,8 +50,8 @@
            AND SC.DELETE_AT = 'N'
     </select>
 
-    <delete id="delete" parameterType="SnipComment">
-        /* snipComment.delete */
+    <delete id="delete" parameterType="SnippComment">
+        /* snippComment.delete */
         UPDATE SNP_COMMENT
            SET DELETE_AT = 'Y'
               ,UPDT_UID = #{updtUid}

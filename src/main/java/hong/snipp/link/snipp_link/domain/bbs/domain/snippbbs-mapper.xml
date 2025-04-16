@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="hong.snipp.link.snipp_link.domain.bbs.domain.SnipBbsMapper">
+<mapper namespace="hong.snipp.link.snipp_link.domain.bbs.domain.SnippBbsMapper">
 
-    <insert id="insert" parameterType="SnipBbs">
-        /* snipBbs.insert */
+    <insert id="insert" parameterType="SnippBbs">
+        /* snippBbs.insert */
         INSERT INTO SNP_BBS (
              BBS_TP
             ,BBS_NM
@@ -25,8 +25,8 @@
         )
     </insert>
 
-    <update id="update" parameterType="SnipBbs">
-        /* snipBbs.update */
+    <update id="update" parameterType="SnippBbs">
+        /* snippBbs.update */
         UPDATE SNP_BBS
            SET BBS_NM = #{bbsNm}
               ,USE_AT = #{useAt}
@@ -35,8 +35,8 @@
          WHERE UID = #{uid}
     </update>
 
-    <select id="getDetail" parameterType="Long" resultType="SnipBbsView">
-        /* snipBbs.getDetail */
+    <select id="getDetail" parameterType="Long" resultType="SnippBbsView">
+        /* snippBbs.getDetail */
         SELECT SB.UID AS BBS_UID
               ,SB.BBS_TP
               ,SB.BBS_NM
@@ -54,8 +54,8 @@
          WHERE SB.UID = #{uid}
     </select>
 
-    <select id="page" resultType="SnipBbsList" parameterType="SnipBbsParam">
-        /* snipBbs.page */
+    <select id="page" resultType="SnippBbsList" parameterType="SnippBbsParam">
+        /* snippBbs.page */
         SELECT SB.UID AS BBS_UID
               ,SB.BBS_TP
               ,SB.BBS_NM
@@ -87,8 +87,8 @@
         </if>
     </select>
 
-    <select id="list" resultType="SnipBbsList" parameterType="SnipBbsParam">
-        /* snipBbs.list */
+    <select id="list" resultType="SnippBbsList" parameterType="SnippBbsParam">
+        /* snippBbs.list */
         SELECT SB.UID AS BBS_UID
               ,SB.BBS_TP
               ,SB.BBS_NM
@@ -117,8 +117,8 @@
          ORDER BY SB.REG_DT DESC
     </select>
 
-    <select id="count" resultType="int" parameterType="SnipBbsParam">
-        /* snipBbs.count */
+    <select id="count" resultType="int" parameterType="SnippBbsParam">
+        /* snippBbs.count */
         SELECT COUNT(*)
           FROM SNP_BBS SB
           LEFT JOIN SNP_USER SU_REG ON SU_REG.UID = SB.REG_UID
@@ -136,8 +136,8 @@
         </if>
     </select>
 
-    <delete id="delete" parameterType="SnipBbs">
-        /* snipBbs.delete */
+    <delete id="delete" parameterType="SnippBbs">
+        /* snippBbs.delete */
         UPDATE SNP_BBS
            SET DELETE_AT = 'Y'
                ,UPDT_UID = #{updtUid}

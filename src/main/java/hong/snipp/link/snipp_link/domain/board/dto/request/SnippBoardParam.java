@@ -5,7 +5,7 @@ import lombok.Setter;
 
 /**
  * packageName    : hong.snipp.link.snipp_link.domain.board.dto.request
- * fileName       : SnipBoardParam
+ * fileName       : SnippBoardParam
  * author         : work
  * date           : 2025-04-15
  * description    : 게시글 목록 조회 요청 파라미터 DTO
@@ -13,9 +13,10 @@ import lombok.Setter;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
+ * 2025-04-16        work       snip -> snipp 변경
  */
 @Getter @Setter
-public class SnipBoardParam {
+public class SnippBoardParam {
 
     private String title;
 
