@@ -1,11 +1,11 @@
 package hong.snipp.link.snipp_link.global.hong.shortURL;
 
 import hong.snipp.link.snipp_link.domain.code.AccessTp;
-import hong.snipp.link.snipp_link.domain.shorturl.dto.response.SnipShortUrlView;
-import hong.snipp.link.snipp_link.domain.shorturl.service.SnipShortUrlService;
-import hong.snipp.link.snipp_link.domain.shorturlaccess.service.SnipShortUrlAccessService;
-import hong.snipp.link.snipp_link.domain.shorturlaccesslog.dto.request.SnipShortUrlAccessLogSave;
-import hong.snipp.link.snipp_link.domain.shorturlaccesslog.service.SnipShortUrlAccessLogService;
+import hong.snipp.link.snipp_link.domain.shorturl.shorturl.dto.response.SnippShortUrlView;
+import hong.snipp.link.snipp_link.domain.shorturl.shorturl.service.SnippShortUrlService;
+import hong.snipp.link.snipp_link.domain.shorturl.access.service.SnippSUrlAccessService;
+import hong.snipp.link.snipp_link.domain.shorturl.log.dto.request.SnippSUrlLogSave;
+import hong.snipp.link.snipp_link.domain.shorturl.log.service.SnipSUrlLogService;
 import hong.snipp.link.snipp_link.global.util.WebUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -24,15 +24,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
+ * 2025-04-16        home       * "/snip-short" -> "/snipp-short"
+ *                              * 파일 이름 변경
+ *                              - snip -> snipp
+ *                              - ShortUrlAccess -> SUrlAccess
+ *                              - ShortUrlAccessLog -> SUrlLog
  */
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/snip-short")
+@RequestMapping("/snipp-short")
 public class AccessShortURLController {
 
-    private final SnipShortUrlService shortUrlService;
-    private final SnipShortUrlAccessService accessService;
-    private final SnipShortUrlAccessLogService accessLogService;
+    private final SnippShortUrlService shortUrlService;
+    private final SnippSUrlAccessService accessService;
+    private final SnipSUrlLogService accessLogService;
 
     @GetMapping("/{encode}")
     public String shortURL(@PathVariable("encode") String encode, HttpServletRequest req) {
@@ -41,7 +46,7 @@ public class AccessShortURLController {
         boolean canAccess = false;
 
         // 1. {shortURL} 정보 찾기
-        SnipShortUrlView view = shortUrlService.findShortURLByShortURL(encode);
+        SnippShortUrlView view = shortUrlService.findShortURLByShortURL(encode);
         if("Y".equals(view.getIsExpired())) {
 
             canAccess = false;
@@ -66,7 +71,7 @@ public class AccessShortURLController {
         // 2. 접근 로그 저장
         String accessIp = WebUtil.getIpAddress(req);
         String accessUserAgent = req.getHeader("User-Agent");
-        SnipShortUrlAccessLogSave bean = SnipShortUrlAccessLogSave.insertShortURLAccessLog()
+        SnippSUrlLogSave bean = SnippSUrlLogSave.insertShortURLAccessLog()
                 .shortUrl(encode)
                 .accessIp(accessIp)
                 .accessUserAgent(accessUserAgent)

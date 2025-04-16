@@ -1,8 +1,8 @@
 package hong.snipp.link.snipp_link.global.hong.shortURL;
 
-import hong.snipp.link.snipp_link.domain.shorturl.dto.request.SnipShortUrlCreate;
-import hong.snipp.link.snipp_link.domain.shorturl.dto.response.SnipShortUrlView;
-import hong.snipp.link.snipp_link.domain.shorturl.service.SnipShortUrlService;
+import hong.snipp.link.snipp_link.domain.shorturl.shorturl.dto.request.SnippShortUrlCreate;
+import hong.snipp.link.snipp_link.domain.shorturl.shorturl.dto.response.SnippShortUrlView;
+import hong.snipp.link.snipp_link.domain.shorturl.shorturl.service.SnippShortUrlService;
 import hong.snipp.link.snipp_link.global.exception.SnippException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +28,7 @@ import java.util.Base64;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
+ * 2025-04-16        home       파일 이름 변경 : snip -> snipp
  */
 
 @Service
@@ -43,7 +44,7 @@ public class CreateShortURLService {
     private static final String BASE62_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final int SHORT_URL_LENGTH = 5; // 원하는 short URL 길이
 
-    private final SnipShortUrlService shortUrlService;
+    private final SnippShortUrlService shortUrlService;
 
     /**
      * @method      isValidURL
@@ -141,7 +142,7 @@ public class CreateShortURLService {
      * @deacription shortURL 생성
     **/
     @Transactional
-    public String generateShortURL(SnipShortUrlCreate request) {
+    public String generateShortURL(SnippShortUrlCreate request) {
 
         String originURL = request.getOriginUrl();
         String shortURL = "";
@@ -149,7 +150,7 @@ public class CreateShortURLService {
             throw new SnippException("유효하지 않은 주소정보입니다.", HttpStatus.BAD_REQUEST);
         }
 
-        SnipShortUrlView view = shortUrlService.findShortURLByOriginURL(originURL);
+        SnippShortUrlView view = shortUrlService.findShortURLByOriginURL(originURL);
         if( view == null || "Y".equals(view.getIsExpired()) ) {
 
             Long id = shortUrlService.saveOriginURL(request);
@@ -178,6 +179,6 @@ public class CreateShortURLService {
 
         } else shortURL = view.getShortUrl();
 
-        return String.format("%s/snip-short/%s", baseURL, shortURL);
+        return String.format("%s/snipp-short/%s", baseURL, shortURL);
     }
 }
