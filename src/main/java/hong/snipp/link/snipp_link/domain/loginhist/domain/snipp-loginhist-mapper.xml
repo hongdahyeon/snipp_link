@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hong.snipp.link.snipp_link.domain.loginhist.domain.SnippLoginHistMapper">
+
+    <insert id="insert" parameterType="SnippLoginHist">
+        /* snippLoginHist.insert */
+        INSERT INTO SNP_LOGIN_HIST (
+             USER_EMAIL
+            ,LOGIN_DT
+            ,ACCESS_IP
+            ,ACCESS_USER_AGENT
+            ,LOGIN_SUCCESS_TP
+        ) VALUES (
+             #{userEmail}
+            ,NOW()
+            ,#{accessIp}
+            ,#{accessUserAgent}
+            ,#{loginSuccessTp}
+        )
+    </insert>
+
+</mapper>

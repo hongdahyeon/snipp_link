@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+
+<th:block layout:fragment="content">
+    <!-- Page content-->
+    <section class="py-5">
+        <div class="container px-5">
+
+            <!-- Contact form-->
+            <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+
+                <div class="text-center mb-5">
+                    <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+                        <i class="bi bi-journal"></i>
+                    </div>
+                    <h1 class="fw-bolder">이용약관</h1>
+                    <p class="lead fw-normal text-muted mb-0">이용약관에 동의해주세요.</p>
+                </div>
+
+                <div class="container d-flex justify-content-center">
+                    <div class="text-center" style="max-width: 500px; width: 100%;">
+
+                        <div class="scroll_box agree">
+                            <p class="t1">회원가입을 위한 동의 목록입니다.</p>
+
+                            <p class="t1">제1조</p>
+
+                            <p class="t2">① 사용자의 회원가입과 함꼐 회원정보는 서버에 저장됩니다.</p>
+                            <p class="t2">② 사용자의 회원정보는 특정 목적에 맞게 이용됩니다.</p>
+                            <p class="t2">③ 만일 사용자의 회원정보가 특정 목적에 맞게 이용되는 것을 원하지 않는다면 관리자에게 문의해주세요.</p>
+                            <p class="t2">④ 사용자가 첨부한 파일 및 이미지 등의 정보도 특정 목적에 맞게 이용됩니다.</p>
+
+                            <p class="t1">[부 칙]</p>
+                            <p class="t1">이 약관은 2025년 04월 27일부터 시행합니다.</p>
+                        </div>
+
+                        <div class="form-check mb-3 d-flex justify-content-center">
+                            <input class="form-check-input me-2" type="checkbox" value="" id="checkbox-ok">
+                            <label class="form-check-label" for="checkbox-ok">
+                                위 내용을 모두 확인하고 동의합니다.
+                            </label>
+                        </div>
+
+                        <div class="d-grid" style="margin-top: 20px;">
+                            <button class="btn btn-primary btn-sm" id="btn-ok" type="button">다음 단계</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        $(document).ready(function(e) {
+            $("#btn-ok").on('click', () => {
+                if ($("#checkbox-ok").is(":checked")) {
+                    window.location.href = '/join2'
+                } else {
+                    alert("개인정보 수집 및 이용에 동의하셔야 합니다.");
+                }
+            });
+        });
+    </script>
+</th:block>
+
+</html>

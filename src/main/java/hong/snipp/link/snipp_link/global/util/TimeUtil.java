@@ -70,6 +70,12 @@ public class TimeUtil {
         }
     }
 
+    /**
+     * @method      isXYearAfter
+     * @author      work
+     * @date        2025-04-18
+     * @deacription {compareDateString}가 현재로부터 {year}년 이내인지 여부 체크
+    **/
     public static boolean isXYearAfter(String compareDateString, int year) {
         LocalDateTime compareDate = LocalDateTime.parse(compareDateString, DATE_TIME_FORMATTER);
         LocalDateTime oneYearAgo = TODAY.minus(year, ChronoUnit.YEARS);

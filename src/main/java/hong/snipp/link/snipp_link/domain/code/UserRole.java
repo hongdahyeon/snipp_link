@@ -12,13 +12,14 @@ import lombok.Getter;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-16        work       최초 생성
+ * 2025-04-21        work       SUPER -> ROLE_SUPER 이름 수정
  */
 @Getter
 public enum UserRole {
 
     ROLE_USER("일반 사용자 권한"),
     ROLE_MANAGER("매니저 권한"),
-    SUPER("슈퍼 권한");
+    ROLE_SUPER("슈퍼 권한");
 
     private String name;
 

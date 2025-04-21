@@ -1,5 +1,6 @@
 package hong.snipp.link.snipp_link.domain.user.dto.response;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,8 +14,9 @@ import lombok.NoArgsConstructor;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-16        work       최초 생성
+ * 2025-04-21        work       access-level 추가
  */
-@Getter @NoArgsConstructor
+@Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SnippUserView {
 
     private Long uid;

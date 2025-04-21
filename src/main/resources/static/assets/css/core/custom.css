@@ -1,0 +1,17 @@
+/* 동의화면 */
+.join-container .scroll_box {
+    border: 1px solid #c4c3c7;
+    border-radius: 6px;
+    height: 286px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px 40px 20px 20px;
+    margin-bottom: 20px;
+}
+.agree .t1 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+.agree .t2 {
+    margin-bottom: 2rem;
+}

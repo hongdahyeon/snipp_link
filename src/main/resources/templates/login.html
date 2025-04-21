@@ -3,6 +3,18 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}">
 
+  <th:block layout:fragment="head">
+    <style>
+      .new-login-p {
+        font-size: 12px;
+        cursor: pointer;
+      }
+      .new-login-p:hover {
+        color: #0d6efd
+      }
+    </style>
+  </th:block>
+
   <th:block layout:fragment="content">
     <!-- Page content-->
     <section class="py-5">
@@ -23,18 +35,24 @@
             <div class="col-lg-8 col-xl-6">
 
               <form method="post" action="/loginProc" id="form">
+                <input type="hidden" name="_csrf" th:value="${_csrf.token}">
                 <!-- userId input-->
                 <div class="form-floating mb-3">
-                  <input class="form-control" id="userId" type="text" placeholder="" required>
+                  <input class="form-control" id="userId" name="userId" type="text" placeholder="" required>
                   <label for="userId">유저ID</label>
                   <div class="invalid-feedback">필수값입니다.</div>
                 </div>
 
                 <!-- password input-->
                 <div class="form-floating mb-3">
-                  <input class="form-control" id="password" type="password" placeholder="" required>
+                  <input class="form-control" id="password" name="password" type="password" placeholder="" required>
                   <label for="password">패스워드</label>
                   <div class="invalid-feedback">필수값입니다.</div>
+                </div>
+
+                <!-- new login -->
+                <div style="text-align: right; margin-top: 5px; margin-bottom: 5px;">
+                  <p class="new-login-p">아직 회원이 아니신가요? <br> 회원 가입하기</p>
                 </div>
 
                 <!-- Login Button-->
@@ -47,9 +65,9 @@
 
               <div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
                 <p>소셜 로그인</p>
-                <img src="/assets/src/img/login/sm-google.png" alt="Google 로그인" style="margin: 0 10px; cursor: pointer;" id="kakao-login-btn">
-                <img src="/assets/src/img/login/sm-naver.png" alt="Naver 로그인" style="margin: 0 10px; cursor: pointer;" id="naver-login-btn">
-                <img src="/assets/src/img/login/sm-kakao.png" alt="Kakao 로그인" style="margin: 0 10px; cursor: pointer;" id="google-login-btn">
+                <img src="/assets/src/img/login/sm-kakao.png" alt="Kakao 로그인" id="kakao-login-btn" style="margin: 0 10px; cursor: pointer;">
+                <img src="/assets/src/img/login/sm-naver.png" alt="Naver 로그인" id="naver-login-btn" style="margin: 0 10px; cursor: pointer;">
+                <img src="/assets/src/img/login/sm-google.png" alt="Google 로그인" id="google-login-btn" style="margin: 0 10px; cursor: pointer;">
               </div>
             </div>
 
@@ -62,15 +80,21 @@
   <th:block layout:fragment="script">
     <script th:src="@{'/assets/js/page/login.js'}"></script>
     <script th:inline="javascript">
-      $(function(e) {
+      $(document).ready(function(e) {
+
+        $(".new-login-p").on("click", () => {
+          window.location.href = "/join1"
+        });
+
         /* 카카오톡 로그인 */
-        $("#kakao-login-btn").on("click", () => window.location.href = '/oauth2/authorization/kakao')
+        $("#kakao-login-btn").on("click", () => window.location.href = '/oauth2/authorization/kakao');
 
         /* 네이버 로그인 */
-        $("#naver-login-btn").on("click", () => window.location.href = '/oauth2/authorization/naver')
+        $("#naver-login-btn").on("click", () => window.location.href = '/oauth2/authorization/naver');
 
         /* 구글 로그인 */
-        $("#google-login-btn").on("click", () => window.location.href = '/oauth2/authorization/google')
+        $("#google-login-btn").on("click", () => window.location.href = '/oauth2/authorization/google');
+
       });
     </script>
   </th:block>

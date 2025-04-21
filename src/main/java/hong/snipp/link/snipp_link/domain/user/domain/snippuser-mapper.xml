@@ -1,4 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hong.snipp.link.snipp_link.domain.user.domain.SnippUserMapper">
+
+    <select id="getUserByUserId" resultType="SnippUserView" parameterType="String">
+        /* snippUser.getUserByUserId */
+        SELECT UID
+              ,USER_ID
+              ,PASSWORD
+              ,USER_EMAIL
+              ,USER_NM
+              ,USER_ROLE
+              ,LAST_CONN_DT
+              ,LAST_PWD_CHNG_DT
+              ,PWD_FAIL_CNT
+              ,IS_LOCKED
+              ,IS_ENABLE
+          FROM SNP_USER
+         WHERE USER_ID = #{userId}
+    </select>
+
+    <select id="countByUserEmail" parameterType="String" resultType="int">
+        /* snippUser.countByUserEmail */
+        SELECT COUNT(*)
+          FROM SNP_USER
+         WHERE USER_EMAIL = #{userEmail}
+    </select>
+
+    <select id="countByUserId" parameterType="String" resultType="int">
+        /* snippUser.countByUserId */
+        SELECT COUNT(*)
+          FROM SNP_USER
+         WHERE USER_ID = #{userId}
+    </select>
+
+    <insert id="insert" parameterType="SnippUser">
+        /* snippUser.insert */
+        INSERT INTO SNP_USER (
+             USER_ID
+            ,PASSWORD
+            ,USER_EMAIL
+            ,USER_NM
+            ,SOCIAL_UID
+            ,USER_ROLE
+            ,LAST_CONN_DT
+            ,LAST_PWD_CHNG_DT
+            ,PWD_FAIL_CNT
+            ,IS_LOCKED
+            ,IS_ENABLE
+        ) VALUES (
+             #{userId}
+            ,#{password}
+            ,#{userEmail}
+            ,#{userNm}
+            ,#{socialUid}
+            ,#{userRole}
+            ,NOW()
+            ,(NOW() + INTERVAL '90' DAY)
+            ,0
+            ,'N'
+            ,'Y'
+        )
+    </insert>
+
+    <update id="updateLastLoginDtAndPwdFailCntByUserId" parameterType="String">
+        /* snippUser.updateLastLoginDtAndPwdFailCntByUserId */
+        UPDATE SNP_USER
+           SET PWD_FAIL_CNT = 0
+              ,LAST_CONN_DT = NOW()
+         WHERE USER_ID = #{userId}
+    </update>
+
+    <update id="updateLastLoginDtAndPwdFailCntByUserEmail" parameterType="String">
+        /* snippUser.updateLastLoginDtAndPwdFailCntByUserEmail */
+        UPDATE SNP_USER
+           SET PWD_FAIL_CNT = 0
+              ,LAST_CONN_DT = NOW()
+         WHERE USER_EMAIL = #{userEmail}
+    </update>
+
+    <update id="updatePwdFailCnt" parameterType="map">
+        /* cgUser.updatePwdFailCnt */
+        UPDATE SNP_USER
+           SET PWD_FAIL_CNT = #{pwdFailCnt}
+            <if test="pwdFailCnt != null and pwdFailCnt == 5">
+               ,IS_LOCKED = 'Y'
+            </if>
+          WHERE USER_ID = #{userId}
+    </update>
 </mapper>
