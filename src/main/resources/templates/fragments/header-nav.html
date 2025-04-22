@@ -2,34 +2,57 @@
   <!-- HEADER NAV -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container px-5">
-      <a class="navbar-brand" href="/">Snipp Link</a>
+      <a class="navbar-brand" href="/snipp">Snipp Link</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
               aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link" href="/html/index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="/html/about.html">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="/html/contact.html">Contact</a></li>
-          <li class="nav-item"><a class="nav-link" href="/html/pricing.html">Pricing</a></li>
-          <li class="nav-item"><a class="nav-link" href="/html/faq.html">FAQ</a></li>
+
+          <!-- Snipp_Link 소개 -->
+          <li class="nav-item"><a class="nav-link" href="/snipp/introduce">SnippLink란?</a></li>
+
+          <!-- FREE(자유게시판) -->
+          <li class="nav-item"><a class="nav-link" href="/snipp/board/free">커뮤니티</a></li>
+
+          <!-- NOTICE(공지사항), QNA(1:1문의), FAQ 메뉴 -->
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Blog</a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-              <li><a class="dropdown-item" href="/html/blog-home.html">Blog Home</a></li>
-              <li><a class="dropdown-item" href="/html/blog-post.html">Blog Post</a></li>
+            <a class="nav-link dropdown-toggle" id="noticeQnaFaqMenu" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">도움말 / 문의</a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="noticeQnaFaqMenu">
+              <li><a class="dropdown-item" href="/snipp/board/notice">공지사항</a></li>
+              <li><a class="dropdown-item" href="/snipp/board/qna">1:1문의</a></li>
+              <li><a class="dropdown-item" href="/snipp/board/faq">FAQ</a></li>
             </ul>
           </li>
+
+          <!-- [SUPER] 권한 메뉴 -->
+          <li class="nav-item dropdown" th:if="${#authorization.expression('isAuthenticated()') and #authorization.expression('hasRole(''SUPER'')')}">
+            <a class="nav-link dropdown-toggle" id="roleUserMenu" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">시스템 관리</a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="roleUserMenu">
+              <li><a class="dropdown-item" href="/snipp/short-url/super">nShortURL 관리</a></li>
+              <li><a class="dropdown-item" href="/snipp/user/super">사용자 관리</a></li>
+              <li><a class="dropdown-item" href="/snipp/bbs/super">게시판 관리</a></li>
+              <li><a class="dropdown-item" href="/snipp/bbs/super">게시판 관리</a></li>
+            </ul>
+          </li>
+
+          <!-- 프로필 메뉴 -->
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">User</a>
+            <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person-circle"></i>&nbsp;프로필
+            </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
-              <li><a class="dropdown-item" href="/html/portfolio-item.html" th:if="${#authorization.expression('isAuthenticated()')}">Profile</a></li>
-              <li><a class="dropdown-item" href="javascript:void(0);" onclick="mainScriptJS.logoutFunction()" th:if="${#authorization.expression('isAuthenticated()')}">Logout</a></li>
-              <li><a class="dropdown-item" href="/html/portfolio-item.html" onclick="location.href='/login'" th:unless="${#authorization.expression('isAuthenticated()')}">Login</a></li>
+              <li><a class="dropdown-item" href="/snipp/short-url/my-url" th:if="${#authorization.expression('isAuthenticated()')}">나의 nShortURL</a></li>
+              <li><a class="dropdown-item" href="/snipp/user/my-profile" th:if="${#authorization.expression('isAuthenticated()')}">프로필</a></li>
+              <li><a class="dropdown-item" href="javascript:void(0);" onclick="mainScriptJS.logoutFunction()" th:if="${#authorization.expression('isAuthenticated()')}">로그아웃</a></li>
+              <li><a class="dropdown-item" href="/login" th:unless="${#authorization.expression('isAuthenticated()')}">로그인</a></li>
             </ul>
           </li>
+
         </ul>
+
       </div>
     </div>
   </nav>

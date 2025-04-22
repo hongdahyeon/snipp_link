@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+
+<th:block layout:fragment="content">
+    <section class="py-5">
+        <div class="container px-5">
+            <h1 class="fw-bolder fs-5 mb-4" style="color: #fa3737;">404 ERROR</h1>
+            <div class="card border-0 shadow rounded-3 overflow-hidden">
+                <div class="card-body p-0">
+                    <div class="row gx-0">
+                        <div class="col-lg-6 col-xl-5 py-lg-5">
+                            <div class="p-4 p-md-5">
+                                <div class="badge bg-primary bg-bill-error bg-gradient rounded-pill mb-2">ERROR</div>
+                                <div class="h3 fw-bolder">⚠️ 요청하신 페이지를 찾을 수 없습니다.</div>
+                                <a class="stretched-link text-decoration-none" href="/snipp">
+                                    홈으로 돌아가기
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xl-7"><div class="bg-featured-blog" style="background-image: url('/assets/src/img/empty/700_350_dummy.png')"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</th:block>
+
+</html>

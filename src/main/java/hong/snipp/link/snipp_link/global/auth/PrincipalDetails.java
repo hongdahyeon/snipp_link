@@ -22,6 +22,7 @@ import java.util.Map;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-16        work       최초 생성
+ * 2025-04-22        work       세션 유저 권한 필드명 : userRole -> role
  */
 @EqualsAndHashCode(of = {"user"})
 public class PrincipalDetails implements UserDetails, OAuth2User {
@@ -50,7 +51,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collection = new ArrayList<>();
-        collection.add(new SimpleGrantedAuthority(user.getUserRole()));
+        collection.add(new SimpleGrantedAuthority(user.getRole()));
         return collection;
     }
 

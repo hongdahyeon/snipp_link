@@ -3,234 +3,234 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}">
 
-  <th:block layout:fragment="head">
-    <style>
-      .new-login-p {
-        font-size: 12px;
-        cursor: pointer;
-      }
-      .new-login-p:hover {
-        color: #0d6efd;
-      }
-      .error-login-p {
-        font-size: 13px;
-        color: red;
-      }
-    </style>
-  </th:block>
+<th:block layout:fragment="head">
+  <style>
+    .new-login-p {
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .new-login-p:hover {
+      color: #0d6efd;
+    }
+    .error-login-p {
+      font-size: 13px;
+      color: red;
+    }
+  </style>
+</th:block>
 
-  <th:block layout:fragment="content">
-    <!-- Page content-->
-    <section class="py-5">
-      <div class="container px-5">
+<th:block layout:fragment="content">
+  <!-- Page content-->
+  <section class="py-5">
+    <div class="container px-5">
 
-        <!-- Contact form-->
-        <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+      <!-- Contact form-->
+      <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
 
-          <div class="text-center mb-5">
-            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
-              <i class="bi bi-person"></i>
-            </div>
-            <h1 class="fw-bolder">Login</h1>
-            <p class="lead fw-normal text-muted mb-0">Welcome to Snipp Link!</p>
+        <div class="text-center mb-5">
+          <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+            <i class="bi bi-person"></i>
           </div>
-
-          <div class="row gx-5 justify-content-center">
-            <div class="col-lg-8 col-xl-6">
-
-              <form method="post" action="/loginProc" id="form">
-                <input type="hidden" name="_csrf" th:value="${_csrf.token}">
-                <!-- userId input-->
-                <div class="form-floating mb-3">
-                  <input class="form-control" id="userId" name="userId" type="text" placeholder="" required>
-                  <label for="userId">유저ID</label>
-                  <div class="invalid-feedback">필수값입니다.</div>
-                </div>
-
-                <!-- password input-->
-                <div class="form-floating mb-3">
-                  <input class="form-control" id="password" name="password" type="password" placeholder="" required>
-                  <label for="password">패스워드</label>
-                  <div class="invalid-feedback">필수값입니다.</div>
-                  <div style="text-align: right; margin-top: 5px; margin-bottom: 10px;">
-                    <p class="error-login-p" id="error-message"></p>
-                  </div>
-                </div>
-
-                <!-- remember && new login -->
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; margin-bottom: 10px;">
-                  <!-- 왼쪽: 체크박스 -->
-                  <div style="display: flex; align-items: center;">
-                    <input class="form-check-input me-2" type="checkbox" value="" id="remember">
-                    <label class="form-check-label new-login-p" for="remember" style="margin: 0;">
-                      아이디를 기억할래요
-                    </label>
-                  </div>
-
-                  <!-- 오른쪽: 회원가입 -->
-                  <p class="new-login-p" id="new-login" style="text-align: right; margin: 0;">
-                    아직 회원이 아니신가요? <br> 회원 가입하기
-                  </p>
-                </div>
-
-                <!-- Login Button-->
-                <div class="d-grid">
-                  <button class="btn btn-primary btn-lg" id="btn-login" type="submit">로그인</button>
-                </div>
-              </form>
-
-              <hr style="border: none; border-top: 3px dotted #000000; margin: 20px auto; width: 90%;">
-
-              <div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
-                <p>소셜 로그인</p>
-                <img src="/assets/src/img/login/sm-kakao.png" alt="Kakao 로그인" id="kakao-login-btn" style="margin: 0 10px; cursor: pointer;">
-                <img src="/assets/src/img/login/sm-naver.png" alt="Naver 로그인" id="naver-login-btn" style="margin: 0 10px; cursor: pointer;">
-                <img src="/assets/src/img/login/sm-google.png" alt="Google 로그인" id="google-login-btn" style="margin: 0 10px; cursor: pointer;">
-              </div>
-            </div>
-
-          </div>
+          <h1 class="fw-bolder">Login</h1>
+          <p class="lead fw-normal text-muted mb-0">Welcome to Snipp Link!</p>
         </div>
-      </div>
-    </section>
 
-    <!-- S: 비밀번호 만료 모달 -->
-    <div class="modal fade" id="changePwdModal" tabindex="-1" aria-labelledby="changePwdModalLabel" data-bs-keyboard="false" aria-hidden="true" data-bs-backdrop="static" data-keyboard="false">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="changePwdModalLabel">⚠️ 비밀번호 변경하기</h1>
-          </div>
-          <div class="modal-body">
-            <form id="changePwdModalForm" class="needs-validation" novalidate="">
-              <!-- User ID -->
-              <div class="mb-3 col-md-12">
-                <label for="changePwdModalForm-userId" class="form-label">유저ID</label>
-                <input type="text" class="form-control" id="changePwdModalForm-userId" readonly disabled>
-                <div class="invalid-feedback">필수 입력값입니다.</div>
+        <div class="row gx-5 justify-content-center">
+          <div class="col-lg-8 col-xl-6">
+
+            <form method="post" action="/loginProc" id="form">
+              <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+              <!-- userId input-->
+              <div class="form-floating mb-3">
+                <input class="form-control" id="userId" name="userId" type="text" placeholder="" required>
+                <label for="userId">유저ID</label>
+                <div class="invalid-feedback">필수값입니다.</div>
               </div>
-              <!-- Password -->
-              <div class="mb-3 col-md-12">
-                <label for="changePwdModalForm-password" class="form-label">비밀번호</label>
-                <input type="password" class="form-control" id="changePwdModalForm-password" name="password" required="">
-                <div class="invalid-feedback">필수 입력값입니다.</div>
+
+              <!-- password input-->
+              <div class="form-floating mb-3">
+                <input class="form-control" id="password" name="password" type="password" placeholder="" required>
+                <label for="password">패스워드</label>
+                <div class="invalid-feedback">필수값입니다.</div>
+                <div style="text-align: right; margin-top: 5px; margin-bottom: 10px;">
+                  <p class="error-login-p" id="error-message"></p>
+                </div>
               </div>
-              <!-- Password Confirm -->
-              <div class="mb-3 col-md-12">
-                <label for="changePwdModalForm-passwordConfirm" class="form-label">비밀번호</label>
-                <input type="password" class="form-control" id="changePwdModalForm-passwordConfirm" required="">
-                <div class="invalid-feedback">비밀번호가 일치하지 않습니다.</div>
+
+              <!-- remember && new login -->
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; margin-bottom: 10px;">
+                <!-- 왼쪽: 체크박스 -->
+                <div style="display: flex; align-items: center;">
+                  <input class="form-check-input me-2" type="checkbox" value="" id="remember">
+                  <label class="form-check-label new-login-p" for="remember" style="margin: 0;">
+                    아이디를 기억할래요
+                  </label>
+                </div>
+
+                <!-- 오른쪽: 회원가입 -->
+                <p class="new-login-p" id="new-login" style="text-align: right; margin: 0;">
+                  아직 회원이 아니신가요? <br> 회원 가입하기
+                </p>
+              </div>
+
+              <!-- Login Button-->
+              <div class="d-grid">
+                <button class="btn btn-primary btn-lg" id="btn-login" type="submit">로그인</button>
               </div>
             </form>
+
+            <hr style="border: none; border-top: 3px dotted #000000; margin: 20px auto; width: 90%;">
+
+            <div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
+              <p>소셜 로그인</p>
+              <img src="/assets/src/img/login/sm-kakao.png" alt="Kakao 로그인" id="kakao-login-btn" style="margin: 0 10px; cursor: pointer;">
+              <img src="/assets/src/img/login/sm-naver.png" alt="Naver 로그인" id="naver-login-btn" style="margin: 0 10px; cursor: pointer;">
+              <img src="/assets/src/img/login/sm-google.png" alt="Google 로그인" id="google-login-btn" style="margin: 0 10px; cursor: pointer;">
+            </div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" id="changePwdModal-add-days">90일 연장하기</button>
-            <button type="button" class="btn btn-primary" id="changePwdModal-change-pwd">비밀번호 변경하기</button>
-          </div>
+
         </div>
       </div>
     </div>
-    <!-- E: 비밀번호 만료 모달 -->
+  </section>
 
-    <!-- S: 휴먼 계정 모달 -->
-    <div class="modal fade" id="accountExpiredModal" tabindex="-1" aria-labelledby="accountExpiredModalLabel" data-bs-keyboard="false" aria-hidden="true" data-bs-backdrop="static" data-keyboard="false">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="accountExpiredModalLabel">💡️휴먼 계정 풀기</h1>
-          </div>
-          <div class="modal-body">
-            <form id="accountExpiredModalForm" class="needs-validation" novalidate="">
-              <!-- User ID -->
-              <div class="mb-3 col-md-12">
-                <label for="changePwdModalForm-userId" class="form-label">유저ID</label>
-                <input type="text" class="form-control" id="accountExpiredModalForm-userId" readonly disabled>
-              </div>
-              <!-- User EMAIL -->
-              <div class="mb-3 col-md-12">
-                <label for="changePwdModalForm-userId" class="form-label">이메일</label>
-                <input type="text" class="form-control" id="accountExpiredModalForm-userEmail" readonly disabled>
-              </div>
-              <!-- verifyCode -->
-              <div class="mb-3 col-md-12">
-                <label for="changePwdModalForm-password" class="form-label">인증번호</label>
-                <input type="text" class="form-control" id="accountExpiredModalForm-verifyCode" name="verifyCode" required="">
-                <div class="invalid-feedback">필수 입력값입니다.</div>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" id="accountExpiredModal-send-verifyCode">인증번호 발송</button>
-            <button type="button" class="btn btn-primary" id="accountExpiredModal-verify">인증하기</button>
-          </div>
+  <!-- S: 비밀번호 만료 모달 -->
+  <div class="modal fade" id="changePwdModal" tabindex="-1" aria-labelledby="changePwdModalLabel" data-bs-keyboard="false" aria-hidden="true" data-bs-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="changePwdModalLabel">⚠️ 비밀번호 변경하기</h1>
+        </div>
+        <div class="modal-body">
+          <form id="changePwdModalForm" class="needs-validation" novalidate="">
+            <!-- User ID -->
+            <div class="mb-3 col-md-12">
+              <label for="changePwdModalForm-userId" class="form-label">유저ID</label>
+              <input type="text" class="form-control" id="changePwdModalForm-userId" readonly disabled>
+              <div class="invalid-feedback">필수 입력값입니다.</div>
+            </div>
+            <!-- Password -->
+            <div class="mb-3 col-md-12">
+              <label for="changePwdModalForm-password" class="form-label">비밀번호</label>
+              <input type="password" class="form-control" id="changePwdModalForm-password" name="password" required="">
+              <div class="invalid-feedback">필수 입력값입니다.</div>
+            </div>
+            <!-- Password Confirm -->
+            <div class="mb-3 col-md-12">
+              <label for="changePwdModalForm-passwordConfirm" class="form-label">비밀번호</label>
+              <input type="password" class="form-control" id="changePwdModalForm-passwordConfirm" required="">
+              <div class="invalid-feedback">비밀번호가 일치하지 않습니다.</div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="changePwdModal-add-days">90일 연장하기</button>
+          <button type="button" class="btn btn-primary" id="changePwdModal-change-pwd">비밀번호 변경하기</button>
         </div>
       </div>
     </div>
-    <!-- E: 비밀번호 만료 모달 -->
+  </div>
+  <!-- E: 비밀번호 만료 모달 -->
 
-  </th:block>
+  <!-- S: 휴먼 계정 모달 -->
+  <div class="modal fade" id="accountExpiredModal" tabindex="-1" aria-labelledby="accountExpiredModalLabel" data-bs-keyboard="false" aria-hidden="true" data-bs-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="accountExpiredModalLabel">💡️휴먼 계정 풀기</h1>
+        </div>
+        <div class="modal-body">
+          <form id="accountExpiredModalForm" class="needs-validation" novalidate="">
+            <!-- User ID -->
+            <div class="mb-3 col-md-12">
+              <label for="changePwdModalForm-userId" class="form-label">유저ID</label>
+              <input type="text" class="form-control" id="accountExpiredModalForm-userId" readonly disabled>
+            </div>
+            <!-- User EMAIL -->
+            <div class="mb-3 col-md-12">
+              <label for="changePwdModalForm-userId" class="form-label">이메일</label>
+              <input type="text" class="form-control" id="accountExpiredModalForm-userEmail" readonly disabled>
+            </div>
+            <!-- verifyCode -->
+            <div class="mb-3 col-md-12">
+              <label for="changePwdModalForm-password" class="form-label">인증번호</label>
+              <input type="text" class="form-control" id="accountExpiredModalForm-verifyCode" name="verifyCode" required="">
+              <div class="invalid-feedback">필수 입력값입니다.</div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="accountExpiredModal-send-verifyCode">인증번호 발송</button>
+          <button type="button" class="btn btn-primary" id="accountExpiredModal-verify">인증하기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- E: 비밀번호 만료 모달 -->
 
-  <th:block layout:fragment="script">
-    <script th:src="@{'/assets/js/page/login.js'}"></script>
-    <script th:inline="javascript">
-      $(document).ready(function(e) {
+</th:block>
 
-        const params = new URLSearchParams(location.search)
-        if(params.get("type") !== null) {
-            loginJS.settingError(params);
-            history.replaceState({}, null, '/login');
-        }
+<th:block layout:fragment="script">
+  <script th:src="@{'/assets/js/page/login.js'}"></script>
+  <script th:inline="javascript">
+    $(document).ready(function(e) {
 
-        /* 회원가입 */
-        $("#new-login").on("click", () => window.location.href = "/join1");
+      const params = new URLSearchParams(location.search)
+      if(params.get("type") !== null) {
+          loginJS.settingError(params);
+          history.replaceState({}, null, '/login');
+      }
 
-        /* 카카오톡 로그인 */
-        $("#kakao-login-btn").on("click", () => window.location.href = '/oauth2/authorization/kakao');
+      /* 회원가입 */
+      $("#new-login").on("click", () => window.location.href = "/join1");
 
-        /* 네이버 로그인 */
-        $("#naver-login-btn").on("click", () => window.location.href = '/oauth2/authorization/naver');
+      /* 카카오톡 로그인 */
+      $("#kakao-login-btn").on("click", () => window.location.href = '/oauth2/authorization/kakao');
 
-        /* 구글 로그인 */
-        $("#google-login-btn").on("click", () => window.location.href = '/oauth2/authorization/google');
+      /* 네이버 로그인 */
+      $("#naver-login-btn").on("click", () => window.location.href = '/oauth2/authorization/naver');
 
-        /* 아이디 기억하기 */
-        document.getElementById("form").addEventListener('submit', () => {
-          $("#remember").is(':checked') && localStorage.setItem(loginJS.idItemKey, $("#userId").val())
-          return true;
-        });
+      /* 구글 로그인 */
+      $("#google-login-btn").on("click", () => window.location.href = '/oauth2/authorization/google');
 
-        /* 기억된 아이디 가져오기 */
-        const rememberId = localStorage.getItem(loginJS.idItemKey)
-        if(rememberId) {
-          const checkbox = $("#remember");
-          checkbox.prop("checked", !checkbox.prop("checked"));
-          $("#userId").val(rememberId);
-        }
-
-        /* === 비밀번호 변경한지 90일 지난 경우 === */
-        loginJS.changePwdModalForm_password.on('input', loginJS.validatePassword);
-        loginJS.changePwdModalForm_confirmPassword.on('input', loginJS.validatePassword);
-        /* (1) 90일 연장 */
-        $("#changePwdModal-add-days").on('click', () => {
-          loginJS.add90PwdChangeDays();
-        });
-        /* (2) 비밀번호 변경 */
-        $("#changePwdModal-change-pwd").on('click', () => {
-          loginJS.changePassword();
-        });
-
-        /* === 휴먼 계정 === */
-        /* (1) 인증번호 발송 */
-        $("#accountExpiredModal-send-verifyCode").on('click', () => {
-          loginJS.sendVerifyCode();
-        });
-        /* (2) 인증번호 체크 */
-        $("#accountExpiredModal-verify").on('click', () => {
-          loginJS.checkVerifyCode();
-        });
-
+      /* 아이디 기억하기 */
+      document.getElementById("form").addEventListener('submit', () => {
+        $("#remember").is(':checked') && localStorage.setItem(loginJS.idItemKey, $("#userId").val())
+        return true;
       });
-    </script>
-  </th:block>
+
+      /* 기억된 아이디 가져오기 */
+      const rememberId = localStorage.getItem(loginJS.idItemKey)
+      if(rememberId) {
+        const checkbox = $("#remember");
+        checkbox.prop("checked", !checkbox.prop("checked"));
+        $("#userId").val(rememberId);
+      }
+
+      /* === 비밀번호 변경한지 90일 지난 경우 === */
+      loginJS.changePwdModalForm_password.on('input', loginJS.validatePassword);
+      loginJS.changePwdModalForm_confirmPassword.on('input', loginJS.validatePassword);
+      /* (1) 90일 연장 */
+      $("#changePwdModal-add-days").on('click', () => {
+        loginJS.add90PwdChangeDays();
+      });
+      /* (2) 비밀번호 변경 */
+      $("#changePwdModal-change-pwd").on('click', () => {
+        loginJS.changePassword();
+      });
+
+      /* === 휴먼 계정 === */
+      /* (1) 인증번호 발송 */
+      $("#accountExpiredModal-send-verifyCode").on('click', () => {
+        loginJS.sendVerifyCode();
+      });
+      /* (2) 인증번호 체크 */
+      $("#accountExpiredModal-verify").on('click', () => {
+        loginJS.checkVerifyCode();
+      });
+
+    });
+  </script>
+</th:block>
 
 </html>

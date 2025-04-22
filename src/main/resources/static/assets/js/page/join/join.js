@@ -14,34 +14,38 @@ var joinJS = {
     duplicateUserIdCheck: function () {
         const userId = joinJS.userIdInput.val()
         if(userId.length === 0) {
-            alert("아이디는 필수 입력값입니다.")
+            Simple.warn("아이디는 필수 입력값입니다.", "필수 입력");
             return false;
         }
         Http.get(`/snipp/api/user/id/duplicate-check`, {value: userId}).then((res) => {
-            alert(res.message)
             if(res['checkCanUse']) {
+
+                Simple.success(res.message);
                 joinJS.userIdInput.removeClass("is-invalid");
                 joinJS.userIdInput.attr('readonly', true).attr('disabled', true);
                 joinJS.userIdCheckBtn.attr('disabled', true);
                 joinJS.checkUserId = true;
-            }
+
+            } else Simple.warn(res.message)
         })
     },
 
     duplicateUserEmailCheck: function () {
         const userEmail = joinJS.userEmailInput.val()
         if(userEmail.length === 0) {
-            alert("이메일은 필수 입력값입니다.")
+            Simple.warn("이메일은 필수 입력값입니다.", "필수 입력")
             return false;
         }
         Http.get(`/snipp/api/user/email/duplicate-check`, {value: userEmail}).then((res) => {
-            alert(res.message)
             if(res['checkCanUse']) {
+
+                Simple.success(res.message);
                 joinJS.userEmailInput.removeClass("is-invalid");
                 joinJS.userEmailInput.attr('readonly', true).attr('disabled', true);
                 joinJS.userEmailCheckBtn.attr('disabled', true);
                 joinJS.checkUserEmail = true;
-            }
+
+            } else Simple.warn(res.message);
         })
     },
 
@@ -63,12 +67,12 @@ var joinJS = {
         const $form = $("#form")
 
         if(!joinJS.checkUserId) {
-            alert("아이디 중복 확인을 해주세요.")
+            Simple.warn("아이디 중복 확인을 해주세요.", "중복 확인")
             return false
         }
 
         if(!joinJS.checkUserEmail) {
-            alert("이메일 중복 확인을 해주세요.")
+            Simple.warn("이메일 중복 확인을 해주세요.", "중복 확인")
             return false
         }
 
@@ -82,8 +86,9 @@ var joinJS = {
                 userNm: $("#userNm").val()
             }
             Http.post('/snipp/api/user', obj).then(() => {
-                alert("회원가입이 완료되었습니다.")
-                window.location.href = '/join3'
+                Sweet.alert("회원가입이 완료되었습니다.").then(() => {
+                    window.location.href = '/join3'
+                });
             }).fail((e) =>  {
                console.log("e : ", e)
             });

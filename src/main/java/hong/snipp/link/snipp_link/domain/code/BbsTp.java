@@ -10,13 +10,14 @@ package hong.snipp.link.snipp_link.domain.code;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
+ * 2025-04-22        work       BBS_BOARD -> BBS_FREE
  */
 public enum BbsTp {
 
     BBS_FAQ("faq", "FAQ"),
     BBS_QNA("qna", "1:1문의"),
     BBS_NOTICE("notice", "공지사항"),
-    BBS_BOARD("board", "자유 게시판");
+    BBS_FREE("board", "자유 게시판");
 
     private String text;
     private String description;

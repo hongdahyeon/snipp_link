@@ -14,6 +14,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  * -----------------------------------------------------------
  * 2025-04-18        work       최초 생성
  * 2025-04-21        work       ~ 개발 작업 완료
+ * 2025-04-22        work       * 기본적으로 모든 api > 로그인 이전 접근 가능
+ *                              * 권한 있는 경우
+ *                                -> [api] /snipp/api/{패키지명}/{role}/**
+ *                                -> [url] /snipp/{패키지명}/{role}/**
  */
 public class Paths {
 
@@ -22,7 +26,8 @@ public class Paths {
     public static final String LOGOUT = "/logout";
 
     public static final AntPathRequestMatcher[] BEFORE_LOGIN = new  AntPathRequestMatcher[]{
-             new AntPathRequestMatcher("/login")
+             new AntPathRequestMatcher("/")
+            ,new AntPathRequestMatcher("/login")
             ,new AntPathRequestMatcher("/join**")
             ,new AntPathRequestMatcher("/snipp-short/**")
             ,new AntPathRequestMatcher("/csrf")
@@ -39,11 +44,11 @@ public class Paths {
 
     public static final AntPathRequestMatcher[] ROLE_SUPER = new  AntPathRequestMatcher[]{
              new AntPathRequestMatcher("/snipp/api/**/super/**")
-            ,new AntPathRequestMatcher("/snipp/super/**")
+            ,new AntPathRequestMatcher("/snipp/**/super")
     };
 
     public static final AntPathRequestMatcher[] ROLE_MANAGER = new  AntPathRequestMatcher[]{
              new AntPathRequestMatcher("/snipp/api/**/manager/**")
-            ,new AntPathRequestMatcher("/snipp/manager/**")
+            ,new AntPathRequestMatcher("/snipp/**/manager")
     };
 }

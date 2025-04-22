@@ -17,13 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * -----------------------------------------------------------
  * 2025-04-16        work       최초 생성
  * 2025-04-21        work       회원가입 관련 url 추가
+ * 2025-04-22        work       기본 메인 페이지 URL : /snipp
  */
 
 @Controller
 @RequestMapping("")
 public class HomeController {
 
-    @GetMapping("/")
+    @GetMapping({"/", "/snipp"})
     public String index() {
         return "index";
     }

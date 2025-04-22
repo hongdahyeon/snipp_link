@@ -6,7 +6,7 @@ class Simple {
     static options = {
         speed: 400
         ,autoClose: false
-        ,autotimeout: 7000
+        ,autotimeout: 2500
         ,effect: "fade"             // slide, fade
         ,showCloseButton: true
         ,showIcon: true

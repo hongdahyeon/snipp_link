@@ -17,6 +17,7 @@ import lombok.Getter;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-16        work       최초 생성
+ * 2025-04-22        work       세션 유저 권한 필드명 : userRole -> role
  */
 
 @Getter
@@ -29,7 +30,7 @@ public class SnippSessionUser {
     private String password;
     private String userEmail;
     private String userNm;
-    private String userRole;
+    private String role;
     private String lastConnDt;
     private String lastPwdChngDt;
     private int pwdFailCnt;
@@ -47,7 +48,7 @@ public class SnippSessionUser {
         this.password = user.getPassword();
         this.userEmail = user.getUserEmail();
         this.userNm = user.getUserNm();
-        this.userRole = user.getUserRole();
+        this.role = user.getUserRole();
         this.lastConnDt = user.getLastConnDt();
         this.lastPwdChngDt = user.getLastPwdChngDt();
         this.pwdFailCnt = user.getPwdFailCnt();

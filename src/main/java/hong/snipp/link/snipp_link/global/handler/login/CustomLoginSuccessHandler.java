@@ -33,6 +33,7 @@ import java.util.Map;
  * 2025-04-18        work       최초 생성
  * 2025-04-21        work       ~ 개발 작업 완료
  * 2025-04-22        work       로그인 성공 이력 저장 + 사유
+ * 2025-04-22        work       로그인 성공시 랜딩 페이지 : /snipp
  */
 @Slf4j
 @Component
@@ -67,7 +68,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
             /* form login */
             SnippSessionUser sessionUser = ((PrincipalDetails) authentication.getPrincipal()).getUser();
-            String role = sessionUser.getUserRole();
+            String role = sessionUser.getRole();
             log.info("======================= Login User: {} [Role: {}] ===========================", userId,  role);
             authUserService.resetLastLoginDtAndPwdFailCntByUserId(userId);
             userEmail = sessionUser.getUserEmail();
@@ -85,7 +86,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
                 .build();
         loginHistService.saveLoginHist(loginHistBean);
 
-        String landingPage = "/";
+        String landingPage = "/snipp";
         response.sendRedirect(landingPage);
     }
 
