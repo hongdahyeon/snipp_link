@@ -59,11 +59,10 @@ public class SecurityConfig {
      **/
     private void configureAuthorization(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth) {
         auth.requestMatchers(Paths.BEFORE_LOGIN).permitAll() // 로그인 전 접근 가능
-                .requestMatchers(Paths.PUBLIC_API).permitAll()
-                .requestMatchers(Paths.ROLE_SUPER).hasAuthority("ROLE_SUPER") // {ROLE_SUPER} 권한만 접근 가능
-                .requestMatchers(Paths.ROLE_MANAGER).hasAnyAuthority("ROLE_SUPER", "ROLE_MANAGER") // {ROLE_SUPER}, {ROLE_MANAGER} 권한만 접근 가능
-                .requestMatchers(Paths.AFTER_LOGIN).authenticated() // 로그인 후 접근 가능
-                .anyRequest().authenticated(); // 나머지 요청도 로그인 필요
+            .requestMatchers(Paths.ROLE_SUPER).hasAuthority("ROLE_SUPER") // {ROLE_SUPER} 권한만 접근 가능
+            .requestMatchers(Paths.ROLE_MANAGER).hasAnyAuthority("ROLE_SUPER", "ROLE_MANAGER") // {ROLE_SUPER}, {ROLE_MANAGER} 권한만 접근 가능
+            .requestMatchers(Paths.AFTER_LOGIN).authenticated() // 로그인 후 접근 가능
+            .anyRequest().authenticated(); // 나머지 요청도 로그인 필요
     }
 
     /**

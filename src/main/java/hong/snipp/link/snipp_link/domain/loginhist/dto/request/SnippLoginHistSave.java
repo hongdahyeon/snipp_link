@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-21        work       최초 생성
+ * 2025-04-22        work       {loginAccessTp, loginAccessDescription} 필드 추가
  */
 @Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SnippLoginHistSave {
@@ -22,13 +23,16 @@ public class SnippLoginHistSave {
     private String userEmail;
     private String accessIp;
     private String accessUserAgent;
-    private String loginSuccessTp;
+    private String loginAccessTp;
+    private String loginAccessDescription;
 
     @Builder(builderMethodName = "insertLoginHist")
-    public SnippLoginHistSave(String userEmail, String accessIp, String accessUserAgent, String loginSuccessTp) {
+    public SnippLoginHistSave(String userEmail, String accessIp,
+                              String accessUserAgent, String loginAccessTp, String loginAccessDescription) {
         this.userEmail = userEmail;
         this.accessIp = accessIp;
         this.accessUserAgent = accessUserAgent;
-        this.loginSuccessTp = loginSuccessTp;
+        this.loginAccessTp = loginAccessTp;
+        this.loginAccessDescription = loginAccessDescription;
     }
 }

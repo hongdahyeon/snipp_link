@@ -29,8 +29,8 @@ public class PrincipalDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
         SnippUserView user = authUserService.findUserByUserId(userId);
-        SnippSessionUser sessionUser = new SnippSessionUser(user);
         if(user != null) {
+            SnippSessionUser sessionUser = new SnippSessionUser(user);
             this.customUser(sessionUser);
             return new PrincipalDetails(sessionUser);
         } else throw new UsernameNotFoundException(userId + " 사용자가 없습니다.");

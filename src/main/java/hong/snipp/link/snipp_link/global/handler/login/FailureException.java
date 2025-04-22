@@ -13,12 +13,13 @@ package hong.snipp.link.snipp_link.global.handler.login;
  * -----------------------------------------------------------
  * 2025-04-18        work       최초 생성
  * 2025-04-21        work       ~ 개발 작업 완료
+ * 2025-04-22        work       비밀번호 5회 실패시 출력 문구 수정
  */
 
 
 public enum FailureException {
 
-    PASSWORD_FAIL_5_TIMES("비밀번호 %d / 5 회 오류로 계정이 잠겼습니다.\n관리자에게 문의 바랍니다.", "error"),
+    PASSWORD_FAIL_5_TIMES("비밀번호 5회 오류로 계정이 잠겼습니다.\n관리자에게 문의 바랍니다.", "error"),
     PASSWORD_FAIL("비밀번호 %d / 5 회 오류", "error"),
     UsernameNotFoundException("등록되지 않은 사용자입니다. \n 회원가입을 먼저 해주시기 바랍니다.", "none"),
     DisabledException("계정이 비활성화 되었습니다. \n 관리자에게 문의 바랍니다.", "disable"),

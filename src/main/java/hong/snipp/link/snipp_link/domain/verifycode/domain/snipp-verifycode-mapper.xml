@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hong.snipp.link.snipp_link.domain.verifycode.domain.SnippVerifyCodeMapper">
+
+    <insert id="insert" parameterType="SnippVerifyCode">
+        /* snippVerifyCode.insert */
+        INSERT INTO SNP_VERIFY_CODE (
+             VERIFY_CODE
+            ,USER_EMAIL
+            ,IS_EXPIRED
+            ,CREATED_AT
+        ) VALUES (
+             #{verifyCode}
+            ,#{userEmail}
+            ,'N'
+            ,NOW()
+        )
+    </insert>
+
+    <select id="countVerifyCode" parameterType="map" resultType="int">
+        /* snippVerifyCode.countVerifyCode */
+        SELECT COUNT(*)
+          FROM SNP_VERIFY_CODE
+         WHERE USER_EMAIL = #{userEmail}
+           AND VERIFY_CODE = #{verifyCode}
+           AND IS_EXPIRED = 'N'
+    </select>
+
+    <update id="updateVerifyCodeExpired" parameterType="map">
+        /* snippVerifyCode.updateVerifyCodeExpired */
+        UPDATE SNP_VERIFY_CODE
+           SET IS_EXPIRED = 'Y'
+         WHERE USER_EMAIL = #{userEmail}
+           AND VERIFY_CODE = #{verifyCode}
+    </update>
+
+    <update id="updateUserLastLoginDt" parameterType="String">
+        /* snippVerifyCode.updateUserLastLoginDt */
+        UPDATE SNP_USER
+           SET LAST_CONN_DT = NOW()
+         WHERE USER_EMAIL = #{userEmail}
+    </update>
+</mapper>

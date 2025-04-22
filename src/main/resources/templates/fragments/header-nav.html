@@ -25,7 +25,7 @@
             <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">User</a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
               <li><a class="dropdown-item" href="/html/portfolio-item.html" th:if="${#authorization.expression('isAuthenticated()')}">Profile</a></li>
-              <li><a class="dropdown-item" href="javascript:void(0);" id="logout-btn" th:if="${#authorization.expression('isAuthenticated()')}">Logout</a></li>
+              <li><a class="dropdown-item" href="javascript:void(0);" onclick="mainScriptJS.logoutFunction()" th:if="${#authorization.expression('isAuthenticated()')}">Logout</a></li>
               <li><a class="dropdown-item" href="/html/portfolio-item.html" onclick="location.href='/login'" th:unless="${#authorization.expression('isAuthenticated()')}">Login</a></li>
             </ul>
           </li>
@@ -34,24 +34,4 @@
     </div>
   </nav>
   <!-- End of HEADER NAV -->
-  <script>
-
-    window.onload = function() {
-      const logout = document.getElementById("logout-btn")
-      logout.onclick = function() {
-        const {header, token} = Http.getCookieInfo()
-        const form = document.createElement("form")
-        const csrfInput = document.createElement("input")
-        form.method = "POST"
-        form.action = "/logout"
-        csrfInput.type = 'hidden'
-        csrfInput.name = "_csrf";
-        csrfInput.value = token
-        form.appendChild(csrfInput)
-        document.body.appendChild(form)
-        form.submit()
-      }
-    }
-
-  </script>
 </th:block>

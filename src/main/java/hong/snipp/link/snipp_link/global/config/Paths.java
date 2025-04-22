@@ -28,17 +28,13 @@ public class Paths {
             ,new AntPathRequestMatcher("/csrf")
             ,new AntPathRequestMatcher("/assets/**")
             ,new AntPathRequestMatcher("/login/force.json")
-    };
-
-    public static final AntPathRequestMatcher[] PUBLIC_API = new AntPathRequestMatcher[]{
-             new AntPathRequestMatcher("/snipp/api/user", HttpMethod.POST.name())
-            ,new AntPathRequestMatcher("/snipp/api/user/**/duplicate-check", HttpMethod.GET.name())
-            ,new AntPathRequestMatcher("/snipp/api/user/change-password", HttpMethod.PUT.name())
+            ,new AntPathRequestMatcher("/snipp/api/**")
+            ,new AntPathRequestMatcher("/snipp/**")
     };
 
     public static final AntPathRequestMatcher[] AFTER_LOGIN = new  AntPathRequestMatcher[]{
-             new AntPathRequestMatcher("/snipp/api/**")
-            ,new AntPathRequestMatcher("/snipp/**")
+            // 게시글 저장 같은 경우?
+            // 댓글 작성이나?
     };
 
     public static final AntPathRequestMatcher[] ROLE_SUPER = new  AntPathRequestMatcher[]{

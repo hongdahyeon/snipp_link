@@ -32,6 +32,7 @@ import java.util.Map;
  * -----------------------------------------------------------
  * 2025-04-18        work       최초 생성
  * 2025-04-21        work       ~ 개발 작업 완료
+ * 2025-04-22        work       로그인 성공 이력 저장 + 사유
  */
 @Slf4j
 @Component
@@ -79,7 +80,8 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
                 .userEmail(userEmail)
                 .accessIp(loginIp)
                 .accessUserAgent(loginUserAgent)
-                .loginSuccessTp(LoginTp.LOGIN_SUCCESS.name())
+                .loginAccessTp(LoginTp.LOGIN_SUCCESS.name())
+                .loginAccessDescription(LoginTp.LOGIN_SUCCESS.name())
                 .build();
         loginHistService.saveLoginHist(loginHistBean);
 

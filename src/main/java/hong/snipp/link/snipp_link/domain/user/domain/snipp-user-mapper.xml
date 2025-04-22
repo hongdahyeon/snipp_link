@@ -79,7 +79,7 @@
     </update>
 
     <update id="updatePwdFailCnt" parameterType="map">
-        /* cgUser.updatePwdFailCnt */
+        /* snippUser.updatePwdFailCnt */
         UPDATE SNP_USER
            SET PWD_FAIL_CNT = #{pwdFailCnt}
             <if test="pwdFailCnt != null and pwdFailCnt == 5">
@@ -87,4 +87,20 @@
             </if>
           WHERE USER_ID = #{userId}
     </update>
+
+    <update id="updateUserPassword" parameterType="SnippUser">
+        /* snippUser.updateUserPassword */
+        UPDATE SNP_USER
+           SET PASSWORD = #{password}
+              ,LAST_PWD_CHNG_DT = (NOW() + INTERVAL '90' DAY)
+         WHERE USER_ID = #{userId}
+    </update>
+
+    <update id="updateUserChangePasswordDt" parameterType="SnippUser">
+        /* snippUser.updateUserChangePasswordDt */
+        UPDATE SNP_USER
+           SET LAST_PWD_CHNG_DT = (NOW() + INTERVAL '90' DAY)
+         WHERE USER_ID = #{userId}
+    </update>
+
 </mapper>

@@ -1,0 +1,72 @@
+/* 동의화면 */
+.join-container .scroll_box {
+    border: 1px solid #c4c3c7;
+    border-radius: 6px;
+    height: 286px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px 40px 20px 20px;
+    margin-bottom: 20px;
+}
+.agree .t1 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+.agree .t2 {
+    margin-bottom: 2rem;
+}
+
+
+/* sweetalert */
+.alert-confirm-btn {
+    color: #fff !important;
+    background-color: #0d6efd !important;
+    border: 1px solid #0d6efd !important;
+    padding: 0.55rem 0.85rem 0.55rem 0.85rem !important;
+    font-size: 0.875rem !important;
+}
+.alert-confirm-btn:hover {
+    color: #fff !important;
+    background-color: #0b5ed7 !important;
+    border-color: #0a58ca !important;
+}
+.alert-confirm-btn:focus {
+    box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5) !important;
+}
+.alert-confirm-btn:active {
+    color: #fff !important;
+    background-color: #0a58ca !important;
+    border-color: #0a53be !important;
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125) !important;
+}
+.alert-confirm-btn:disabled {
+    color: #fff !important;
+    background-color: #0d6efd !important;
+    border-color: #0d6efd !important;
+}
+.alert-cancel-btn {
+    color: #fff !important;
+    background-color: #6c757d !important;
+    border: 1px solid #6c757d !important;
+    padding: 0.55rem 0.85rem 0.55rem 0.85rem !important;
+    font-size: 0.875rem !important;
+}
+.alert-cancel-btn:hover {
+    color: #fff !important;
+    background-color: #5c636a !important;
+    border-color: #565e64 !important;
+}
+.alert-cancel-btn:focus {
+    box-shadow: 0 0 0 0.25rem rgba(130, 138, 145, 0.5) !important;
+}
+.alert-cancel-btn:active {
+    color: #fff !important;
+    background-color: #565e64 !important;
+    border-color: #51585e !important;
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125) !important;
+}
+.alert-cancel-btn:disabled {
+    color: #fff !important;
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
+}

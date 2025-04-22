@@ -2,6 +2,7 @@ package hong.snipp.link.snipp_link.domain.user.domain;
 
 import hong.snipp.link.snipp_link.domain.code.UserRole;
 import hong.snipp.link.snipp_link.domain.socialuser.dto.request.SnippOAuth2UserSave;
+import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserChangePwd;
 import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserSave;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,6 +21,7 @@ import lombok.NoArgsConstructor;
  * 2025-04-16        work       필드 추가
  *                              : userNm , userRole ,  lastConnDt , lastPwdChngDt , pwdFailCnt , isLocked , isEnable
  * 2025-04-21        work       소셜/폼 로그인 유저 저장용 생성자 추가
+ * 2025-04-22        work       유저의 비밀번호 변경 및 비번 변경일 연장 생성자 추가
  */
 @Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SnippUser {
@@ -64,5 +66,26 @@ public class SnippUser {
         this.userEmail = request.getUserEmail();
         this.userNm = request.getUserNm();
         this.userRole = UserRole.ROLE_USER.name();
+    }
+
+    /**
+     * @method      SnippUser 생성자 3
+     * @author      work
+     * @date        2025-04-22
+     * @deacription 유저 비밀번호 변경
+    **/
+    public SnippUser(SnippUserChangePwd request, String encodePassword) {
+        this.userId = request.getUserId();
+        this.password = encodePassword;
+    }
+
+    /**
+     * @method      SnippUser
+     * @author      work
+     * @date        2025-04-22
+     * @deacription 유저 비밀번호 변경일 90일 연장
+    **/
+    public SnippUser(SnippUserChangePwd request) {
+        this.userId = request.getUserId();
     }
 }

@@ -9,13 +9,15 @@
             ,LOGIN_DT
             ,ACCESS_IP
             ,ACCESS_USER_AGENT
-            ,LOGIN_SUCCESS_TP
+            ,LOGIN_ACCESS_TP
+            ,LOGIN_ACCESS_DESCRIPTION
         ) VALUES (
              #{userEmail}
             ,NOW()
             ,#{accessIp}
             ,#{accessUserAgent}
-            ,#{loginSuccessTp}
+            ,#{loginAccessTp}
+            ,#{loginAccessDescription}
         )
     </insert>
 

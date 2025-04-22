@@ -17,7 +17,7 @@ class Http {
 
     static handleError(e) {
         if (e.status === 401) {
-            alert("다시 로그인 해주세요.").then(() => {
+            Sweet.alert("다시 로그인 해주세요.").then(() => {
                 window.location.href = '/';
             })
         } else {
@@ -30,12 +30,11 @@ class Http {
             type: method,
             url: url,
             data: params,
-            dataType: 'json',
             beforeSend: function(xhr) {
                 const {token, header} = Http.getCookieInfo();
                 xhr.setRequestHeader(header, token)
             }
-        }).fail(e => this.handleError(e))
+        }).fail(e => Http.handleError(e))
     }
 
     static syncGet(url, params='', async = false, method = 'GET'){
@@ -44,12 +43,11 @@ class Http {
             url: url,
             data: params,
             async: false,
-            dataType: 'json',
             beforeSend: function(xhr) {
                 const {token, header} = Http.getCookieInfo();
                 xhr.setRequestHeader(header, token)
             }
-        }).fail(e => this.handleError(e))
+        }).fail(e => Http.handleError(e))
     }
 
     static post(url, data, method = 'POST') {
@@ -63,7 +61,7 @@ class Http {
                 const {token, header} = Http.getCookieInfo();
                 xhr.setRequestHeader(header, token)
             }
-        });
+        }).fail(e => Http.handleError(e))
     }
 
     static delete(url, data, method = 'DELETE') {
@@ -75,7 +73,7 @@ class Http {
                 const {token, header} = Http.getCookieInfo();
                 xhr.setRequestHeader(header, token)
             }
-        });
+        }).fail(e => Http.handleError(e))
     }
 
     static put(url, data, method='PUT') {
@@ -89,7 +87,7 @@ class Http {
                 const {token, header} = Http.getCookieInfo();
                 xhr.setRequestHeader(header, token)
             }
-        });
+        }).fail(e => Http.handleError(e))
     }
 
     static filePost(url, formData, method = 'POST'){
