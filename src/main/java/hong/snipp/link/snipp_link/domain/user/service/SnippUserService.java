@@ -4,13 +4,19 @@ import hong.snipp.link.snipp_link.domain.user.domain.SnippUser;
 import hong.snipp.link.snipp_link.domain.user.domain.SnippUserMapper;
 import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserChangePwd;
 import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserSave;
+import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserSearch;
+import hong.snipp.link.snipp_link.domain.user.dto.response.SnippUserList;
 import hong.snipp.link.snipp_link.domain.verifycode.service.SnippVerifyCodeService;
+import hong.snipp.link.snipp_link.global.bean.page.Page;
+import hong.snipp.link.snipp_link.global.bean.page.Pageable;
 import hong.snipp.link.snipp_link.global.hong.google.GoogleEmailService;
 import hong.snipp.link.snipp_link.global.util.StringUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * packageName    : hong.snipp.link.snipp_link.domain.user.service
@@ -24,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 2025-04-15        work       최초 생성
  * 2025-04-21        work       {isExistUserId, isExistUserEmail, saveUser} 메소드 추가
  * 2025-04-22        work       {changeUserPassword, changeUserExpired} 메소드 추가
+ * 2025-04-23        work       {findAllUserPage, findAllUserList} 메소드 추가
  */
 @Service
 @RequiredArgsConstructor
@@ -124,5 +131,28 @@ public class SnippUserService {
                 + "</body>"
                 + "</html>";
         emailService.sendEmail(userEmail, subject, content);
+    }
+
+    /**
+     * @method      findAllUserPage
+     * @author      work
+     * @date        2025-04-23
+     * @deacription 유저 목록 조회 (페이징)
+    **/
+    public Page<SnippUserList> findAllUserPage(SnippUserSearch search, Pageable pageable) {
+        List<SnippUserList> list = mapper.page(pageable.generateMap(search));
+        int count = mapper.count(search);
+        return new Page<>(list, count, pageable);
+    }
+
+
+    /**
+     * @method      findAllUserList
+     * @author      work
+     * @date        2025-04-23
+     * @deacription 유저 목록 조회 (리스트)
+    **/
+    public List<SnippUserList> findAllUserList(SnippUserSearch search) {
+        return mapper.list(search);
     }
 }

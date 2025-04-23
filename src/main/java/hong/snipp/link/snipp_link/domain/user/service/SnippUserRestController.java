@@ -2,12 +2,17 @@ package hong.snipp.link.snipp_link.domain.user.service;
 
 import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserChangePwd;
 import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserSave;
+import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserSearch;
+import hong.snipp.link.snipp_link.domain.user.dto.response.SnippUserList;
+import hong.snipp.link.snipp_link.global.bean.page.Page;
+import hong.snipp.link.snipp_link.global.bean.page.Pageable;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,6 +29,7 @@ import java.util.regex.Pattern;
  * 2025-04-15        work       최초 생성
  * 2025-04-21        work       이메일/아이디 중복 체크 API + 저장 API 추가
  * 2025-04-22        work       비번 변경 및 90일 연장 API 추가
+ * 2025-04-23        work       {findAllUserPage, findAllUserList} API 추가
  */
 @RestController
 @RequiredArgsConstructor
@@ -116,7 +122,7 @@ public class SnippUserRestController {
      *
      * 휴먼 계정 (로그인 안한지 1년 지남) -> 이메일 인증번호로 풀기
      *
-     * @api         [GET] /snipp/user/is-expired
+     * @api         [GET] /snipp/api/user/is-expired
      * @author      work
      * @date        2025-04-22
     **/
@@ -124,5 +130,34 @@ public class SnippUserRestController {
     public ResponseEntity changeUserExpired(@RequestParam("userEmail") String userEmail) {
         service.changeUserExpired(userEmail);
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     *
+     * 유저 목록 조회 (페이징)
+     *
+     * @api         [GET] /snipp/api/user/page
+     * @author      work
+     * @date        2025-04-23
+    **/
+    @GetMapping("/page")
+    public ResponseEntity findAllUserPage(@Valid SnippUserSearch search, Pageable pageable) {
+        Page<SnippUserList> allUserPage = service.findAllUserPage(search, pageable);
+        return ResponseEntity.ok(allUserPage);
+    }
+
+
+    /**
+     *
+     * 유저 목록 조회 (리스트)
+     *
+     * @api         [GET] /snipp/api/user/list
+     * @author      work
+     * @date        2025-04-23
+    **/
+    @GetMapping("/list")
+    public ResponseEntity findAllUserList(@Valid SnippUserSearch search) {
+        List<SnippUserList> allUserList = service.findAllUserList(search);
+        return ResponseEntity.ok(allUserList);
     }
 }

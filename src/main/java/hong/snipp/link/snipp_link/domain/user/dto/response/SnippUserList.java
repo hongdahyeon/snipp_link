@@ -1,0 +1,36 @@
+package hong.snipp.link.snipp_link.domain.user.dto.response;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+/**
+ * packageName    : hong.snipp.link.snipp_link.domain.user.dto.response
+ * fileName       : SnippUserList
+ * author         : work
+ * date           : 2025-04-23
+ * description    : 유저 목록 응답용 DTO
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2025-04-23        work       최초 생성
+ */
+@Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class SnippUserList {
+
+    private Long uid;
+    private String userId;
+    private String password;
+    private String userEmail;
+    private String userNm;
+    private String userRole;
+    private String lastConnDt;
+    private String lastPwdChngDt;
+    private int pwdFailCnt;
+    private String isLocked;
+    private String isEnable;
+
+    private Long socialUid;
+    private String socialTp;
+    private String socialUserId;
+}

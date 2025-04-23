@@ -5,8 +5,16 @@
 
 <th:block layout:fragment="content">
 
-    <div id="ckeditor1"></div>
-    <div id="ckeditor2"></div>
+    <div id="container" style="width: 80%; margin-left: 40px;">
+        <button type="button" class="btn btn-sm btn-primary" id="btn-btn">button</button>
+        <div id="ckeditor1"></div>
+        <div id="ckeditor2"></div>
+
+        <hr style="border: none; border-top: 3px dotted #000000; margin: 20px auto; width: 90%;">
+
+        <div id="table"></div>
+    </div>
+
 
 </th:block>
 
@@ -15,6 +23,10 @@
     <script th:inline="javascript">
         $(function () {
             noticeJS.initial();  // 페이지 로드 후 바로 초기화 실행
+
+            $("#btn-btn").on('click', () => {
+                noticeJS.getCkeditorData();
+            })
         });
     </script>
 </th:block>
