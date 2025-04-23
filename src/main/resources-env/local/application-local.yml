@@ -10,6 +10,10 @@ hong:
   short-url:
     secret-key: ENC(y1vnk0wEj21ZWHvsNs5PBS205F6TA98LcopBnfWPcFqkpp1fBOYZL6ILqh5zldH0kth2rHmhC/52C6EuEDnmxg==)
   base-url: 'http://localhost:8083'
+  ckeditor:
+    path: D:/hongFileDir/snipp_link/
+    start-path: "/ckImage/"
+    pattern: "/ckImage/**"
 
 jasypt:
   encryptor:

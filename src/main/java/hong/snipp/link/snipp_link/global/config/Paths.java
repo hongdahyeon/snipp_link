@@ -35,6 +35,7 @@ public class Paths {
             ,new AntPathRequestMatcher("/login/force.json")
             ,new AntPathRequestMatcher("/snipp/api/**")
             ,new AntPathRequestMatcher("/snipp/**")
+            ,new AntPathRequestMatcher("/ckImage/**")
     };
 
     public static final AntPathRequestMatcher[] AFTER_LOGIN = new  AntPathRequestMatcher[]{

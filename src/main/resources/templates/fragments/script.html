@@ -1,16 +1,27 @@
 <th:block th:fragment="script">
+    <!-- Bootstrap core JS-->
+    <script th:src="@{'/assets/js/core/bootstrap.bundle.min.js'}"></script>
 
-  <!-- Bootstrap core JS-->
-  <script th:src="@{'/assets/js/core/bootstrap.bundle.min.js'}"></script>
+    <!-- Jquery core JS -->
+    <script th:src="@{'/assets/js/core/jquery.js'}"></script>
+    <script th:src="@{'/assets/js/core/simple-notify.js'}"></script>
+    <script th:src="@{'/assets/js/core/sweetalert2.js'}"></script>
 
-  <!-- Jquery core JS -->
-  <script th:src="@{'/assets/js/core/jquery.js'}"></script>
-  <script th:src="@{'/assets/js/core/simple-notify.js'}"></script>
-  <script th:src="@{'/assets/js/core/sweetalert2.js'}"></script>
+    <!-- Jquery main JS -->
+    <script th:src="@{'/assets/js/main/script.js'}"></script>
+    <script th:src="@{'/assets/js/main/util.js'}"></script>
+    <script th:src="@{'/assets/js/main/alert.js'}"></script>
+    <script th:src="@{'/assets/js/main/MyUploadAdapter.js'}"></script>
 
-  <!-- Jquery main JS -->
-  <script th:src="@{'/assets/js/main/script.js'}"></script>
-  <script th:src="@{'/assets/js/main/util.js'}"></script>
-  <script th:src="@{'/assets/js/main/alert.js'}"></script>
-
+    <!-- CK-Editor -->
+    <script type="importmap">
+        {
+            "imports": {
+                "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/42.0.0/ckeditor5.js",
+                "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/42.0.0/",
+                "ckeditor-config1" : "/assets/js/core/ckeditor5/ckeditor-config1.js",
+                "ckeditor-config2" : "/assets/js/core/ckeditor5/ckeditor-config2.js"
+            }
+        }
+    </script>
 </th:block>

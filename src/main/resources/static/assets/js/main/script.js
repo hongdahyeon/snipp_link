@@ -13,4 +13,11 @@ var mainScriptJS = {
         document.body.appendChild(form)
         form.submit()
     }
+
+    ,editorUploadAdapter: function (editor) {
+        editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+            return new MyUploadAdapter(loader)
+        }
+    }
+
 }

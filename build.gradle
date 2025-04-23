@@ -58,6 +58,10 @@ dependencies {
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'			// thymeleaf auth
 	implementation 'org.springframework.boot:spring-boot-starter-security'			// spring boot auth
 
+	// file-utils
+	// https://mvnrepository.com/artifact/commons-io/commons-io
+	implementation("commons-io:commons-io:2.18.0")
+
 	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'

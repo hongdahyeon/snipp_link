@@ -1,10 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
 
-</body>
+<th:block layout:fragment="content">
+
+    <div id="ckeditor1"></div>
+    <div id="ckeditor2"></div>
+
+</th:block>
+
+<th:block layout:fragment="script">
+    <script th:src="@{'/assets/js/page/board/notice.js'}"></script>
+    <script th:inline="javascript">
+        $(function () {
+            noticeJS.initial();  // 페이지 로드 후 바로 초기화 실행
+        });
+    </script>
+</th:block>
+
 </html>

@@ -21,7 +21,12 @@
       <th:block layout:fragment="content"></th:block>
     </main>
     <th:block th:replace="~{fragments/script :: script}"></th:block>
+    <script type="module">
+      import 'ckeditor-config1';  /* 이미지 업로더 포함 */
+      import 'ckeditor-config2';  /* 이미지 업로더 미포함 */
+    </script>
     <th:block layout:fragment="script"></th:block>
+    <script th:inline="javascript"></script>
     <th:block th:replace="~{fragments/footer :: footer}"></th:block>
   </body>
 
