@@ -34,6 +34,12 @@ public class HomeController {
         return "login";
     }
 
+    // todo 추후 삭제
+    @GetMapping("/test")
+    public String test() {
+        return "test";
+    }
+
     private String blockDirectAccess(HttpServletRequest req) {
         String referer = req.getHeader("referer");
         if (referer == null) return "redirect:/login";

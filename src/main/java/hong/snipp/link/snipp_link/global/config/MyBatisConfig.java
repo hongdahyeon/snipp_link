@@ -1,5 +1,6 @@
 package hong.snipp.link.snipp_link.global.config;
 
+import hong.snipp.link.snipp_link.global.interceptor.MyBatisInterceptor;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.JdbcType;
@@ -91,8 +92,8 @@ public class MyBatisConfig {
         factoryBean.setTypeAliasesPackage(typeAliasesPackage);
 
         // 5. plugins: interceptor
-        /*MyBatisInterceptor MyBatisInterceptor = new MyBatisInterceptor();
-        factoryBean.setPlugins(MyBatisInterceptor);*/
+        MyBatisInterceptor MyBatisInterceptor = new MyBatisInterceptor();
+        factoryBean.setPlugins(MyBatisInterceptor);
 
         // 6. settings
         factoryBean.setConfiguration(setConfiguration());

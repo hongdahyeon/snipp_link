@@ -27,6 +27,7 @@ public class Paths {
 
     public static final AntPathRequestMatcher[] BEFORE_LOGIN = new  AntPathRequestMatcher[]{
              new AntPathRequestMatcher("/")
+            ,new AntPathRequestMatcher("/test")     // todo 추후 삭제
             ,new AntPathRequestMatcher("/login")
             ,new AntPathRequestMatcher("/join**")
             ,new AntPathRequestMatcher("/snipp-short/**")

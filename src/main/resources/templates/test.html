@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+
+<th:block layout:fragment="content">
+
+  <div id="container" style="width: 80%; margin-left: 40px;">
+    <button type="button" class="btn btn-sm btn-primary" id="btn-btn1">button1</button>
+    <button type="button" class="btn btn-sm btn-primary" id="btn-btn2">button2</button>
+    <div id="ckeditor1"></div>
+    <hr style="border: none; border-top: 3px dotted #000000; margin: 20px auto; width: 100%;">
+    <div id="ckeditor2"></div>
+    <hr style="border: none; border-top: 3px dotted #000000; margin: 20px auto; width: 100%;">
+    <div id="table"></div>
+    <hr style="border: none; border-top: 3px dotted #000000; margin: 20px auto; width: 100%;">
+    <div id="table2"></div>
+  </div>
+
+</th:block>
+
+<th:block layout:fragment="script">
+  <script th:src="@{'/assets/js/page/test.js'}"></script>
+  <script th:inline="javascript">
+    $(function () {
+      testJs.initial();  // 페이지 로드 후 바로 초기화 실행
+      $(document).on('click', '.click-class', function (e) {
+        e.stopPropagation();
+        const test = $(e.currentTarget).data('test');
+        Sweet.alert(test);
+      });
+      $("#btn-btn1").on('click', function (e) {
+        testJs.getCkeditorData();
+      })
+      $("#btn-btn2").on('click', function (e) {
+        testJs.table.submitTable();
+      })
+    });
+  </script>
+</th:block>
+
+</html>
