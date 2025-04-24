@@ -9,7 +9,6 @@ class GridTable {
 
         // 1. 언어 세팅
         this._language = null
-        this._langs();
 
         // 2. 테이블 커스텀 세팅 + 페이징
         this._searchKeyword = null;
@@ -20,11 +19,9 @@ class GridTable {
         this._limit = 10;
         this._page = 1;
         this._buttonsCount = 3;
-        this._configSetting();
 
         // 3. style 세팅
         this._style = null;
-        this._styleSetting();
 
         // 4. server
         this._url = ''
@@ -87,10 +84,10 @@ class GridTable {
             pagination: {
                 previous: '이전',
                 next: '다음',
-                of: '건',
+                of: '페이지',
                 to: '부터',
                 showing: '조회 결과',
-                results: () => '레코드'
+                results: "건"
             },
             loading: '로딩중...',
             noRecordsFound: '😢 조회 결과가 없습니다.',
@@ -211,27 +208,46 @@ class GridTable {
         return this
     }
 
+    /*
+    * 기본 테이블 구성용 메소드 전체 실행
+    * */
+    _initMethods() {
+        this._langs();
+        this._configSetting();
+        this._styleSetting();
+    }
+
+    _server() {
+        return {
+            url: this._url,
+            method: 'GET',
+            handle: (res) => {
+                if(res.status === 200) {
+                    return res.json()
+                } else {
+                    console.error('table error')
+                    return []
+                }
+            },
+            then: data => data.list,
+            total: (data) => data['totalElements']
+        }
+    }
+
     /**
      * grid 테이블 초기화
      * */
     init() {
 
         const _this = this;
+        _this._initMethods();
 
         _this._table = new gridjs.Grid({
             language: _this._language,
             className : _this._style,
             columns: _this._columns.map(col => col.getColumn()),
             ..._this._config,
-            server: {
-                url: _this._url,
-                method: 'GET',
-                then: data => {
-                    console.log("data : ", data)
-                    return data.list
-                },
-                total: (data) => data['totalElements']
-            }
+            server: _this._server()
         })
         .render(document.getElementById(`${_this._id}`));
 
@@ -257,7 +273,28 @@ class GridTable {
                         ?.forEach(cb => (cb.checked = isChecked));
                 });
             }
-        }, 100);
+
+            /* 각 체크박스 이벤트 리스너 */
+            document.querySelectorAll('.table-checkbox-td').forEach(tdCb => {
+                tdCb.addEventListener('change', e => {
+                    const table = tdCb.closest('table');
+                    if (!table) return;
+
+                    const allCheckboxes = table.querySelectorAll('.table-checkbox-td');
+                    const checkedCheckboxes = Array.from(allCheckboxes).filter(cb => cb.checked);
+                    console.log("checkedCheckboxes : ", checkedCheckboxes)
+
+                    const selectedDataCount = this.getSelectData().length;
+                    console.log("selectedDataCount : ", selectedDataCount)
+                    const allCheckbox = table.querySelector('.table-checkbox-all');
+
+                    if (allCheckbox) {
+                        allCheckbox.checked = checkedCheckboxes.length === selectedDataCount;
+                    }
+                });
+            });
+
+        }, 1000);
     }
 
     /**
@@ -277,12 +314,7 @@ class GridTable {
      * */
     submitTable() {
         this._table.updateConfig({
-            server: {
-                url: this._url,
-                method: 'GET',
-                then: data => data.list,
-                total: (data) => data['totalElements']
-            }
+            server: this._server()
         }).forceRender();
         this._initListener();
     }

@@ -17,6 +17,7 @@ var testJs = {
             .search("userNm")
             .get('/snipp/api/user/page')
             .headers("center")
+            .setPaging(1, 1, 3)
             .add(new Column("uid", "선택", true))
             .add(new Column('uid', '유저UID').formatter((cell, row, column) => {
                 /*console.log("[formatter] cell: ", cell)                         // 현재 cell data
