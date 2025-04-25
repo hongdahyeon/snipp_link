@@ -19,6 +19,7 @@ class GridTable {
         this._limit = 10;
         this._page = 1;
         this._buttonsCount = 3;
+        this._resetPageOnUpdate = true;
 
         // 3. style 세팅
         this._style = null;
@@ -130,10 +131,11 @@ class GridTable {
     /**
      *  페이징 기본 정보 변경
      * */
-    setPaging(limit = 10, page = 1, buttonsCount = 3) {
+    setPaging(limit = 10, page = 1, buttonsCount = 3, resetPageOnUpdate = true) {
         this._limit = limit;
         this._page = page;
         this._buttonsCount = buttonsCount;
+        this._resetPageOnUpdate = resetPageOnUpdate
         return this;
     }
 
@@ -143,14 +145,14 @@ class GridTable {
     * */
     _paging() {
         return {
-            enabled: true,                      // 페이징 기능 활성화
-            limit: this._limit,                 // 1개의 페이지에 데이터 개수
-            page: this._page,                   // 페이지 넘버
-            summary: true,                      // 하단에 '조회 결과..' 텍스트 조회 가능 여부
-            nextButton: true,                   // 하단에 '[다음] 버튼' 조회 가능 여부
-            prevButton: true,                   // 하단에 '[이전] 버튼' 조회 가능 여부
-            buttonsCount: this._buttonsCount,   // 하단에 '[이전]과 [다음] 버튼 사이에 보여질 페이징 버튼' 개수
-            resetPageOnUpdate: true,            // [submit] 시점에 페이징 초기화 여부
+            enabled: true,                                         // 페이징 기능 활성화
+            limit: this._limit,                                    // 1개의 페이지에 데이터 개수
+            page: this._page,                                      // 페이지 넘버
+            summary: true,                                         // 하단에 '조회 결과..' 텍스트 조회 가능 여부
+            nextButton: true,                                      // 하단에 '[다음] 버튼' 조회 가능 여부
+            prevButton: true,                                      // 하단에 '[이전] 버튼' 조회 가능 여부
+            buttonsCount: this._buttonsCount,                      // 하단에 '[이전]과 [다음] 버튼 사이에 보여질 페이징 버튼' 개수
+            resetPageOnUpdate: this._resetPageOnUpdate,            // [submit] 시점에 페이징 초기화 여부
             server: {
                 /**
                  * @prev : 기본 URL (_this._url)
@@ -282,14 +284,13 @@ class GridTable {
 
                     const allCheckboxes = table.querySelectorAll('.table-checkbox-td');
                     const checkedCheckboxes = Array.from(allCheckboxes).filter(cb => cb.checked);
-                    console.log("checkedCheckboxes : ", checkedCheckboxes)
 
                     const selectedDataCount = this.getSelectData().length;
-                    console.log("selectedDataCount : ", selectedDataCount)
                     const allCheckbox = table.querySelector('.table-checkbox-all');
 
                     if (allCheckbox) {
-                        allCheckbox.checked = checkedCheckboxes.length === selectedDataCount;
+                        allCheckbox.checked = ((checkedCheckboxes.length === selectedDataCount) && (selectedDataCount !== 0));
+
                     }
                 });
             });
