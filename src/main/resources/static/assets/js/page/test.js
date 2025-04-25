@@ -36,7 +36,11 @@ var testJs = {
                     `<span class="click-class" style="cursor: pointer; color: green;" data-test="${cell}">${cell}</span>`
                 )
             }))
-            .add(new Column('userEmail', '유저 이메일').formatter((cell, row, col, _rowData) => {
+            .add(new Column('userEmail', '유저 이메일').formatter((cell, row, col) => {
+                console.log("cell : ", cell)
+                console.log("row : ", row)
+                console.log("col : ", col)
+                console.log(">>> ", testJs.table.getData())
                 return gridjs.h('button', {
                     className: "btn btn-sm btn-outline-primary",
                     'data-email': cell,

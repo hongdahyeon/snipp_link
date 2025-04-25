@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * packageName    : hong.snipp.link.snipp_link.domain.shorturl.log.service
- * fileName       : SnipSUrlLogService
+ * fileName       : SnippSUrlLogService
  * author         : work
  * date           : 2025-04-15
  * description    : SHORT URL 접근 관련 서비스 로직
@@ -30,7 +30,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class SnipSUrlLogService {
+public class SnippSUrlLogService {
 
     private final SnippSUrlLogMapper mapper;
 
@@ -54,6 +54,7 @@ public class SnipSUrlLogService {
     @Transactional(readOnly = true)
     public Page<SnippSUrlLogList> findAllLogPage(SnippSUrlLogParam param, Pageable pageable) {
         List<SnippSUrlLogList> list = mapper.page(pageable.generateMap(param));
+        list.forEach(dto -> dto.setAccessTp(dto.getAccessTp()));
         int count = mapper.count(param);
         return new Page<>(list, count, pageable);
     }
@@ -66,6 +67,8 @@ public class SnipSUrlLogService {
     **/
     @Transactional(readOnly = true)
     public List<SnippSUrlLogList> findAllLogList(SnippSUrlLogParam param) {
-        return mapper.list(param);
+        List<SnippSUrlLogList> list = mapper.list(param);
+        list.forEach(dto -> dto.setAccessTp(dto.getAccessTp()));
+        return list;
     }
 }

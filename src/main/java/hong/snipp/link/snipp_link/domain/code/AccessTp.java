@@ -12,19 +12,22 @@ import lombok.Getter;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
+ * 2025-04-25        work       isSuccess 추가
  */
 @Getter
 public enum AccessTp {
 
-    ACCESS_SUCCESS("성공"),
-    ACCESS_NO_PERMISSION("접근 권한 없음"),
-    ACCESS_NOT_FOUND("URL 없음"),
-    ACCESS_TIME_EXPIRED("유효 기간 만료");
+    ACCESS_SUCCESS("성공", true),
+    ACCESS_NO_PERMISSION("접근 권한 없음", false),
+    ACCESS_NOT_FOUND("URL 없음", false),
+    ACCESS_TIME_EXPIRED("유효 기간 만료", false);
 
     private String description;
+    private boolean isSuccess;
 
-    AccessTp(String description) {
+    AccessTp(String description, boolean isSuccess) {
         this.description = description;
+        this.isSuccess = isSuccess;
     }
 
     public static boolean isValidCode(String code) {
@@ -36,4 +39,12 @@ public enum AccessTp {
         return  false;
     }
 
+    public static AccessTp getAccessTp(String code) {
+        for( AccessTp accessTp : AccessTp.values() ) {
+            if(accessTp.name().equals(code)) {
+                return accessTp;
+            }
+        }
+        return  null;
+    }
 }

@@ -1,5 +1,6 @@
 package hong.snipp.link.snipp_link.domain.user.dto.response;
 
+import hong.snipp.link.snipp_link.global.bean.ResponseIdBean;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,9 +15,10 @@ import lombok.NoArgsConstructor;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-23        work       최초 생성
+ * 2025-04-25        work       ResponseIdBean extend 받기
  */
 @Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SnippUserList {
+public class SnippUserList extends ResponseIdBean {
 
     private Long uid;
     private String userId;

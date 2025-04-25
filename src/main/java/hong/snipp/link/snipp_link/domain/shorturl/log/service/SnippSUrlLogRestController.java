@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * packageName    : hong.snipp.link.snipp_link.domain.shorturl.log.service
- * fileName       : SnipSUrlLogRestController
+ * fileName       : SnippSUrlLogRestController
  * author         : work
  * date           : 2025-04-15
  * description    : SHORT URL 접근 로그 관련 API
@@ -30,9 +30,9 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/snipp/api/short-url/access-log")
-public class SnipSUrlLogRestController {
+public class SnippSUrlLogRestController {
 
-    private final SnipSUrlLogService service;
+    private final SnippSUrlLogService service;
 
     /**
      *

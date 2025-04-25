@@ -1,5 +1,7 @@
 package hong.snipp.link.snipp_link.domain.shorturl.log.dto.response;
 
+import hong.snipp.link.snipp_link.domain.code.AccessTp;
+import hong.snipp.link.snipp_link.global.bean.ResponseIdBean;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,9 +19,10 @@ import lombok.NoArgsConstructor;
  * 2025-04-16        home       * 파일 이름 변경
  *                              - snip -> snipp
  *                              - ShortUrlAccessLog -> SUrlLog
+ * 2025-04-25        work       ResponseIdBean extend 받기
  */
 @Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SnippSUrlLogList {
+public class SnippSUrlLogList extends ResponseIdBean {
 
     private Long logUid;
     private String shortUrl;
@@ -29,4 +32,14 @@ public class SnippSUrlLogList {
     private String accessUserAgent;
     private String accessDate;
     private String accessTp;
+    private String accessTpStr;
+    private boolean accessTpIsSuccess;
+
+    public void setAccessTp(String accessIp) {
+        AccessTp tp = AccessTp.getAccessTp(accessIp);
+        if(tp != null) {
+            this.accessTpStr = tp.getDescription();
+            this.accessTpIsSuccess = tp.isSuccess();
+        }
+    }
 }

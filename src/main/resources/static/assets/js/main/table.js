@@ -29,9 +29,16 @@ class GridTable {
 
         // 5. column list
         this._columns = []
+        this._initMainIdColumn() // hidden 컬럼 {mainId} 초기화
+        this._datas = []
 
         // 6. click-handler
         this._rowClickHandler = null;
+    }
+
+    _initMainIdColumn() {
+        const column = new Column('mainId', 'mainId', false, true)
+        this._columns.push(column);
     }
 
     /**
@@ -231,7 +238,13 @@ class GridTable {
                     return []
                 }
             },
-            then: data => data.list,
+            then: data => {
+                this._datas = data.list.reduce((acc, obj) => {
+                    acc[obj['mainId']] = obj;
+                    return acc;
+                }, {});
+                return data.list
+            },
             total: (data) => data['totalElements']
         }
     }
@@ -249,12 +262,13 @@ class GridTable {
             className : _this._style,
             columns: _this._columns.map(col => col.getColumn()),
             ..._this._config,
-            server: _this._server()
+            server: _this._server(),
+            fixedHeader: true
         })
         .render(document.getElementById(`${_this._id}`));
 
-        if(!_this._useSearch) $(`#${_this._id} .gridjs-search`).css('display', 'none');     // 검색 기능 사용하지 않을 경우 -> 검색창 숨기기
-        this._initListener();                                                               // 체크박스 관련된 이벤트 리스너 초기화
+        if(!_this._useSearch) $(`#${_this._id} .gridjs-head`).css('display', 'none');     // 검색 기능 사용하지 않을 경우 -> 검색창 숨기기
+        this._initListener();                                                             // 체크박스 관련된 이벤트 리스너 초기화
 
         return this
     }
@@ -290,12 +304,15 @@ class GridTable {
 
                     if (allCheckbox) {
                         allCheckbox.checked = ((checkedCheckboxes.length === selectedDataCount) && (selectedDataCount !== 0));
-
                     }
                 });
             });
 
         }, 1000);
+    }
+
+    getData() {
+        return this._datas;
     }
 
     /**
@@ -326,7 +343,7 @@ class Column {
     /**
      * 컬럼 생성자
      * */
-    constructor(id, name, isCheckbox = false) {
+    constructor(id, name = '', isCheckbox = false, isHidden = false) {
         this._id = id;           // {table}영역에서 {data}와 매칭될 {id}값
         this._name = name;       // 보여질 텍스트명
         this._sort = 0;          // sort column => true / 0
@@ -334,6 +351,7 @@ class Column {
         this._width = null;      // 30% or 200px
         this._formatter = null;
         this._attributes = null;
+        this._hidden = false;
 
         // 체크박스를 이용할 경우 {name} 값을 {html} 기능을 통해 {checkbox}로 초기화
         this._isCheckbox = isCheckbox;
@@ -341,6 +359,11 @@ class Column {
             this._name = gridjs.html(`<input type="checkbox" name="${id}" id="${id}" class="form-check-input me-2 table-checkbox-all gridjs-custom-checkbox" >`)
             this._width = "5%"
         }
+    }
+
+    customName(html) {
+        this._name = gridjs.html(html)
+        return this
     }
 
     /**

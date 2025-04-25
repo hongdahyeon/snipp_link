@@ -32,12 +32,21 @@
 
           <!-- [SUPER] 권한 메뉴 -->
           <li class="nav-item dropdown" th:if="${#authorization.expression('isAuthenticated()') and #authorization.expression('hasRole(''SUPER'')')}">
-            <a class="nav-link dropdown-toggle" id="roleUserMenu" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">시스템 관리</a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="roleUserMenu">
+            <a class="nav-link dropdown-toggle" id="systemManageMenu" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">시스템 관리</a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="systemManageMenu">
               <li><a class="dropdown-item" href="/snipp/short-url/super">nShortURL 관리</a></li>
               <li><a class="dropdown-item" href="/snipp/user/super">사용자 관리</a></li>
               <li><a class="dropdown-item" href="/snipp/bbs/super">게시판 관리</a></li>
               <li><a class="dropdown-item" href="/snipp/bbs/super">게시판 관리</a></li>
+            </ul>
+          </li>
+
+          <!-- [SUPER] 권한 메뉴 -->
+          <li class="nav-item dropdown" th:if="${#authorization.expression('isAuthenticated()') and #authorization.expression('hasRole(''SUPER'')')}">
+            <a class="nav-link dropdown-toggle" id="histManageMenu" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">이력 관리</a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="histManageMenu">
+              <li><a class="dropdown-item" href="/snipp/short-url/access-log/super">nShortURL 접근 이력 관리</a></li>
+              <li><a class="dropdown-item" href="/snipp/login-hist/super">로그인 이력 관리</a></li>
             </ul>
           </li>
 

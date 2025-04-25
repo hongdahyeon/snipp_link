@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-22        work       최초 생성
+ * 2025-04-25        work       index 리턴 html 경로 변겨
  */
 @Controller
 @RequiredArgsConstructor
@@ -23,7 +24,7 @@ public class SnippShortUrlController {
 
     @GetMapping("/super")
     public String index() {
-        return "super/shorturl/index";
+        return "super/shorturl/shorturl/index";
     }
 
     @GetMapping("/my-url")

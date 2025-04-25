@@ -5,7 +5,7 @@ import hong.snipp.link.snipp_link.domain.shorturl.shorturl.dto.response.SnippSho
 import hong.snipp.link.snipp_link.domain.shorturl.shorturl.service.SnippShortUrlService;
 import hong.snipp.link.snipp_link.domain.shorturl.access.service.SnippSUrlAccessService;
 import hong.snipp.link.snipp_link.domain.shorturl.log.dto.request.SnippSUrlLogSave;
-import hong.snipp.link.snipp_link.domain.shorturl.log.service.SnipSUrlLogService;
+import hong.snipp.link.snipp_link.domain.shorturl.log.service.SnippSUrlLogService;
 import hong.snipp.link.snipp_link.global.util.WebUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ public class AccessShortURLController {
 
     private final SnippShortUrlService shortUrlService;
     private final SnippSUrlAccessService accessService;
-    private final SnipSUrlLogService accessLogService;
+    private final SnippSUrlLogService accessLogService;
 
     @GetMapping("/{encode}")
     public String shortURL(@PathVariable("encode") String encode, HttpServletRequest req) {
