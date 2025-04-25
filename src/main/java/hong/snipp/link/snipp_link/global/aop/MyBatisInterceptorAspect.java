@@ -1,10 +1,14 @@
 package hong.snipp.link.snipp_link.global.aop;
 
+import hong.snipp.link.snipp_link.global.auth.PrincipalDetails;
 import hong.snipp.link.snipp_link.global.bean.audit.AuditBean;
+import hong.snipp.link.snipp_link.global.util.UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -30,19 +34,15 @@ public class MyBatisInterceptorAspect {
             "execution(* hong.snipp.link.snipp_link.global.bean.mapper.BaseMapper.*update*(..))"
     )
     public Object beforeInsertOrUpdate(ProceedingJoinPoint joinPoint) throws Throwable {
-
-        // TODO : 로그인 구현 이후 작업 진행 //
-        /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long userUid = (UserUtil.isAuthenticated(authentication)) ?
-                ((PrincipalDetails) authentication.getPrincipal()).getUser().getUid() : 0L;*/
-        Long userUid = 0L;
+                ((PrincipalDetails) authentication.getPrincipal()).getUser().getUid() : 0L;
         for (Object arg : joinPoint.getArgs()) {
             if (arg instanceof AuditBean) {
                 AuditBean auditBean = (AuditBean) arg;
                 auditBean.setAuditBean(userUid);
             }
         }
-
         return joinPoint.proceed();
     }
 }

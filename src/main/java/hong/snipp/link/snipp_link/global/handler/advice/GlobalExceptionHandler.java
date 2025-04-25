@@ -1,9 +1,7 @@
 package hong.snipp.link.snipp_link.global.handler.advice;
 
 
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 /**
  * packageName    : hong.snipp.link.snipp_link.global.handler.advice
@@ -18,12 +16,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
  * 2025-04-22        work       500 랜딩
+ * 2025-04-25        work       {@RestControllerAdvice} 랑 엮이면서 생기는 문제로 인해 제거
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
-    public String handleException(Exception e, Model model) {
-        return "error/500";
-    }
 }

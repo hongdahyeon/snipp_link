@@ -29,13 +29,14 @@ import java.util.List;
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
  * 2025-04-16        work       snip -> snipp 변경
+ * 2025-04-25        work       private -> private final
  */
 @Service
 @RequiredArgsConstructor
 public class SnippBbsService {
 
-    private SnippBbsMapper mapper;
-    private SnippBoardService boardService;
+    private final SnippBbsMapper mapper;
+    private final SnippBoardService boardService;
 
     /**
      * @method      saveBbs
