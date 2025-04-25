@@ -25,6 +25,7 @@ import java.util.Map;
  * 2025-04-22        work       * 하단 메소드 추가
  *                              (1) updateUserPassword : 유저 비밀번호 변경 + 90일 연장
  *                              (2) updateUserChangePasswordDt : 유저 비밀번호 변경일 90일 연장
+ * 2025-04-22        work       {updateUserLock, updateUserEnable} 메소드 추가
  */
 @Mapper
 public interface SnippUserMapper extends BaseMapper<SnippUser> {
@@ -44,5 +45,9 @@ public interface SnippUserMapper extends BaseMapper<SnippUser> {
     int updateUserPassword(SnippUser bean);
 
     int updateUserChangePasswordDt(SnippUser bean);
+
+    int updateUserLock(SnippUser bean);
+
+    int updateUserEnable(SnippUser bean);
 
 }

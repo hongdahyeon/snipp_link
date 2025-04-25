@@ -1,9 +1,11 @@
 package hong.snipp.link.snipp_link.domain.user.service;
 
+import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserChange;
 import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserChangePwd;
 import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserSave;
 import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserSearch;
 import hong.snipp.link.snipp_link.domain.user.dto.response.SnippUserList;
+import hong.snipp.link.snipp_link.domain.user.dto.response.SnippUserView;
 import hong.snipp.link.snipp_link.global.bean.page.Page;
 import hong.snipp.link.snipp_link.global.bean.page.Pageable;
 import jakarta.validation.Valid;
@@ -30,6 +32,7 @@ import java.util.regex.Pattern;
  * 2025-04-21        work       이메일/아이디 중복 체크 API + 저장 API 추가
  * 2025-04-22        work       비번 변경 및 90일 연장 API 추가
  * 2025-04-23        work       {findAllUserPage, findAllUserList} API 추가
+ * 2025-04-25        work       유저 단건 조회/수정 + 유저 잠금 및 활성화 수정 API 추가
  */
 @RestController
 @RequiredArgsConstructor
@@ -159,5 +162,60 @@ public class SnippUserRestController {
     public ResponseEntity findAllUserList(@Valid SnippUserSearch search) {
         List<SnippUserList> allUserList = service.findAllUserList(search);
         return ResponseEntity.ok(allUserList);
+    }
+
+    /**
+     *
+     * 유저 단건 조회
+     *
+     * @api         [GET] /snipp/api/user/{uid}
+     * @author      work
+     * @date        2025-04-25
+    **/
+    @GetMapping("/{uid}")
+    public ResponseEntity findUserByUserUid(@PathVariable("uid") Long uid) {
+        SnippUserView userByUserUid = service.findUserByUserUid(uid);
+        return ResponseEntity.ok(userByUserUid);
+    }
+
+    /**
+     *
+     * 유저 잠금 풀기/잠그기 + 유저 활성화/비활성화 시키기
+     * * code
+     * => 잠금    : lock / unlock
+     * => 활성화  : enable / disable
+     *
+     * @api         [PUT] /snipp/user/api/{code}/{uid}
+     * @author      work
+     * @date        2025-04-25
+    **/
+    @PutMapping("/{code}/{uid}")
+    public ResponseEntity changeUserInfo(@PathVariable("code") String code, @PathVariable("uid") Long uid) {
+        if("lock".equals(code) || "unlock".equals(code)) {
+
+            String value = ("lock".equals(code)) ? "Y" : "N";
+            service.changeUserLock(value, uid);
+
+        } else if ("enable".equals(code) || "disable".equals(code)) {
+
+            String value = ("enable".equals(code)) ? "Y" : "N";
+            service.changeUserEnable(value, uid);
+
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     *
+     * 유저 단건 수정
+     *
+     * @api         [PUT] /snipp/user/api/{uid}
+     * @author      work
+     * @date        2025-04-25
+    **/
+    @PutMapping("/{uid}")
+    public ResponseEntity changeUser(@PathVariable("uid") Long uid, @RequestBody @Valid SnippUserChange request) {
+        service.changeUser(uid, request);
+        return ResponseEntity.ok().build();
     }
 }

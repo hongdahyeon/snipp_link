@@ -179,4 +179,66 @@
         </if>
          ORDER BY SU.UID DESC
     </select>
+
+    <select id="getDetail" resultType="SnippUserView" parameterType="Long">
+        /* snippUser.getDetail */
+        SELECT SU.UID
+              ,SU.USER_ID
+              ,SU.PASSWORD
+              ,SU.USER_EMAIL
+              ,SU.USER_NM
+              ,SU.USER_ROLE
+              ,SU.LAST_CONN_DT
+              ,SU.LAST_PWD_CHNG_DT
+              ,SU.PWD_FAIL_CNT
+              ,SU.IS_LOCKED
+              ,SU.IS_ENABLE
+              ,SSU.UID AS SOCIAL_UID
+              ,SSU.SOCIAL_TP AS SOCIAL_TP
+              ,SSU.USER_ID AS SOCIAL_USER_ID
+          FROM SNP_USER SU
+          LEFT JOIN SNP_SOCIAL_USER SSU ON SU.SOCIAL_UID = SSU.UID
+         WHERE SU.UID = #{uid}
+    </select>
+
+    <update id="updateUserLock" parameterType="SnippUser">
+        /* snippUser.updateUserLock */
+        UPDATE SNP_USER
+           SET IS_LOCKED = #{isLocked}
+         WHERE UID = #{uid}
+    </update>
+
+    <update id="updateUserEnable" parameterType="SnippUser">
+        /* snippUser.updateUserEnable */
+        UPDATE SNP_USER
+           SET IS_ENABLE = #{isEnable}
+         WHERE UID = #{uid}
+    </update>
+
+    <select id="view" parameterType="Long" resultType="SnippUser">
+        /* snippUser.view */
+        SELECT SU.UID
+              ,SU.USER_ID
+              ,SU.PASSWORD
+              ,SU.USER_EMAIL
+              ,SU.USER_NM
+              ,SU.SOCIAL_UID
+              ,SU.USER_ROLE
+              ,SU.LAST_CONN_DT
+              ,SU.LAST_PWD_CHNG_DT
+              ,SU.PWD_FAIL_CNT
+              ,SU.IS_LOCKED
+              ,SU.IS_ENABLE
+          FROM SNP_USER SU
+         WHERE SU.UID = #{uid}
+    </select>
+
+    <update id="update" parameterType="SnippUser">
+        /* snippUser.update */
+        UPDATE SNP_USER
+           SET USER_EMAIL = #{userEmail}
+              ,USER_NM = #{userNm}
+              ,PASSWORD = #{password}
+         WHERE UID = #{uid}
+    </update>
 </mapper>

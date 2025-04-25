@@ -2,6 +2,7 @@ package hong.snipp.link.snipp_link.domain.user.domain;
 
 import hong.snipp.link.snipp_link.domain.code.UserRole;
 import hong.snipp.link.snipp_link.domain.socialuser.dto.request.SnippOAuth2UserSave;
+import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserChange;
 import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserChangePwd;
 import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserSave;
 import lombok.AccessLevel;
@@ -22,6 +23,7 @@ import lombok.NoArgsConstructor;
  *                              : userNm , userRole ,  lastConnDt , lastPwdChngDt , pwdFailCnt , isLocked , isEnable
  * 2025-04-21        work       소셜/폼 로그인 유저 저장용 생성자 추가
  * 2025-04-22        work       유저의 비밀번호 변경 및 비번 변경일 연장 생성자 추가
+ * 2025-04-25        work       유저 수정 관련 생성자 추가
  */
 @Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SnippUser {
@@ -80,12 +82,38 @@ public class SnippUser {
     }
 
     /**
-     * @method      SnippUser
+     * @method      SnippUser 생성자 4
      * @author      work
      * @date        2025-04-22
      * @deacription 유저 비밀번호 변경일 90일 연장
     **/
     public SnippUser(SnippUserChangePwd request) {
         this.userId = request.getUserId();
+    }
+
+    /**
+     * @method      SnippUser 생성자 5
+     * @author      work
+     * @date        2025-04-25
+     * @deacription => (isLock = true)  : 유저 잠금 / 잠금 풀기
+     *              => (isLock = false) : 유저 활성화 / 잠금 비활성화
+    **/
+    public SnippUser(boolean isLock, String value, Long uid) {
+        if(isLock) this.isLocked = value;
+        else this.isEnable = value;
+        this.uid = uid;
+    }
+
+    /**
+     * @method      SnippUser 생성자 6
+     * @author      work
+     * @date        2025-04-25
+     * @deacription 유저 단건 수정
+    **/
+    public SnippUser(Long uid, SnippUserChange reqeust, String encodePassword) {
+        this.uid = uid;
+        this.userNm = reqeust.getUserNm();
+        this.userEmail = reqeust.getUserEmail();
+        this.password = encodePassword;
     }
 }

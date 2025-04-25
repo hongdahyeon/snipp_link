@@ -2,10 +2,12 @@ package hong.snipp.link.snipp_link.domain.user.service;
 
 import hong.snipp.link.snipp_link.domain.user.domain.SnippUser;
 import hong.snipp.link.snipp_link.domain.user.domain.SnippUserMapper;
+import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserChange;
 import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserChangePwd;
 import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserSave;
 import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserSearch;
 import hong.snipp.link.snipp_link.domain.user.dto.response.SnippUserList;
+import hong.snipp.link.snipp_link.domain.user.dto.response.SnippUserView;
 import hong.snipp.link.snipp_link.domain.verifycode.service.SnippVerifyCodeService;
 import hong.snipp.link.snipp_link.global.bean.page.Page;
 import hong.snipp.link.snipp_link.global.bean.page.Pageable;
@@ -31,6 +33,7 @@ import java.util.List;
  * 2025-04-21        work       {isExistUserId, isExistUserEmail, saveUser} 메소드 추가
  * 2025-04-22        work       {changeUserPassword, changeUserExpired} 메소드 추가
  * 2025-04-23        work       {findAllUserPage, findAllUserList} 메소드 추가
+ * 2025-04-25        work       {findUserByUserUid, changeUserLock, changeUserEnable, changeUser} 메소드 추가
  */
 @Service
 @RequiredArgsConstructor
@@ -139,6 +142,7 @@ public class SnippUserService {
      * @date        2025-04-23
      * @deacription 유저 목록 조회 (페이징)
     **/
+    @Transactional(readOnly = true)
     public Page<SnippUserList> findAllUserPage(SnippUserSearch search, Pageable pageable) {
         List<SnippUserList> list = mapper.page(pageable.generateMap(search));
         int count = mapper.count(search);
@@ -152,7 +156,56 @@ public class SnippUserService {
      * @date        2025-04-23
      * @deacription 유저 목록 조회 (리스트)
     **/
+    @Transactional(readOnly = true)
     public List<SnippUserList> findAllUserList(SnippUserSearch search) {
         return mapper.list(search);
     }
+
+
+    /**
+     * @method      findUserByUserUid
+     * @author      work
+     * @date        2025-04-25
+     * @deacription 유저 단건 조회
+    **/
+    @Transactional(readOnly = true)
+    public SnippUserView findUserByUserUid(Long uid) {
+        return mapper.getDetail(uid);
+    }
+
+    /**
+     * @method      changeUserLock
+     * @author      work
+     * @date        2025-04-25
+     * @deacription 유저 잠금 / 잠금 풀기
+    **/
+    @Transactional
+    public void changeUserLock(String isLocked, Long uid) {
+        mapper.updateUserLock(new SnippUser(true, isLocked, uid));
+    }
+
+    /**
+     * @method      changeUserEnable
+     * @author      work
+     * @date        2025-04-25
+     * @deacription 유저 활성화 / 비활성화
+    **/
+    @Transactional
+    public void changeUserEnable(String isEnable, Long uid) {
+        mapper.updateUserEnable(new SnippUser(false, isEnable, uid));
+    }
+
+    /**
+     * @method      changeUser
+     * @author      work
+     * @date        2025-04-25
+     * @deacription 유저 단건 수정
+    **/
+    @Transactional
+    public void changeUser(Long uid, SnippUserChange request) {
+        SnippUser view = mapper.view(uid);
+        String encodePassword = (request.getPassword() != null) ? passwordEncoder.encode(request.getPassword()) : view.getPassword();
+        mapper.update(new SnippUser(uid, request, encodePassword));
+    }
+
 }
