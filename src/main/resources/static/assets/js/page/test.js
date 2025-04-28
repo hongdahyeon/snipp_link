@@ -27,21 +27,22 @@ var testJs = {
                     console.log(">> [formatter] each row._id : ", rw._id, " => data : ", rw.data )
                 });
                 console.log("[formatter] column: ", column)                     // 현재 컬럼 정보*/
-                return gridjs.html(
+                return Grid.draw(
                     `<span class="click-class" style="color:red; cursor: pointer;" data-test="${cell}">${cell}</span>`
                 );
             }))
             .add(new Column('userNm', '유저 이름').formatter((cell, row, column) => {
-                return gridjs.html(
+                return Grid.draw(
                     `<span class="click-class" style="cursor: pointer; color: green;" data-test="${cell}">${cell}</span>`
                 )
             }))
             .add(new Column('userEmail', '유저 이메일').formatter((cell, row, col) => {
-                console.log("cell : ", cell)
-                console.log("row : ", row)
-                console.log("col : ", col)
-                console.log(">>> ", testJs.table.getData())
-                return gridjs.h('button', {
+
+                const mainId = row._cells[0]['data']
+                const rowData = testJs.table.getRowData(mainId)
+                console.log(">>> ", rowData)
+
+                return Grid.custom('button', {
                     className: "btn btn-sm btn-outline-primary",
                     'data-email': cell,
                     onClick: (e) => {

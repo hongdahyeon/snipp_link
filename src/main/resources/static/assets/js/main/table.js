@@ -29,6 +29,7 @@ class GridTable {
 
         // 5. column list
         this._columns = []
+        this._useIndexColumn = false;
         this._initMainIdColumn() // hidden 컬럼 {mainId} 초기화
         this._datas = []
 
@@ -37,8 +38,19 @@ class GridTable {
     }
 
     _initMainIdColumn() {
-        const column = new Column('mainId', 'mainId', false, true)
+        const column = new Column('mainId', 'mainId').hide()
         this._columns.push(column);
+    }
+
+    /***
+     * {index} 컬럼을 이용할 경우 사용되는 메소드
+     * => @ name : 해당 인덱스 컬럼의 헤더명
+     * */
+    useIndex(name) {
+        this._useIndexColumn = true;
+        const column = new Column('index', name).width("5%").useByIndex();
+        this._columns.push(column);
+        return this;
     }
 
     /**
@@ -79,16 +91,6 @@ class GridTable {
                 sortAsc: '🔼오름차순 정렬',
                 sortDesc: '🔽내림차순 정렬',
             },
-            /*pagination: {
-                previous: '이전',
-                next: '다음',
-                navigate: (page, pages) => `Page ${page} of ${pages}`,
-                page: (page) => `Page ${page}`,
-                showing: '조회 결과',
-                of: '건중',
-                to: '-',
-                results: '레코드',
-            },*/
             pagination: {
                 previous: '이전',
                 next: '다음',
@@ -239,11 +241,16 @@ class GridTable {
                 }
             },
             then: data => {
-                this._datas = data.list.reduce((acc, obj) => {
+                const dataLst = data.list
+                let idx = 0
+                for (let i = 0; i < dataLst.length; i++) {
+                    dataLst[idx++]['index'] = ((data['totalElements'] - (data['pageNumber'] - 1) * data['countPage']) - i);
+                }
+                this._datas = dataLst.reduce((acc, obj) => {
                     acc[obj['mainId']] = obj;
                     return acc;
                 }, {});
-                return data.list
+                return dataLst
             },
             total: (data) => data['totalElements']
         }
@@ -257,7 +264,7 @@ class GridTable {
         const _this = this;
         _this._initMethods();
 
-        _this._table = new gridjs.Grid({
+        _this._table = Grid.create({
             language: _this._language,
             className : _this._style,
             columns: _this._columns.map(col => col.getColumn()),
@@ -311,8 +318,21 @@ class GridTable {
         }, 1000);
     }
 
-    getData() {
+    /***
+     * {mainId} : {해당 row 영역에 해당하는 전체 데이터} 리스트로 구성
+     * */
+    getAllData() {
         return this._datas;
+    }
+
+    /**
+     * formatter(cell, row, col)
+     *  > const mainId = row._cells[0]['data']
+     *  > const rowData = testJs.table.getRowData(mainId)
+     *  > ** rowData 형태 : {mainId} {row}에 해당하는 전체 데이터
+     * */
+    getRowData(mainId) {
+        return this._datas[mainId];
     }
 
     /**
@@ -343,26 +363,34 @@ class Column {
     /**
      * 컬럼 생성자
      * */
-    constructor(id, name = '', isCheckbox = false, isHidden = false) {
+    constructor(id, name = '', isCheckbox = false) {
         this._id = id;           // {table}영역에서 {data}와 매칭될 {id}값
         this._name = name;       // 보여질 텍스트명
         this._sort = 0;          // sort column => true / 0
-        this._hidden = 0;        // show or hide column => true / 0
         this._width = null;      // 30% or 200px
+        this._hidden = 0;        // show or hide column => true / 0
         this._formatter = null;
         this._attributes = null;
-        this._hidden = false;
+        this._isIndex = false;
 
         // 체크박스를 이용할 경우 {name} 값을 {html} 기능을 통해 {checkbox}로 초기화
         this._isCheckbox = isCheckbox;
         if(isCheckbox) {
-            this._name = gridjs.html(`<input type="checkbox" name="${id}" id="${id}" class="form-check-input me-2 table-checkbox-all gridjs-custom-checkbox" >`)
+            this._name = Grid.draw(`<input type="checkbox" name="${id}" id="${id}" class="form-check-input me-2 table-checkbox-all gridjs-custom-checkbox" >`)
             this._width = "5%"
         }
     }
 
+    useByIndex() {
+        this._isIndex = true;
+        return this;
+    }
+
+    /***
+     * 테이블 헤더 {html} 형식으로 그리기
+     * */
     customName(html) {
-        this._name = gridjs.html(html)
+        this._name = Grid.draw(html)
         return this
     }
 
@@ -439,11 +467,35 @@ class Column {
         * */
         if(this._isCheckbox) {
             col.formatter = (cell, row, column) => {
-                return gridjs.html(`
+                return Grid.draw(`
                     <input type="checkbox" class="form-check-input me-2 table-checkbox-td gridjs-custom-checkbox" name="${this._id}" data-uid="${cell}" />
                 `);
             };
         }
+
+        if(this._isIndex) {
+            col.formatter = (cell, row, column) => {
+                return Grid.draw(`
+                    <span>${cell}</span>
+                `);
+            }
+        }
+
         return col;
+    }
+}
+
+class Grid {
+
+    static create(tableInfo) {
+        return new gridjs.Grid(tableInfo);
+    }
+
+    static draw(html) {
+        return gridjs.html(html);
+    }
+
+    static custom(t, n, e) {
+        return gridjs.h(t, n, e);
     }
 }

@@ -21,6 +21,7 @@ public class Page<B> {
     private int prev;          // 이전 페이지
     private int next;          // 다음 페이지
     private int size;          // 페이지 당 아이템 수
+    private int pageNumber;    // 현재 페이지
     private int totalPages;    // 총 페이지 수
     private int countPage;     // 한 화면에 표시할 페이지 수
     private int totalElements; // 총 아이템 수
@@ -32,6 +33,7 @@ public class Page<B> {
         this.list = list;
         this.size = pageable.getSize();
         this.totalElements = totalElements;
+        this.pageNumber = pageable.getPageNumber();
         this.totalPages = (this.totalElements / this.size) + (this.totalElements % this.size == 0 ? 0 : 1);
         this.countPage = pageable.getCountPage();
 

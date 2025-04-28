@@ -38,6 +38,7 @@ public class SnippSUrlLogList extends ResponseIdBean {
     public void setAccessTp(String accessIp) {
         AccessTp tp = AccessTp.getAccessTp(accessIp);
         if(tp != null) {
+            this.accessTp = tp.name();
             this.accessTpStr = tp.getDescription();
             this.accessTpIsSuccess = tp.isSuccess();
         }

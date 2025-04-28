@@ -140,3 +140,15 @@ class Http {
     }
 
 }
+
+class StringUtil {
+
+    /***
+     * (입력) YYYY-MM-DD HH:MM:SS
+     * (출력) YYYY-MM-DD HH:MM
+     * */
+    static dateWithHHMM(dateWithHHMMSS) {
+        return dateWithHHMMSS.substring(0, 16);
+    }
+
+}
