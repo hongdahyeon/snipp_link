@@ -1,10 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
 
-</body>
+<th:block layout:fragment="content">
+
+    <!-- Header-->
+    <header class="custom-pt-3">
+        <div class="container px-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-xxl-6">
+                    <div class="text-center custom-pt-3">
+                        <h1 class="fw-bolder mb-3">사용자 로그인 이력 관리</h1>
+                        <p class="lead fw-normal text-muted mb-4">
+                            사용자들의 서비스에 대한 로그인 이력을 관리합니다. <br>
+                            사용자들의 접근 정보 및 접근 일시를 알 수 있으며, <br>
+                            접근 성공 및 실패 여부도 확인할 수 있습니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <hr class="custom-line">
+
+    <!-- About section one-->
+    <section class="custom-pb-3">
+        <div class="container-fluid px-0 py-5" style="max-width: 90%;">
+            <div class="row gx-5 align-items-center">
+                <div class="col-lg-12">
+                    <div id="short-url-log-hist-table"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team members section-->
+    <section class="py-5 bg-light">
+        <div class="container px-5 my-5">
+            <div class="text-center">
+                <h2 class="fw-bolder">Our team</h2>
+                <p class="lead fw-normal text-muted mb-5">Dedicated to quality and your success</p>
+            </div>
+            <div class="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
+                <div class="col mb-5 mb-5 mb-xl-0">
+                    <div class="text-center">
+                        <img class="img-fluid rounded-circle mb-4 px-4" src="/assets/src/img/empty/150_150_dummy.png" alt="..." />
+                        <h5 class="fw-bolder">Ibbie Eckart</h5>
+                        <div class="fst-italic text-muted">Founder &amp; CEO</div>
+                    </div>
+                </div>
+                <div class="col mb-5 mb-5 mb-xl-0">
+                    <div class="text-center">
+                        <img class="img-fluid rounded-circle mb-4 px-4" src="/assets/src/img/empty/150_150_dummy.png" alt="..." />
+                        <h5 class="fw-bolder">Arden Vasek</h5>
+                        <div class="fst-italic text-muted">CFO</div>
+                    </div>
+                </div>
+                <div class="col mb-5 mb-5 mb-sm-0">
+                    <div class="text-center">
+                        <img class="img-fluid rounded-circle mb-4 px-4" src="/assets/src/img/empty/150_150_dummy.png" alt="..." />
+                        <h5 class="fw-bolder">Toribio Nerthus</h5>
+                        <div class="fst-italic text-muted">Operations Manager</div>
+                    </div>
+                </div>
+                <div class="col mb-5">
+                    <div class="text-center">
+                        <img class="img-fluid rounded-circle mb-4 px-4" src="/assets/src/img/empty/150_150_dummy.png" alt="..." />
+                        <h5 class="fw-bolder">Malvina Cilla</h5>
+                        <div class="fst-italic text-muted">CTO</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</th:block>
+
+<th:block layout:fragment="script">
+    <script th:src="@{'/assets/js/page/super/loginhist.js'}"></script>
+    <script th:inline="javascript">
+        $(function () {
+            loginhistJS.initPage();
+        });
+    </script>
+</th:block>
+
 </html>

@@ -151,4 +151,17 @@ class StringUtil {
         return dateWithHHMMSS.substring(0, 16);
     }
 
+    /***
+     * {str} 문자열에 대해서 {n} 길이마다 <br> 추가
+     * */
+    static insertBrEveryNChars(str, n) {
+        if (!str) return '';
+
+        let result = '';
+        for (let i = 0; i < str.length; i += n) {
+            result += str.substring(i, i + n) + '<br>';
+        }
+        return result;
+    }
+
 }

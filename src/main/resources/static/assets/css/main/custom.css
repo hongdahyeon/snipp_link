@@ -142,3 +142,27 @@ main {
     width: 18px;
     height: 18px;
 }
+
+
+/* hr */
+hr.custom-line {
+    width: 100px; /* 선 길이 짧게 */
+    border: 1px solid #0a58ca; /* 선 색깔 */
+    margin: 20px auto; /* 위아래 여백 + 가운데 정렬 */
+    margin-top: 0px;
+}
+
+
+/* html custom */
+.custom-pt-3 {
+    padding-top: 3rem !important;
+}
+.custom-pb-3 {
+    padding-bottom: 3rem !important;
+}
+.custom-pr-3 {
+    padding-right: 3rem !important;
+}
+.custom-pl-3 {
+    padding-left: 3rem !important;
+}
