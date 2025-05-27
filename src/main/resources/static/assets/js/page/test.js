@@ -14,11 +14,12 @@ var testJs = {
         testJs.ckeditor2.setEditorData("<b>hi?</b>")
 
         testJs.table = new GridTable("table")
-            .search("userNm")
+            /*.search("userNm")*/
             .get('/snipp/api/user/page')
             .headers("center")
             .setPaging(10, 1, 3, true)
             .add(new Column("uid", "선택", true))
+            .useIndex("번호")
             .add(new Column('uid', '유저UID').formatter((cell, row, column) => {
                 /*console.log("[formatter] cell: ", cell)                         // 현재 cell data
                 console.log("[formatter] row._id: ", row._id)                   // 현재 row._id

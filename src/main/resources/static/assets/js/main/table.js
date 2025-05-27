@@ -182,9 +182,8 @@ class GridTable {
     _styleSetting() {
         this._style = {
             table: 'gridjs-custom-table',
-            th: 'gridjs-custom-table-th',
-            td: 'gridjs-custom-table-td',
-            header: 'gridjs-custom-table-header',
+            thead: 'gridjs-custom-thead',
+            tbody: 'gridjs-custom-tbody',
             footer: 'gridjs-custom-table-footer'
         }
     }
