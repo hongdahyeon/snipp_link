@@ -33,7 +33,7 @@ class GridTable {
         this._initMainIdColumn() // hidden 컬럼 {mainId} 초기화
         this._datas = []
 
-        // 6. click-handler
+        // 6. handler
         this._rowClickHandler = null;
     }
 
@@ -205,6 +205,19 @@ class GridTable {
         } else {
             this._rowClickHandler = wrappedHandler;
         }
+        return this;
+    }
+
+    afterReady(handler) {
+        const checkReady = () => {
+            const wrapper = document.querySelector(`#${this._id} .gridjs-wrapper`);
+            if (wrapper) {
+                handler();
+            } else {
+                setTimeout(checkReady, 30);
+            }
+        };
+        checkReady();
         return this;
     }
 

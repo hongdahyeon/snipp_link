@@ -14,9 +14,9 @@ var testJs = {
         testJs.ckeditor2.setEditorData("<b>hi?</b>")
 
         testJs.table = new GridTable("table")
-            /*.search("userNm")*/
+            .search("userNm")
             .get('/snipp/api/user/page')
-            .headers("center")
+            .headers("left")
             .setPaging(10, 1, 3, true)
             .add(new Column("uid", "선택", true))
             .useIndex("번호")
@@ -33,8 +33,11 @@ var testJs = {
                 );
             }))
             .add(new Column('userNm', '유저 이름').formatter((cell, row, column) => {
-                return Grid.draw(
+                /*return Grid.draw(
                     `<span class="click-class" style="cursor: pointer; color: green;" data-test="${cell}">${cell}</span>`
+                )*/
+                return Grid.draw(
+                    `<button class="btn btn-sm btn-outline-primary test-btn1" data-name="${cell}">버튼 텍스트1</button>`
                 )
             }))
             .add(new Column('userEmail', '유저 이메일').formatter((cell, row, col) => {
@@ -46,19 +49,30 @@ var testJs = {
                 return Grid.custom('button', {
                     className: "btn btn-sm btn-outline-primary",
                     'data-email': cell,
+                    'data-name': rowData['userNm'],
                     onClick: (e) => {
                         e.stopPropagation();
                         Sweet.alert("버튼 클릭 : " + cell)
                     }
-                }, "버튼 텍스트")
+                }, "버튼 텍스트2")
             }))
             .init()
+            .afterReady(() => {
+                console.log("its ready");
+                $(document).on('click', '.test-btn1', function (e) {
+                    e.stopPropagation();
+                    const $this = $(this); // ✅ this는 실제 클릭된 .test-btn1 엘리먼트
+                    const data = $this.data('name');
+                    console.log("test-btn1 click => ", data);
+                });
+            })
             .rowClick((...args) => {
                 const cellData = args[1]._cells.map((cell, idx) => {
                     return `<span>[${idx}]: ${cell._id} <br> -> ${cell.data}</span><br><br>`;
                 }).join("");
                 Sweet.alert(cellData);
             });
+
     }
 
     ,getCkeditorData: function () {
