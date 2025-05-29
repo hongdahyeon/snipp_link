@@ -8,6 +8,7 @@ import hong.snipp.link.snipp_link.domain.bbs.dto.request.SnippBbsSave;
 import hong.snipp.link.snipp_link.domain.bbs.dto.response.SnippBbsList;
 import hong.snipp.link.snipp_link.domain.bbs.dto.response.SnippBbsView;
 import hong.snipp.link.snipp_link.domain.board.service.SnippBoardService;
+import hong.snipp.link.snipp_link.domain.code.BbsTp;
 import hong.snipp.link.snipp_link.global.bean.page.Page;
 import hong.snipp.link.snipp_link.global.bean.page.Pageable;
 import hong.snipp.link.snipp_link.global.exception.SnippException;
@@ -30,6 +31,7 @@ import java.util.List;
  * 2025-04-15        work       최초 생성
  * 2025-04-16        work       snip -> snipp 변경
  * 2025-04-25        work       private -> private final
+ * 2025-05-29        work       {view} 추가
  */
 @Service
 @RequiredArgsConstructor
@@ -80,6 +82,7 @@ public class SnippBbsService {
     @Transactional(readOnly = true)
     public Page<SnippBbsList> findAllBbsPage(SnippBbsParam param, Pageable pageable) {
         List<SnippBbsList> list = mapper.page(pageable.generateMap(param));
+        list.forEach(dto -> dto.setBbsTpNm(BbsTp.getDescriptionByCode(dto.getBbsTp())));
         int count = mapper.count(param);
         return new Page<>(list, count, pageable);
     }
@@ -110,6 +113,17 @@ public class SnippBbsService {
                     HttpStatus.BAD_REQUEST);
         }
         mapper.delete(new SnippBbs(bbsUid));
+    }
+
+    /**
+     * @method      view
+     * @author      dahyeon
+     * @date        2025-05-29
+     * @deacription 게시판 단건 조회
+    **/
+    @Transactional(readOnly = true)
+    public SnippBbs view(Long uid) {
+        return mapper.view(uid);
     }
 
 }

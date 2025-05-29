@@ -1,10 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
 
-</body>
+<th:block layout:fragment="content">
+
+  <section class="py-5">
+      <div class="container px-5 my-5">
+          <div class="text-left mb-5">
+              <h1 class="fw-bolder">Frequently Asked Questions</h1>
+              <p class="lead fw-normal text-muted mb-0">How can we help you?</p>
+          </div>
+        <div class="gx-5">
+          <div id="free-table"></div>
+        </div>
+      </div>
+  </section>
+
+</th:block>
+
+<th:block layout:fragment="script">
+  <script th:src="@{'/assets/js/page/board/free.js'}"></script>
+  <script th:inline="javascript">
+    freeJS.initTable();
+  </script>
+</th:block>
+
 </html>

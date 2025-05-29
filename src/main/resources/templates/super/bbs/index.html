@@ -1,10 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
 
-</body>
+<th:block layout:fragment="content">
+
+    <section class="py-5">
+        <div class="container">
+            <div class="text-left px-5 py-5 mb-5 bg-light">
+                <div class="text-left heading-underline">
+                    <h1 class="fw-bolder">게시판 관리</h1>
+                </div>
+            </div>
+            <div class="gx-5">
+                <div class="d-flex flex-column flex-md-row justify-content-between mb-2 gap-2">
+                    <div class="d-flex gap-2"></div>
+                    <div>
+                        <button type="button" class="btn-primary-custom" onclick="window.location.href='/snipp/bbs/super/save'">게시판 추가</button>
+                    </div>
+                </div>
+                <div id="bbs-table"></div>
+            </div>
+        </div>
+    </section>
+
+</th:block>
+
+<th:block layout:fragment="script">
+    <script th:src="@{'/assets/js/page/super/bbs.js'}"></script>
+    <script th:inline="javascript">
+        bbsJS.initTable();
+    </script>
+</th:block>
+
 </html>

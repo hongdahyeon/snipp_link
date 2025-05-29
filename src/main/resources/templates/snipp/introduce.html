@@ -1,10 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
 
-</body>
+<th:block layout:fragment="content">
+
+    <!-- Header-->
+    <header class="py-5">
+        <div class="container px-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-xxl-6">
+                    <div class="text-center my-5">
+                        <h1 class="fw-bolder mb-3">SnippLink란?</h1>
+                        <p class="lead fw-normal text-muted mb-4">
+                            반갑습니다 😀
+                            <br>
+                            SnippLink가 무엇인지 알고싶으신가요?
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="py-5 bg-light">
+        <div class="container px-5 my-5">
+            <div class="row gx-5 align-items-center">
+                <div class="col-lg-9 offset-lg-3 text-end">
+                    <h2 class="fw-bolder">1️⃣ 서비스 개요</h2>
+                    <p class="lead fw-normal text-muted mb-0">
+                        <span class="fw-bold">SnippLink</span>는 복잡하고 긴 URL을 짧고 간결한 링크로 변환해주는 <span class="fw-bold">URL 단축 서비스</span>입니다.
+                        <br>
+                        사용자는 웹사이트, 블로그, 문서, SNS 등 다양한 플랫폼에서 보다 깔끔하게 링크를 공유할 수 있으며, 링크를 통해 더 나은 사용자 경험을 제공합니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="py-5">
+        <div class="container px-5 my-5">
+            <div class="row gx-5 align-items-center">
+                <div class="col-lg-12">
+                    <h2 class="fw-bolder">2️⃣ SnippLink의 주요 활용</h2>
+                    <p class="lead fw-normal text-muted mb-0">
+                        <ul class="list-unstyled fs-5 fw-normal text-muted mt-3 mb-0 d-flex flex-column gap-2">
+                            <li>1. 긴 URL이 불편한 SNS에서 공유</li>
+                            <li>2. 마케팅 링크 추적</li>
+                            <li>3. 특정 페이지로 간편하게 안내할 때</li>
+                            <li>4. 게시판이나 채팅창 등에서 깔끔하게 링크 전달</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-light">
+        <div class="container px-4 my-4">
+            <div class="text-center">
+                <h2 class="fw-bolder">3️⃣ 주요 기능</h2>
+                <p class="lead fw-normal text-muted mb-5">SnippLink를 사용해야 하는 주요 기능</p>
+            </div>
+            <div class="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
+                <div class="col mb-5 mb-5 mb-xl-0">
+                    <div class="text-center">
+                        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+                            <i class="bi bi-bar-chart-line"></i>
+                        </div>
+                        <h5 class="fw-bolder mb-3">접속 통계 확인</h5>
+                        <div class="fst-italic text-muted">누가 언제 클릭했는지, 얼마나 많이 클릭됐는지를 실시간으로 분석할 수 있어요.</div>
+                    </div>
+                </div>
+                <div class="col mb-5 mb-5 mb-xl-0">
+                    <div class="text-center">
+                        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+                            <i class="bi bi-link-45deg"></i>
+                        </div>
+                        <h5 class="fw-bolder mb-3">간편한 링크 공유</h5>
+                        <div class="fst-italic text-muted">긴 URL을 깔끔하게 줄여 더 쉽게 공유하고 전달할 수 있어요.</div>
+                    </div>
+                </div>
+                <div class="col mb-5 mb-5 mb-sm-0">
+                    <div class="text-center">
+                        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+                            <i class="bi bi-shield-lock"></i>
+                        </div>
+                        <h5 class="fw-bolder mb-3">링크 만료일 설정</h5>
+                        <div class="fst-italic text-muted">기간이 지난 링크는 자동으로 비활성화되어 불필요한 접근을 막을 수 있어요.</div>
+                    </div>
+                </div>
+                <div class="col mb-5">
+                    <div class="text-center">
+                        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+                            <i class="bi bi-gear"></i>
+                        </div>
+                        <h5 class="fw-bolder mb-3">유연한 링크 관리</h5>
+                        <div class="fst-italic text-muted">생성한 링크를 삭제하거나 비공개로 전환하는 등 관리 기능도 제공해요</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</th:block>
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        $(function () {
+
+        });
+    </script>
+</th:block>
+
 </html>

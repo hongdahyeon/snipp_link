@@ -22,7 +22,12 @@ public class SnippBbsList extends AuditMetaData {
 
     private Long bbsUid;
     private String bbsTp;
+    private String bbsTpNm;
     private String bbsNm;
     private String useAt;
     private String deleteAt;
+
+    public void setBbsTpNm(String bbsTpNm) {
+        this.bbsTpNm = bbsTpNm;
+    }
 }

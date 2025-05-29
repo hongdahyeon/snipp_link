@@ -1,25 +1,23 @@
-/* ckeditor */
+/* ======= ckeditor ======= */
 .ck-editor__editable{ min-height: 300px; }
 
-/* main */
+/* ======= main ======= */
 html, body {
     height: 100%;
     margin: 0;
     padding: 0;
 }
-
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
-
 main {
     flex: 1;
 }
 
 
-/* 동의화면 */
+/* ======= 동의화면 ======= */
 .join-container .scroll_box {
     border: 1px solid #c4c3c7;
     border-radius: 6px;
@@ -38,7 +36,7 @@ main {
 }
 
 
-/* sweetalert */
+/* ======= sweetalert ======= */
 .alert-confirm-btn {
     color: #fff !important;
     background-color: #0d6efd !important;
@@ -93,15 +91,13 @@ main {
 }
 
 
-/* grid */
+/* ======= grid ======= */
 .gridjs-wrapper {
     box-shadow: none !important;
 }
-
 .gridjs-search {
     padding: 10px !important;
 }
-
 .gridjs-custom-table {
     border-collapse: collapse !important;
     width: 100% !important;
@@ -110,36 +106,30 @@ main {
     border-bottom: 1px solid #ddd !important;
     overflow: hidden !important;
 }
-
 .gridjs-custom-thead {
     background-color: #f7f7f7 !important;
     font-weight: 600 !important;
     color: #333 !important;
     padding: 12px 10px !important;
 }
-
 .gridjs-custom-tbody {
     padding: 10px !important;
     color: #555 !important;
 }
-
 .gridjs-custom-thead th {
     background-color: transparent !important;
     border-bottom: 1px solid #e5e7eb;
     border-left: none;
     border-right: none;
 }
-
 .gridjs-custom-tbody td {
     /*border-top: 1px solid #e5e7eb;*/
     border-left: none;
     border-right: none;
 }
-
 .gridjs-custom-tbody tr {
     cursor: pointer;
 }
-
 .gridjs-custom-table-footer {
     color: #666 !important;
     font-size: 13px !important;
@@ -148,19 +138,29 @@ main {
     border-color: transparent !important;
     box-shadow: none !important;
 }
-
 .gridjs-custom-table-footer button:disabled {
     background-color: #e5e7eb !important;
     cursor: default !important;
 }
-
 .gridjs-custom-checkbox {
     width: 18px;
     height: 18px;
 }
+@media (max-width: 576px) {
+    .gridjs-summary,
+    .gridjs-pages {
+        display: block;         /* 세로로 쌓이게 변경 */
+        width: 100%;            /* 너비를 100%로 확장 */
+        text-align: center;     /* 가운데 정렬 (선택사항) */
+        margin-bottom: 0.5rem;  /* 아래쪽 간격 추가 */
+    }
+    .gridjs-pages {
+        margin-bottom: 0;       /* 마지막 요소라면 아래 마진 없애기 */
+    }
+}
 
 
-/* hr */
+/* ======= hr ======= */
 hr.custom-line {
     width: 100px; /* 선 길이 짧게 */
     border: 1px solid #0a58ca; /* 선 색깔 */
@@ -169,7 +169,7 @@ hr.custom-line {
 }
 
 
-/* html custom */
+/* ======= html/form custom ======= */
 .custom-pt-3 {
     padding-top: 3rem !important;
 }
@@ -182,3 +182,92 @@ hr.custom-line {
 .custom-pl-3 {
     padding-left: 3rem !important;
 }
+.custom-input {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    font-size: 1rem;
+    height: auto;
+}
+.custom-select {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    font-size: 1rem;
+    height: auto;
+}
+.custom-label {
+    font-size: 14px;
+    font-weight: 400;
+    margin-left: 3px;
+}
+span.required {
+    color: firebrick;
+    margin-left: 2px;
+    font-size: 15px;
+}
+.invalid-feedback {
+    margin-left: 3px;
+}
+
+/*  ======= custom button  ======= */
+/* 기본 버튼 */
+.btn-primary-custom {
+    background-color: #85abee;
+    color: white;
+    border: none;
+    padding: 0.5rem 1.25rem;
+    font-size: 1rem;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    user-select: none;
+    min-width: 120px; /* 기본 너비 */
+}
+.btn-primary-custom:hover:not(:disabled) {
+    background-color: #6898ed;
+}
+.btn-primary-custom:disabled {
+    background-color: #9ab3df;
+    cursor: default;
+    opacity: 0.6;
+}
+/* 취소 버튼 */
+.btn-cancel-custom {
+    background-color: #b2baca;
+    color: white;
+    border: none;
+    padding: 0.5rem 1.25rem;
+    font-size: 1rem;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    user-select: none;
+    min-width: 120px; /* 기본 너비 */
+}
+.btn-cancel-custom:hover:not(:disabled) {
+    background-color: #a2a8b0; /* 좀 더 진해진 연회색 */
+}
+.btn-cancel-custom:disabled {
+    background-color: #d5d9e0;
+    cursor: default;
+    opacity: 0.6;
+}
+
+
+
+/* ======= after ======= */
+.heading-underline h1 {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.65rem;
+}
+.heading-underline h1::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 45%; /* 밑줄 길이 조절 (텍스트보다 살짝 짧게) */
+    height: 3px;
+    background-color: #85abee; /* 강조 색상 */
+    border-radius: 2px;
+}
+

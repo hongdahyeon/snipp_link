@@ -56,7 +56,8 @@
 
     <select id="page" resultType="SnippBbsList" parameterType="SnippBbsParam">
         /* snippBbs.page */
-        SELECT SB.UID AS BBS_UID
+        SELECT CONCAT('MAIN', '_', SB.UID) AS MAIN_ID
+              ,SB.UID AS BBS_UID
               ,SB.BBS_TP
               ,SB.BBS_NM
               ,SB.USE_AT
@@ -64,9 +65,11 @@
               ,SB.REG_UID
               ,SB.REG_DT
               ,SU_REG.USER_ID AS REG_ID
+              ,SU_REG.USER_NM AS REG_NM
               ,SB.UPDT_UID
               ,SB.UPDT_DT
               ,SU_UPDT.USER_ID AS UPDT_ID
+              ,SU_UPDT.USER_NM AS UPDT_NM
           FROM SNP_BBS SB
           LEFT JOIN SNP_USER SU_REG ON SU_REG.UID = SB.REG_UID
           LEFT JOIN SNP_USER SU_UPDT ON SU_UPDT.UID = SB.UPDT_UID
@@ -144,5 +147,15 @@
                ,UPDT_DT = NOW()
           WHERE UID = #{uid}
     </delete>
+
+    <select id="view" parameterType="SnippBbs">
+        /* snippBbs.view */
+        SELECT UID
+              ,BBS_TP
+              ,BBS_NM
+              ,USE_AT
+          FROM SNP_BBS
+         WHERE UID = #{uid}
+    </select>
 
 </mapper>

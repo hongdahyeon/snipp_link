@@ -347,6 +347,14 @@ class GridTable {
         return this._datas[mainId];
     }
 
+    /***
+     * row 데이터 조회
+     * */
+    getRowDataFull(row) {
+        const mainId = row._cells[0]['data']
+        return this.getRowData(mainId);
+    }
+
     /**
      * 체크박스 체크된 row 목록 리턴
      * */

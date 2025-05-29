@@ -42,8 +42,7 @@ var testJs = {
             }))
             .add(new Column('userEmail', '유저 이메일').formatter((cell, row, col) => {
 
-                const mainId = row._cells[0]['data']
-                const rowData = testJs.table.getRowData(mainId)
+                const rowData = testJs.table.getRowDataFull(row)
                 console.log(">>> ", rowData)
 
                 return Grid.custom('button', {

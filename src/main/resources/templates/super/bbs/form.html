@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+
+<th:block layout:fragment="content">
+
+    <section class="py-5">
+        <div class="container">
+            <div class="text-left px-5 py-5 mb-5 bg-light">
+                <div class="text-left heading-underline">
+                    <h1 class="fw-bolder">게시판 등록</h1>
+                </div>
+            </div>
+            <div class="gx-5">
+                <div class="d-flex flex-column flex-md-row justify-content-between mb-2 gap-2">
+                    <div class="d-flex gap-2"></div>
+                    <div>
+                        <button type="button" id="save-btn" class="btn-primary-custom">저장</button>
+                        <button type="button" id="cancel-btn" class="btn-cancel-custom">취소</button>
+                        <button type="button" id="delete-btn" class="btn-cancel-custom">삭제</button>
+                    </div>
+                </div>
+
+                <div class="card rounded-3 py-5 px-4">
+                    <form id="save-form" novalidate="" class="needs-validation">
+                        <div class="row mb-4">
+                            <div class="col-lg-6 col-xl-6">
+                                <div class="mb-3">
+                                    <label class="form-label custom-label" for="bbsNm">게시판명<span class="required">*</span></label>
+                                    <input class="form-control custom-input" id="bbsNm" name="bbsNm" type="text" placeholder="게시판명을 입력하세요." th:value="${view?.bbsNm}" required="">
+                                    <div class="invalid-feedback">필수 입력값입니다.</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-xl-6">
+                                <div class="mb-3">
+                                    <label class="form-label custom-label" for="bbsTp">게시판 유형<span class="required">*</span></label>
+                                    <select id="bbsTp" name="bbsTp" class="form-select custom-select" readonly="" disabled>
+                                        <option th:each="code, codeStat : ${bbsTpCds}" th:value="${code?.code}" th:text="${code?.name}" th:selected="${view?.bbsTp == code?.code}"></option>
+                                    </select>
+                                    <div class="invalid-feedback">필수 입력값입니다.</div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-xl-6">
+                                <div class="mb-3">
+                                    <label class="form-label custom-label" for="bbsNm">게시판명<span class="required">*</span></label>
+                                    <div class="d-flex gap-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="useAt" value="Y" id="useAt-Y" th:checked="${view?.useAt == 'Y'}">
+                                            <label class="form-check-label" for="useAt-Y">사용</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="useAt" value="N" id="useAt-N" th:checked="${view?.useAt == 'N'}">
+                                            <label class="form-check-label" for="useAt-N">미사용</label>
+                                        </div>
+                                    </div>
+                                    <div class="invalid-feedback">필수 입력값입니다.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</th:block>
+
+<th:block layout:fragment="script">
+    <script th:src="@{'/assets/js/page/super/bbs.js'}"></script>
+    <script th:inline="javascript">
+
+        const uid = [[${uid}]]
+
+        $(function () {
+
+            $("#save-btn").on('click', () => {
+                bbsJS.updateBbsForm();
+            });
+
+            $("#cancel-btn").on('click', () => {
+                Sweet.confirm('작성중이신 정보는 저장되지 않습니다. <br> 목록으로 돌아가시겠습니까?').then((isOk) => {
+                    if(isOk) {
+                        window.location.href = '/snipp/bbs/super'
+                    }
+                })
+            });
+
+            $("#delete-btn").on('click',() => {
+               bbsJS.deleteBbs();
+            });
+        });
+
+    </script>
+</th:block>
+
+</html>
