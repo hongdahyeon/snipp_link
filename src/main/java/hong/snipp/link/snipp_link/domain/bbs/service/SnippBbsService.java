@@ -126,4 +126,15 @@ public class SnippBbsService {
         return mapper.view(uid);
     }
 
+    /**
+     * @method      findRecentBbs
+     * @author      dahyeon
+     * @date        2025-05-30
+     * @deacription 가장 최근 등록된 {bbsTp}에 해당하는 게시판 단건 조회
+    **/
+    @Transactional
+    public SnippBbs findRecentBbs(String bbsTp) {
+        return mapper.getRecentBbs(bbsTp);
+    }
+
 }

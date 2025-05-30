@@ -48,7 +48,7 @@ class GridTable {
      * */
     useIndex(name) {
         this._useIndexColumn = true;
-        const column = new Column('index', name).width("5%").useByIndex();
+        const column = new Column('index', name).width("7%").useByIndex();
         this._columns.push(column);
         return this;
     }
@@ -64,8 +64,8 @@ class GridTable {
     /*
     * 검색어 기능을 이용할 경우 -> 검색어 {keyword} 값 세팅
     * */
-    search(keyword) {
-        this._useSearch = true;
+    search(keyword, useSearch = true) {
+        this._useSearch = useSearch;
         this._searchKeyword = keyword;
         return this;
     }

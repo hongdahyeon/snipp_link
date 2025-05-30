@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<script th:inline="javascript">
+
+    async function drawFaqCards() {
+        const res = await Http.get(`/snipp/api/board/page?bbsUid=${bbsUid}`);
+        console.log('res : ', res)
+        getHandlebars_card("faqCard-div-template", "faqCard-div", res);
+    }
+
+    function getHandlebars_card(templateId, insertId, data) {
+        const dom = $("#" + templateId);
+        const source = dom.html();
+        const template = Handlebars.compile(source);
+        const items = template(data)
+        $("#"+ insertId).html(items);
+    }
+
+    function changeToStr(obj){
+        let str = ''
+        for (const key in obj) {
+            const value = obj[key];
+            if(value) str = str + `&${key}=${value}`
+        }
+        return str
+    }
+
+    Handlebars.registerHelper('formatCnt', function(bbscttCnt) {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = bbscttCnt;
+        tempDiv.innerHTML = tempDiv.innerHTML.replace(/<br\s*\/?>/gi, '<br/>');
+        return tempDiv.innerHTML.replace(/<(?!\/?br\/?)[^>]+>/gi, '')
+    });
+
+</script>

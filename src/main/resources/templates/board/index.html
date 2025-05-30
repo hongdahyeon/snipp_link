@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+
+<th:block layout:fragment="content">
+
+  <section class="py-5" th:if="${type == 'free'}">
+    <div class="container">
+      <div class="text-left px-5 py-5 mb-5 bg-light">
+        <div class="text-left heading-underline">
+          <h1 class="fw-bolder" th:text="${recentBbs?.bbsNm}"></h1>
+        </div>
+      </div>
+      <div class="gx-5">
+        <div class="d-flex flex-column flex-md-row justify-content-between mb-2 gap-2">
+          <div class="d-flex gap-2"></div>
+          <div>
+            <button type="button" class="btn-primary-custom goto-write">게시글 작성하기</button>
+          </div>
+        </div>
+        <div id="board-table"></div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="py-5" th:if="${type == 'faq'}">
+    <div class="container px-5 my-5">
+      <div class="text-center mb-5">
+        <h1 class="fw-bolder" th:text="${recentBbs?.bbsNm}"></h1>
+      </div>
+      <div class="row gx-5">
+        <div class="d-flex flex-column flex-md-row justify-content-between mb-2 gap-2" th:if="${#authentication.authenticated and #authorization.expression('hasRole(''ROLE_SUPER'')')}">
+          <div class="d-flex gap-2"></div>
+          <div>
+            <button type="button" class="btn-primary-custom goto-write">게시글 작성하기</button>
+          </div>
+        </div>
+        <div class="col-xl-4">
+          <div class="card border-0 shadow-sm p-2" style="background-color: #85abee69;">
+            <ul class="list-group list-group-flush category-list">
+              <li class="list-group-item pb-3">
+                <strong class="parent" data-uid="1">회사규정</strong>
+                <ul class="mt-2 ps-3">
+                  <li class="mb-2"><a href="#" class="text-muted" data-uid="2" data-upper="1">취업규칙</a></li>
+                  <li class="mb-2"><a href="#" class="text-muted" data-uid="3" data-upper="1">규정</a></li>
+                  <li class="mb-2"><a href="#" class="text-muted selected" data-uid="4" data-upper="1">지침</a></li>
+                </ul>
+              </li>
+              <li class="list-group-item pb-1">
+                <strong class="parent" data-uid="5">양식 / 계약서</strong>
+                <ul class="mt-2 ps-3">
+                  <li class="mb-2"><a href="#" class="text-muted" data-uid="6" data-upper="5">양식</a></li>
+                  <li class="mb-2"><a href="#" class="text-muted" data-uid="7" data-upper="5">계약서</a></li>
+                  <li class="mb-2"><a href="#" class="text-muted" data-uid="8" data-upper="5">청구서</a></li>
+                  <li class="mb-2"><a href="#" class="text-muted" data-uid="9" data-upper="5">기타</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <span class="cl-span">분류 수정 및 추가하기</span>
+          <div class="card border-0 shadow-sm p-2" id="test-tree-div"></div>
+        </div>
+        <div class="col-xl-8">
+          <th:block th:replace="board/faq/faqCard :: faqCard"></th:block>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</th:block>
+
+<th:block layout:fragment="script">
+  <th:block th:replace="board/faq/faqCard-script :: script"></th:block>
+  <script th:src="@{'/assets/js/page/board/board.js'}"></script>
+  <script th:inline="javascript">
+
+    const type = [[${type}]]
+    const bbsUid = [[${recentBbs.uid}]]
+
+    $(function () {
+
+      boardJS.initPage();
+
+      $(".goto-write").on('click', () => {
+        window.location.href = `/snipp/board/${type}/save`
+      });
+
+      $('.cl-span').on('click', () => {
+        // 분류 트리 팝업 열기
+      });
+
+      $(".update-board").on('click', function (e) {
+        const uid = $(this).data('uid')
+        console.log("update > uid : ", uid)
+      });
+
+      $(".delete-board").on('click', function (e) {
+        const uid = $(this).data('uid')
+        console.log("delete > uid : ", uid)
+      });
+
+      $(document).on('click', '.category-list a', function (e) {
+        e.preventDefault();
+        $('.category-list a').removeClass('selected');
+        $(this).addClass('selected');
+        const uid = $(this).data('uid')
+        const upper = $(this).data('upper')
+        console.log("uid : ", uid)
+        console.log("upper : ", upper)
+      });
+
+    });
+
+  </script>
+</th:block>
+
+</html>

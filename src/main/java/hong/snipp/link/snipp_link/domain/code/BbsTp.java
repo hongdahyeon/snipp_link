@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
  * 2025-04-15        work       최초 생성
  * 2025-04-22        work       BBS_BOARD -> BBS_FREE
  * 2025-05-29        work       {getDescriptionByCode} 추가
+ * 2025-05-30        work       board => free
  */
 @Getter
 public enum BbsTp {
@@ -25,7 +26,7 @@ public enum BbsTp {
     BBS_FAQ("faq", "FAQ"),
     BBS_QNA("qna", "1:1문의"),
     BBS_NOTICE("notice", "공지사항"),
-    BBS_FREE("board", "자유 게시판");
+    BBS_FREE("free", "자유 게시판");
 
     private String text;
     private String description;
@@ -48,6 +49,15 @@ public enum BbsTp {
         for (BbsTp bbsTp : BbsTp.values()) {
             if (bbsTp.name().equals(code)) {
                 return bbsTp.description;
+            }
+        }
+        return null; // 또는 "Unknown" 등으로 처리 가능
+    }
+
+    public static BbsTp getBbsTpByText(String text) {
+        for (BbsTp bbsTp : BbsTp.values()) {
+            if (bbsTp.getText().equals(text)) {
+                return bbsTp;
             }
         }
         return null; // 또는 "Unknown" 등으로 처리 가능

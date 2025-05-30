@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
  * 2025-04-16        work       snip -> snipp 변경
+ * 2025-05-30        work       useAt, thumbnailSrc 필드 추가
  */
 @Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SnippBoard extends AuditBean {
@@ -26,6 +27,8 @@ public class SnippBoard extends AuditBean {
     private Long bbsUid;
     private String title;
     private String content;
+    private String useAt;
+    private String thumbnailSrc;
     private String deleteAt;
 
     /**
@@ -38,6 +41,8 @@ public class SnippBoard extends AuditBean {
         this.bbsUid = request.getBbsUid();
         this.title = request.getTitle();
         this.content = request.getContent();
+        this.useAt = request.getUseAt();
+        this.thumbnailSrc = request.getThumbnailSrc();
     }
 
     /**

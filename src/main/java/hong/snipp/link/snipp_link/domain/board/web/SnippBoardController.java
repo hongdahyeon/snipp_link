@@ -1,9 +1,14 @@
 package hong.snipp.link.snipp_link.domain.board.web;
 
+import hong.snipp.link.snipp_link.domain.bbs.domain.SnippBbs;
+import hong.snipp.link.snipp_link.domain.bbs.service.SnippBbsService;
 import hong.snipp.link.snipp_link.domain.board.service.SnippBoardService;
+import hong.snipp.link.snipp_link.domain.code.BbsTp;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -16,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-22        work       최초 생성
+ * 2025-05-30        work       index, view, form, save 메소드 추가
  */
 @Controller
 @RequiredArgsConstructor
@@ -23,24 +29,53 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SnippBoardController {
 
     private final SnippBoardService service;
+    private final SnippBbsService bbsService;
 
-    @GetMapping("/faq")
-    public String faq() {
-        return "board/faq/index";
+    @GetMapping("/{type}")
+    public String index(@PathVariable("type") String type, Model model) {
+        BbsTp code = BbsTp.getBbsTpByText(type);
+        if(code == null) return "error/error";
+
+        SnippBbs recentBbs = bbsService.findRecentBbs(code.name());
+        if(recentBbs == null) return "error/error";
+
+        model.addAttribute("recentBbs", recentBbs);
+        return "board/index";
     }
 
-    @GetMapping("/qna")
-    public String qna() {
-        return "board/qna/index";
+    @GetMapping("/{type}/{bbscttUid}")
+    public String view(@PathVariable("type") String type, @PathVariable("bbscttUid") Long bbscttUid, Model model) {
+        BbsTp code = BbsTp.getBbsTpByText(type);
+        if(code == null) return "error/error";
+
+        SnippBbs recentBbs = bbsService.findRecentBbs(code.name());
+        if(recentBbs == null) return "error/error";
+
+        model.addAttribute("recentBbs", recentBbs);
+        return "board/view";
     }
 
-    @GetMapping("/free")
-    public String free() {
-        return "board/free/index";
+    @GetMapping("/{type}/form/{bbscttUid}")
+    public String form(@PathVariable("type") String type, @PathVariable("bbscttUid") Long bbscttUid, Model model) {
+        BbsTp code = BbsTp.getBbsTpByText(type);
+        if(code == null) return "error/error";
+
+        SnippBbs recentBbs = bbsService.findRecentBbs(code.name());
+        if(recentBbs == null) return "error/error";
+
+        model.addAttribute("recentBbs", recentBbs);
+        return "board/form";
     }
 
-    @GetMapping("/notice")
-    public String notice() {
-        return "board/notice/index";
+    @GetMapping("/{type}/save")
+    public String save(@PathVariable("type") String type, Model model) {
+        BbsTp code = BbsTp.getBbsTpByText(type);
+        if(code == null) return "error/error";
+
+        SnippBbs recentBbs = bbsService.findRecentBbs(code.name());
+        if(recentBbs == null) return "error/error";
+
+        model.addAttribute("recentBbs", recentBbs);
+        return "board/save";
     }
 }

@@ -9,7 +9,7 @@
         <div class="container">
             <div class="text-left px-5 py-5 mb-5 bg-light">
                 <div class="text-left heading-underline">
-                    <h1 class="fw-bolder">게시판 등록</h1>
+                    <h1 class="fw-bolder">게시글 등록</h1>
                 </div>
             </div>
             <div class="gx-5">
@@ -18,46 +18,55 @@
                     <div>
                         <button type="button" id="save-btn" class="btn-primary-custom">저장</button>
                         <button type="button" id="cancel-btn" class="btn-cancel-custom">취소</button>
-                        <button type="button" id="delete-btn" class="btn-cancel-custom">삭제</button>
                     </div>
                 </div>
 
                 <div class="card rounded-3 py-5 px-4">
                     <form id="save-form" novalidate="" class="needs-validation" style="padding: 20px;">
                         <div class="row mb-4">
-                            <div class="col-lg-6 col-xl-6">
+                            <div class="col-lg-12 col-xl-12">
                                 <div class="mb-3">
-                                    <label class="form-label custom-label" for="bbsNm">게시판명<span class="required">*</span></label>
-                                    <input class="form-control custom-input" id="bbsNm" name="bbsNm" type="text" placeholder="게시판명을 입력하세요." th:value="${view?.bbsNm}" required="">
+                                    <label class="form-label custom-label" for="title">제목<span class="required">*</span></label>
+                                    <input class="form-control custom-input" id="title" name="title" type="text" placeholder="제목을 입력하세요." required="">
                                     <div class="invalid-feedback">필수 입력값입니다.</div>
                                 </div>
-                            </div>
-                            <div class="col-lg-6 col-xl-6">
-                                <div class="mb-3">
-                                    <label class="form-label custom-label" for="bbsTp">게시판 유형<span class="required">*</span></label>
-                                    <select id="bbsTp" name="bbsTp" class="form-select custom-select" readonly="" disabled>
-                                        <option th:each="code, codeStat : ${bbsTpCds}" th:value="${code?.code}" th:text="${code?.name}" th:selected="${view?.bbsTp == code?.code}"></option>
-                                    </select>
-                                    <div class="invalid-feedback">필수 입력값입니다.</div>
-                                </div>
-
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-4">
                             <div class="col-lg-6 col-xl-6">
                                 <div class="mb-3">
                                     <label class="form-label custom-label" for="useAt-div">사용여부<span class="required">*</span></label>
                                     <div class="d-flex gap-4" id="useAt-div">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="useAt" value="Y" id="useAt-Y" th:checked="${view?.useAt == 'Y'}">
+                                            <input class="form-check-input" type="radio" name="useAt" value="Y" id="useAt-Y" checked="">
                                             <label class="form-check-label" for="useAt-Y">사용</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="useAt" value="N" id="useAt-N" th:checked="${view?.useAt == 'N'}">
+                                            <input class="form-check-input" type="radio" name="useAt" value="N" id="useAt-N">
                                             <label class="form-check-label" for="useAt-N">미사용</label>
                                         </div>
                                     </div>
                                     <div class="invalid-feedback">필수 입력값입니다.</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-xl-6" th:if="${type == 'faq'}">
+                                <div class="mb-3">
+                                    <label class="form-label custom-label" for="clUid">분류 선택<span class="required">*</span></label>
+                                    <select id="clUid" name="clUid" class="form-select custom-select" required>
+                                        <option value="">게시판 분류를 선택하세요.</option>
+                                    </select>
+                                    <div class="invalid-feedback">필수 입력값입니다.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-xl-12">
+                                <div class="mb-3">
+                                    <label class="form-label custom-label" for="content-ckeditor">내용<span class="required">*</span></label>
+                                    <div>
+                                        <div id="content-ckeditor"></div>
+                                    </div>
+                                    <span class="validation-error-message" id="content-ckeditor-error"></span>
                                 </div>
                             </div>
                         </div>
@@ -68,31 +77,34 @@
         </div>
     </section>
 
+    <th:block th:replace="board/thumbnail/thumbnail-modal :: thumbnail-modal"></th:block>
+
 </th:block>
 
 <th:block layout:fragment="script">
-    <script th:src="@{'/assets/js/page/super/bbs.js'}"></script>
+    <th:block th:replace="board/thumbnail/thumbnail-modal-script::script"></th:block>
+    <script th:src="@{'/assets/js/page/board/board.js'}"></script>
     <script th:inline="javascript">
 
-        const uid = [[${uid}]]
+        const type = [[${type}]]
+        const bbsUid = [[${recentBbs.uid}]]
 
         $(function () {
 
+            boardJS.initContent();
+
             $("#save-btn").on('click', () => {
-                bbsJS.updateBbsForm();
+                boardJS.saveBoardForm();
             });
 
             $("#cancel-btn").on('click', () => {
                 Sweet.confirm('작성중이신 정보는 저장되지 않습니다. <br> 목록으로 돌아가시겠습니까?').then((isOk) => {
                     if(isOk) {
-                        window.location.href = '/snipp/bbs/super'
+                        window.location.href = `/snipp/board/${type}`
                     }
                 })
             });
 
-            $("#delete-btn").on('click',() => {
-               bbsJS.deleteBbs();
-            });
         });
 
     </script>
