@@ -25,5 +25,6 @@ public class SnippBoardList extends AuditMetaData {
     private String title;
     private String content;
     private String deleteAt;
+    private String useAt;
 
 }

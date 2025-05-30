@@ -31,84 +31,89 @@
         <h1 class="fw-bolder" th:text="${recentBbs?.bbsNm}"></h1>
       </div>
       <div class="row gx-5">
-        <div class="d-flex flex-column flex-md-row justify-content-between mb-2 gap-2" th:if="${#authentication.authenticated and #authorization.expression('hasRole(''ROLE_SUPER'')')}">
-          <div class="d-flex gap-2"></div>
-          <div>
-            <button type="button" class="btn-primary-custom goto-write">게시글 작성하기</button>
+        <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+          <div class="d-flex flex-column flex-md-row justify-content-between mb-2 gap-2" th:if="${#authorization.expression('hasRole(''ROLE_SUPER'')')}">
+            <div class="d-flex gap-2"></div>
+            <div>
+              <button type="button" class="btn-primary-custom goto-write">게시글 작성하기</button>
+            </div>
           </div>
-        </div>
+        </th:block>
         <div class="col-xl-4">
           <div class="card border-0 shadow-sm p-2" style="background-color: #85abee69;">
-            <ul class="list-group list-group-flush category-list">
-              <li class="list-group-item pb-3">
-                <strong class="parent" data-uid="1">회사규정</strong>
-                <ul class="mt-2 ps-3">
-                  <li class="mb-2"><a href="#" class="text-muted" data-uid="2" data-upper="1">취업규칙</a></li>
-                  <li class="mb-2"><a href="#" class="text-muted" data-uid="3" data-upper="1">규정</a></li>
-                  <li class="mb-2"><a href="#" class="text-muted selected" data-uid="4" data-upper="1">지침</a></li>
-                </ul>
-              </li>
-              <li class="list-group-item pb-1">
-                <strong class="parent" data-uid="5">양식 / 계약서</strong>
-                <ul class="mt-2 ps-3">
-                  <li class="mb-2"><a href="#" class="text-muted" data-uid="6" data-upper="5">양식</a></li>
-                  <li class="mb-2"><a href="#" class="text-muted" data-uid="7" data-upper="5">계약서</a></li>
-                  <li class="mb-2"><a href="#" class="text-muted" data-uid="8" data-upper="5">청구서</a></li>
-                  <li class="mb-2"><a href="#" class="text-muted" data-uid="9" data-upper="5">기타</a></li>
-                </ul>
-              </li>
-            </ul>
+            <div id="board-cl-faq"></div>
           </div>
-          <span class="cl-span">분류 수정 및 추가하기</span>
-          <div class="card border-0 shadow-sm p-2" id="test-tree-div"></div>
+          <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+            <span class="cl-span" th:if="${#authorization.expression('hasRole(''ROLE_SUPER'')')}">
+              분류 수정 및 추가하기
+            </span>
+          </th:block>
         </div>
         <div class="col-xl-8">
-          <th:block th:replace="board/faq/faqCard :: faqCard"></th:block>
+          <th:block th:replace="~{board/faq/faqCard :: faqCard}"></th:block>
         </div>
       </div>
     </div>
   </section>
 
+  <th:block th:replace="~{board/faq/faqClModal :: faqCl-modal}"></th:block>
+
 </th:block>
 
 <th:block layout:fragment="script">
-  <th:block th:replace="board/faq/faqCard-script :: script"></th:block>
+  <th:block th:replace="~{board/faq/faqCard-script :: script}"></th:block>
+  <th:block th:replace="~{board/faq/faqClModal-script::script}"></th:block>
+  <script th:src="@{'/assets/js/page/board/faqCl.js'}"></script>
   <script th:src="@{'/assets/js/page/board/board.js'}"></script>
   <script th:inline="javascript">
 
     const type = [[${type}]]
     const bbsUid = [[${recentBbs.uid}]]
+    let clUid = 0;
 
     $(function () {
 
       boardJS.initPage();
 
+      /* 게시글 작성하러 가기 이벤트 */
       $(".goto-write").on('click', () => {
         window.location.href = `/snipp/board/${type}/save`
       });
 
+      /* [FAQ] 분류 관련 이벤트 */
       $('.cl-span').on('click', () => {
-        // 분류 트리 팝업 열기
+        faqClModal.openModal();
+      });
+      $('#cl-save-btn').on('click', () => {
+        faqClModal.updateFaqCl();
+      });
+      $('#cl-delete-btn').on('click', () => {
+        faqClModal.deleteClEvent();
+      });
+      $('#cl-close-btn').on('click', () => {
+        faqClModal.closeModal();
       });
 
+      /* [FAQ] 게시글 수정하러 가기 버튼 이벤트 */
       $(".update-board").on('click', function (e) {
         const uid = $(this).data('uid')
         console.log("update > uid : ", uid)
       });
-
+      /* [FAQ] 게시글 삭제하기 버튼 이벤트 */
       $(".delete-board").on('click', function (e) {
         const uid = $(this).data('uid')
         console.log("delete > uid : ", uid)
       });
 
+      /* [FAQ] 분류 클릭 이벤트 */
       $(document).on('click', '.category-list a', function (e) {
         e.preventDefault();
         $('.category-list a').removeClass('selected');
         $(this).addClass('selected');
-        const uid = $(this).data('uid')
-        const upper = $(this).data('upper')
-        console.log("uid : ", uid)
-        console.log("upper : ", upper)
+        const uid = $(this).data('uid');
+        const upper = $(this).data('upper');
+        clUid = uid;
+        faqCard.drawFaqBoardCards();
       });
 
     });

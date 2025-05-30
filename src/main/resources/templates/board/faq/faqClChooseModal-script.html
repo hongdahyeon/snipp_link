@@ -1,0 +1,43 @@
+<!-- 게시글 등록 > FAQ > 분류 선택하기 모달 > 스크립트 -->
+<script th:inline="javascript">
+
+    var faqClChooseModal = {
+
+         tree: null
+        ,selectNo: null
+        ,selectClNm: ''
+
+        , initTree: function () {
+            return new Promise((resolve, reject) => {
+                faqClChooseModal.tree = new Tree("faqCl-change-tree", false, false);
+                faqClChooseModal.tree.drawTree(`/snipp/api/bbs-cl/list`, () => {
+                    return {bbsUid}
+                });
+                faqClChooseModal.tree.customTreeSelectEvent((e, d) => {
+                    faqClChooseModal.faqClSelectEvent(e, d);
+                });
+                resolve();
+            })
+        }
+
+        ,faqClSelectEvent: function (e, data) {
+            const nodeData = data.node.data;
+            faqClChooseModal.selectNo = nodeData['no']
+            faqClChooseModal.selectClNm = nodeData['text']
+        }
+
+        ,openModal: function () {
+            faqClChooseModal.initTree().then(() => {
+                $("#faqClChooseModal").modal('show')
+            })
+        }
+
+        ,closeModal: async function () {
+            faqClChooseModal.tree.destroyTree();
+            $("#choose-clUid").val(faqClChooseModal.selectNo);
+            $("#choose-clNm").val(faqClChooseModal.selectClNm);
+            $("#faqClChooseModal").modal('hide');
+        }
+    }
+
+</script>

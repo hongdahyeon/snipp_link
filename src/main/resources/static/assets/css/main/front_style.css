@@ -58,3 +58,5 @@
 .cl-span:hover {
     font-weight: bold;
 }
+.content-view .ck-editor__editable_inline { border: none !important; outline: none !important; }
+.content-view .ck-editor__top { display: none; }

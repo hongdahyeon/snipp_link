@@ -1,3 +1,4 @@
+<!-- 게시글 목록 > FAQ 리스트 -->
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="faqCard">
 
@@ -21,18 +22,18 @@
         </h3>
         <div id="collapse-{{@index}}" class="accordion-collapse collapse"
              aria-labelledby="heading-{{@index}}" data-bs-parent="#accordionExample">
-          <div class="accordion-body">
-            <div class="content-div">
-              {{{ formatCnt content }}}
-            </div>
+          <div class="accordion-body content-view">
+            <div class="content-div"  id="ckeditor-{{@index}}"></div>
             <div class="file-div">
               <!--  -->
             </div>
-            <div class="button-div text-end"
-                 th:if="${#authentication.authenticated and (user.uid == regUid or #authorization.expression('hasRole(''ROLE_SUPER'')'))}">
-              <button type="button" class="btn-primary-custom update-board" data-uid="{{boardUid}}">수정</button>
-              <button type="button" class="btn-cancel-custom delete-board" data-uid="{{boardUid}}">삭제</button>
-            </div>
+            <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+              <div class="button-div text-end"
+                   th:if="${(user.uid == regUid or #authorization.expression('hasRole(''ROLE_SUPER'')'))}">
+                <button type="button" class="btn-primary-custom update-board" data-uid="{{boardUid}}">수정</button>
+                <button type="button" class="btn-cancel-custom delete-board" data-uid="{{boardUid}}">삭제</button>
+              </div>
+            </th:block>
           </div>
         </div>
       </div>

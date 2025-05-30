@@ -1,5 +1,7 @@
 package hong.snipp.link.snipp_link.domain.bbscl.domain;
 
+import hong.snipp.link.snipp_link.domain.bbscl.dto.request.SnippBbsClChange;
+import hong.snipp.link.snipp_link.domain.bbscl.dto.request.SnippBbsClSave;
 import hong.snipp.link.snipp_link.global.bean.audit.AuditBean;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -25,5 +27,31 @@ public class SnippBbsCl extends AuditBean {
     private Long upperCl;
     private Long bbsUid;
     private Long sortNo;
+
+    /**
+     * @method      SnippBbsCl 생성자 1
+     * @author      dahyeon
+     * @date        2025-05-30
+     * @deacription 분류 저장용 생성자 1
+    **/
+    public SnippBbsCl(SnippBbsClSave request) {
+        this.clNm = request.getClNm();
+        this.upperCl = request.getUpperCl();
+        this.bbsUid = request.getBbsUid();
+        this.sortNo = request.getSortNo();
+    }
+
+    /**
+     * @method      changeBbsCl 생성자 2
+     * @author      dahyeon
+     * @date        2025-05-30
+     * @deacription 분류 수정용 생성자 2
+    **/
+    public SnippBbsCl changeBbsCl(Long uid, SnippBbsClChange request) {
+        this.uid = uid;
+        this.clNm = (request.getClNm() != null) ? request.getClNm() : this.clNm;
+        this.sortNo = (request.getSortNo() != null) ? request.getSortNo() : this.sortNo;
+        return this;
+    }
 }
 

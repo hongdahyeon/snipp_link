@@ -38,56 +38,51 @@ main {
 
 /* ======= sweetalert ======= */
 .alert-confirm-btn {
-    color: #fff !important;
-    background-color: #0d6efd !important;
-    border: 1px solid #0d6efd !important;
-    padding: 0.55rem 0.85rem 0.55rem 0.85rem !important;
-    font-size: 0.875rem !important;
+    background-color: #85abee;
+    color: white;
+    border: none;
+    padding: 0.5rem 1.25rem;
+    font-size: 1rem;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    user-select: none;
+    min-width: 120px; /* 기본 너비 */
 }
 .alert-confirm-btn:hover {
-    color: #fff !important;
-    background-color: #0b5ed7 !important;
-    border-color: #0a58ca !important;
+    background-color: #6898ed;
+
 }
 .alert-confirm-btn:focus {
-    box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5) !important;
-}
-.alert-confirm-btn:active {
-    color: #fff !important;
-    background-color: #0a58ca !important;
-    border-color: #0a53be !important;
-    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125) !important;
+    background-color: #6898ed;
 }
 .alert-confirm-btn:disabled {
-    color: #fff !important;
-    background-color: #0d6efd !important;
-    border-color: #0d6efd !important;
+    background-color: #9ab3df;
+    cursor: default;
+    opacity: 0.6;
 }
 .alert-cancel-btn {
-    color: #fff !important;
-    background-color: #6c757d !important;
-    border: 1px solid #6c757d !important;
-    padding: 0.55rem 0.85rem 0.55rem 0.85rem !important;
-    font-size: 0.875rem !important;
+    background-color: #b2baca;
+    color: white;
+    border: none;
+    padding: 0.5rem 1.25rem;
+    font-size: 1rem;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    user-select: none;
+    min-width: 120px; /* 기본 너비 */
 }
 .alert-cancel-btn:hover {
-    color: #fff !important;
-    background-color: #5c636a !important;
-    border-color: #565e64 !important;
+    background-color: #a2a8b0; /* 좀 더 진해진 연회색 */
 }
 .alert-cancel-btn:focus {
-    box-shadow: 0 0 0 0.25rem rgba(130, 138, 145, 0.5) !important;
-}
-.alert-cancel-btn:active {
-    color: #fff !important;
-    background-color: #565e64 !important;
-    border-color: #51585e !important;
-    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125) !important;
+    background-color: #a2a8b0; /* 좀 더 진해진 연회색 */
 }
 .alert-cancel-btn:disabled {
-    color: #fff !important;
-    background-color: #6c757d !important;
-    border-color: #6c757d !important;
+    background-color: #d5d9e0;
+    cursor: default;
+    opacity: 0.6;
 }
 
 
@@ -306,4 +301,10 @@ span.required {
 }
 .thumbnail-item input[type="radio"] {
     display: none;
+}
+
+
+/* ======= tree ======= */
+.vakata-context {
+    z-index: 1061 !important; /* Bootstrap 모달보다 높은 값 */
 }

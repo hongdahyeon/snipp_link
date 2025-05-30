@@ -18,6 +18,7 @@
             ,CONTENT
             ,USE_AT
             ,THUMBNAIL_SRC
+            ,CL_UID
             ,DELETE_AT
             ,REG_UID
             ,REG_DT
@@ -29,6 +30,7 @@
             ,#{content}
             ,#{useAt}
             ,#{thumbnailSrc}
+            ,#{clUid}
             ,'N'
             ,#{regUid}
             ,NOW()
@@ -73,6 +75,7 @@
               ,SB.TITLE
               ,SB.CONTENT
               ,SB.DELETE_AT
+              ,SB.USE_AT
               ,SB.REG_UID
               ,SB.REG_DT
               ,SU_REG.USER_ID AS REG_ID
@@ -91,6 +94,9 @@
         </if>
         <if test="bbsUid != null and bbsUid != ''">
            AND SB.BBS_UID = #{bbsUid}
+        </if>
+        <if test="clUid != null and clUid != ''">
+           AND SB.CL_UID = #{clUid}
         </if>
          ORDER BY SB.REG_DT DESC
         <if test="startNumber != null and endNumber != null">
@@ -122,6 +128,9 @@
         <if test="bbsUid != null and bbsUid != ''">
            AND SB.BBS_UID = #{bbsUid}
         </if>
+        <if test="clUid != null and clUid != ''">
+           AND SB.CL_UID = #{clUid}
+        </if>
          ORDER BY SB.REG_DT DESC
     </select>
 
@@ -139,6 +148,9 @@
         <if test="bbsUid != null and bbsUid != ''">
            AND SB.BBS_UID = #{bbsUid}
         </if>
+        <if test="clUid != null and clUid != ''">
+           AND SB.CL_UID = #{clUid}
+        </if>
          ORDER BY SB.REG_DT DESC
     </select>
 
@@ -150,4 +162,12 @@
               ,UPDT_DT = NOW()
          WHERE UID = #{uid}
     </delete>
+
+    <select id="countBoardUseCl" resultType="int" parameterType="Long">
+        /* snippBoard.countBoardUseCl */
+        SELECT COUNT(*)
+          FROM SNP_BOARD
+         WHERE DELETE_AT = 'N'
+           AND CL_UID = #{clUid}
+    </select>
 </mapper>

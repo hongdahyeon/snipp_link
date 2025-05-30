@@ -1,27 +1,25 @@
 var boardJS = {
 
-     table : null
+     table: null
+    ,faqClDiv: null
     ,contentEditor: null
     ,contentErrorSpan: $("#content-ckeditor-error")
-    ,tree: null
 
-    ,initPage: async function () {
+    ,initPage: function () {
         switch (type) {
             case "faq":
-                await drawFaqCards()
-                boardJS.initFaqClTree();
+                boardJS.drawFaqCl().then(() => {
+                    const $firstLink = $('#board-cl-faq a.text-muted').first();
+                    $firstLink.addClass('selected');
+                    clUid = $firstLink.data('uid');
+                }).then(() => {
+                    faqCard.drawFaqBoardCards();
+                });
                 break;
             case "free":
                 boardJS.initTable();
                 break;
         }
-    }
-
-    ,initFaqClTree: async function () {
-        boardJS.tree = new Tree("test-tree-div", true, false);
-        boardJS.tree.drawTree(`/snipp/api/bbs-cl/tree`, () => {
-           return { bbsUid }
-        });
     }
 
     ,initTable: function () {
@@ -44,30 +42,38 @@ var boardJS = {
             }))
             .init()
             .rowClick((...args) => {
-                const rowData = bbsJS.table.getRowDataFull(args[1])
+                const rowData = boardJS.table.getRowDataFull(args[1])
                 window.location.href =`/snipp/board/${type}/${rowData['bbsUid']}`
             });
     }
 
-    ,initContent: async function () {
-        boardJS.contentEditor = new Editor("content-ckeditor", '', true);
-        boardJS.contentEditor = await boardJS.contentEditor.init();
+    ,drawFaqCl: function () {
+         return new Promise(async (resolve) => {
+             boardJS.faqClDiv = new FaqCl("board-cl-faq");
+             const res = await Http.get('/snipp/api/bbs-cl/tree', {bbsUid});
+             boardJS.faqClDiv.data(res).draw();
+             resolve();
+         });
+    }
+
+    ,initContent: async function (content = '', isViewMode = false) {
+        boardJS.contentEditor = new Editor("content-ckeditor", content, true);
+        boardJS.contentEditor = await boardJS.contentEditor.init(isViewMode);
     }
 
     ,saveBoardForm: function () {
 
         const content = boardJS.contentEditor.getEditorData();
         const $form = $("#save-form")
-        if (!$form[0].checkValidity() || content.length === 0) {
+        if (!$form[0].checkValidity() || content.length === 0 || ( type === 'faq' && $("#choose-clUid").val().length === 0) ) {
 
             $form.addClass("was-validated");
-            boardJS.contentErrorSpan.text((content.length === 0) ? '필수 입력값입니다.' : '');
+            boardJS.etcValidationCheck();
             return
 
         } else {
 
-            boardJS.contentErrorSpan.text((content.length === 0) ? '필수 입력값입니다.' : '');
-
+            boardJS.etcValidationCheck();
             thumbnailModal.chooseThumbNail().then(async () => {
                 let obj = {
                     title: $("#title").val(),
@@ -75,16 +81,26 @@ var boardJS = {
                     useAt: $('input[name="useAt"]:checked').val(),
                     bbsUid: bbsUid
                 }
-                if(type === 'faq') obj['clUid'] = $("#clUid").val()
+                if(type === 'faq') obj['clUid'] = $("#choose-clUid").val()
                 obj['thumbnailSrc'] = thumbnailModal.thumbNailImg
 
                 Http.post('/snipp/api/board', obj).then(() => {
                     Sweet.alert("게시글이 등록되었습니다.").then(() => {
                         window.location.href = `/snipp/board/${type}`
                     })
-                })
+                });
             });
 
+        }
+    }
+
+    ,etcValidationCheck: function () {
+        const content = boardJS.contentEditor.getEditorData();
+        boardJS.contentErrorSpan.text((content.length === 0) ? '필수 입력값입니다.' : '');
+        if(type === 'faq') {
+            const valueLength = $("#choose-clUid").val().length;
+            if(valueLength === 0) $("#choose-clNm").addClass('is-invalid')
+            else $("#choose-clNm").removeClass('is-invalid');
         }
     }
 }

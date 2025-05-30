@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
  * fileName       : SnippBbsClList
  * author         : work
  * date           : 2025-05-30
- * description    :
+ * description    : 분류 목록을 리스트 형태 조회
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
@@ -26,4 +26,5 @@ public class SnippBbsClList {
     private Long bbsUid;
     private String bbsNm;
     private String path;
+    private String depth;
 }

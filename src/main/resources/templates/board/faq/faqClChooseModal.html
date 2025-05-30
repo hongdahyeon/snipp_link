@@ -1,0 +1,20 @@
+<!-- 게시글 등록 > FAQ > 분류 선택하기 모달 -->
+<th:block th:fragment="faqClChoose-modal">
+    <div class="modal modal-primary fade text-start" id="faqClChooseModal" tabindex="-1" aria-labelledby="faqClModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header d-flex justify-content-between align-items-start">
+                    <div>
+                        <h4 class="modal-title" id="faqClModalTitle">분류 선택하기</h4>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div id="faqCl-change-tree"></div>
+                </div>
+                <div class="modal-footer justify-content-end">
+                    <button type="button" class="btn-primary-custom" id="cl-choose-btn">선택</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>

@@ -27,6 +27,7 @@ import java.util.List;
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
  * 2025-04-16        work       snip -> snipp 변경
+ * 2025-05-30        work       {findBoardCntUseCl} 메소드 추가
  */
 @Service
 @RequiredArgsConstructor
@@ -115,5 +116,16 @@ public class SnippBoardService {
     @Transactional
     public void deleteBoard(Long boardUid) {
         mapper.delete(new SnippBoard(boardUid));
+    }
+
+    /**
+     * @method      findBoardCntUseCl
+     * @author      dahyeon
+     * @date        2025-05-30
+     * @deacription {clUid} 분류를 이용하는 게시물 개수 조회
+    **/
+    @Transactional(readOnly = true)
+    public int findBoardCntUseCl(Long clUid) {
+        return mapper.countBoardUseCl(clUid);
     }
 }

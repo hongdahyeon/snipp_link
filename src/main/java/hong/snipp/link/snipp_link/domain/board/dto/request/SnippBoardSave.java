@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
  * 2025-04-15        work       최초 생성
  * 2025-04-16        work       snip -> snipp 변경
  * 2025-05-30        work       useAt, thumbnailSrc 필드 추가
+ * 2025-05-30        work       {clUid} 필드 추가
  */
 @Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SnippBoardSave {
@@ -36,4 +37,6 @@ public class SnippBoardSave {
     private String useAt;
 
     private String thumbnailSrc;
+
+    private Long clUid;
 }

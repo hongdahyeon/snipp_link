@@ -22,5 +22,5 @@ import java.util.List;
 @Mapper
 public interface SnippBbsClMapper extends BaseMapper<SnippBbsCl> {
 
-    List<SnippBbsClList> getTreeList(SnippBbsClParam param);
+    List<SnippBbsClList> getBbsClList(SnippBbsClParam param);
 }

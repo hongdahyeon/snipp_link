@@ -25,6 +25,7 @@ import java.util.List;
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
  * 2025-04-16        work       snip -> snipp 변경
+ * 2025-05-30        work       {findBoardCntUseCl} api 추가
  */
 @RestController
 @RequiredArgsConstructor
@@ -115,5 +116,19 @@ public class SnippBoardRestController {
     public ResponseEntity deleteBoard(@PathVariable("uid") Long uid) {
         service.deleteBoard(uid);
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     *
+     * {clUid} 분류를 이용하는 게시글 개수 카운팅
+     *
+     * @api         [GET] /snipp/api/board/child/{uid}
+     * @author      dahyeon
+     * @date        2025-05-30
+    **/
+    @GetMapping("/child/{uid}")
+    public ResponseEntity findBoardCntUseCl(@PathVariable("uid") Long uid) {
+        int boardCntUseCl = service.findBoardCntUseCl(uid);
+        return ResponseEntity.ok(boardCntUseCl);
     }
 }

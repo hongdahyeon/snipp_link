@@ -2,19 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hong.snipp.link.snipp_link.domain.bbscl.domain.SnippBbsClMapper">
 
-    <select id="getTreeList" resultType="SnippBbsClList" parameterType="SnippBbsClParam">
-        WITH RECURSIVE cl_tree AS (
-            SELECT UID
-                  ,CL_NM
-                  ,UPPER_CL
-                  ,BBS_UID
+    <select id="getBbsClList" resultType="SnippBbsClList" parameterType="SnippBbsClParam">
+        /* snippBbsCl.getBbsClList */
+        WITH RECURSIVE CL_TREE AS (
+            SELECT SBC.UID
+                  ,SBC.CL_NM
+                  ,SBC.UPPER_CL
+                  ,SBC.BBS_UID
                   ,SORT_NO
                   ,1 AS DEPTH
-                  ,CAST(CL_NM AS CHAR(1000)) AS PATH
-                  ,CAST(LPAD(SORT_NO, 5, '0') AS CHAR(1000)) AS SORT_PATH
-              FROM SNP_BBS_CL
-             WHERE UPPER_CL IS NULL
-               AND BBS_UID = 4
+                  ,CAST(SBC.CL_NM AS CHAR(1000)) AS PATH
+                  ,CAST(LPAD(SBC.SORT_NO, 5, '0') AS CHAR(1000)) AS SORT_PATH
+              FROM SNP_BBS_CL SBC
+             WHERE SBC.UPPER_CL IS NULL
+               AND SBC.BBS_UID = #{bbsUid}
+               AND SBC.DELETE_AT = 'N'
              UNION ALL
             SELECT C.UID
                   ,C.CL_NM
@@ -22,10 +24,12 @@
                   ,C.BBS_UID
                   ,C.SORT_NO
                   ,P.DEPTH + 1
-                  ,CONCAT(p.path, ' > ', C.CL_NM)
+                  ,CONCAT(P.path, ' > ', C.CL_NM)
                   ,CAST(CONCAT(P.SORT_PATH, '-', LPAD(C.SORT_NO, 5, '0')) AS CHAR(1000))
             FROM SNP_BBS_CL C
             JOIN cl_tree P ON C.UPPER_CL = P.UID
+           WHERE C.BBS_UID = #{bbsUid}
+             AND C.DELETE_AT = 'N'
         )
         SELECT CT.UID AS NO
               ,CT.UPPER_CL AS UPPER_NO
@@ -34,8 +38,60 @@
               ,CT.BBS_UID AS BBS_UID
               ,SB.BBS_NM AS BBS_NM
               ,CT.PATH AS PATH
+              ,CT.DEPTH AS DEPTH
           FROM cl_tree CT
          INNER JOIN SNP_BBS SB ON SB.UID = CT.BBS_UID
          ORDER BY sort_path;
+    </select>
+
+    <insert id="insert" parameterType="SnippBbsCl">
+        /* snippBbsCl.insert */
+        INSERT INTO SNP_BBS_CL (
+             CL_NM
+            ,UPPER_CL
+            ,BBS_UID
+            ,SORT_NO
+            ,REG_UID
+            ,REG_DT
+            ,UPDT_UID
+            ,UPDT_DT
+        ) VALUES (
+             #{clNm}
+            ,#{upperCl}
+            ,#{bbsUid}
+            ,#{sortNo}
+            ,#{regUid}
+            ,NOW()
+            ,#{updtUid}
+            ,NOW()
+        )
+    </insert>
+
+    <update id="update" parameterType="SnippBbsCl">
+        /* snippBbsCl.update */
+        UPDATE SNP_BBS_CL
+           SET CL_NM = #{clNm}
+              ,SORT_NO = #{sortNo}
+              ,UPDT_UID = #{updtUid}
+              ,UPDT_DT = NOW()
+         WHERE UID = #{uid}
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        /* snippBbsCl.delete */
+        UPDATE SNP_BBS_CL
+           SET DELETE_AT = 'Y'
+         WHERE UID = #{uid}
+    </delete>
+
+    <select id="view" parameterType="Long" resultType="SnippBbsCl">
+        /* snippBbsCl.view */
+        SELECT UID
+              ,CL_NM
+              ,UPPER_CL
+              ,BBS_UID
+              ,SORT_NO
+          FROM SNP_BBS_CL
+         WHERE UID = #{uid}
     </select>
 </mapper>

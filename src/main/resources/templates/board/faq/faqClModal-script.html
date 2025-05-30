@@ -1,0 +1,115 @@
+<!-- 게시글 목록 > FAQ 리스트 > 분류 수정 및 추가하기 모달 > 스크립트 -->
+<script th:inline="javascript">
+
+    var faqClModal = {
+
+         tree: null
+        , modalForm: $("#cl-form")
+        , buttons: $("#cl-save-btn, #cl-delete-btn")
+
+        , initTree: function () {
+            return new Promise((resolve, reject) => {
+                faqClModal.tree = new Tree("faqCl-change-tree", true, false);
+                faqClModal.tree.drawTree(`/snipp/api/bbs-cl/list`, () => {
+                    return {bbsUid}
+                });
+                faqClModal.tree.customAddFunction("분류 추가", (data) => {
+                    faqClModal.faqClAddFunction(data);
+                });
+                faqClModal.tree.customTreeSelectEvent((e, d) => {
+                    faqClModal.formAndTreeReset();
+                    faqClModal.faqClSelectEvent(e, d);
+                });
+                resolve();
+            })
+        }
+
+        , faqClAddFunction: function (data) {
+            var inst = $.jstree.reference(data.reference),
+                obj = inst.get_node(data.reference);
+            const clObj = {
+                bbsUid: bbsUid,
+                upperCl: obj.id,
+                clNm: "새 분류",
+                sortNo: obj.children.length + 1,
+            };
+            Http.post('/snipp/api/bbs-cl', clObj).then(() => {
+                Sweet.alert("분류 정보가 추가되었습니다.").then(() => {
+                    faqClModal.formAndTreeReset();
+                    faqClModal.tree.treeRefresh();
+                });
+            }).fail((e) => {
+                console.log("e : ", e)
+            })
+        }
+
+        , updateFaqCl: function () {
+            if (!faqClModal.modalForm[0].checkValidity()) {
+                faqClModal.modalForm.addClass("was-validated");
+                return
+            } else {
+                const uid = $("#clUid").val()
+                const obj = {
+                    clNm: $("#clNm").val(),
+                    sortNo: $("#sortNo").val()
+                }
+                Http.put(`/snipp/api/bbs-cl/${uid}`, obj).then(() => {
+                    Sweet.alert("분류 정보가 수정되었습니다.").then(() => {
+                        faqClModal.formAndTreeReset();
+                        faqClModal.tree.treeRefresh();
+                    });
+                }).fail((e) => {
+                    console.log("e : ", e)
+                })
+            }
+        }
+
+        , deleteClEvent: async function () {
+            const datas = faqClModal.tree.getSelectedData();
+            const node = faqClModal.tree.getSelectDataInfo(datas[0]);
+            if (node.children.length) Sweet.alert("하위 분류 정보가 존재하여 메뉴를 삭제하지 못했습니다.")
+            else {
+                const uid = node['id']
+                const res = await Http.get(`/snipp/api/board/child/${uid}`)
+                if(res !== 0) Sweet.alert("분류에 엮인 게시물이 존재하여 삭제할 수 없습니다.")
+                else {
+                    Http.delete(`/snipp/api/bbs-cl/${uid}`).then(() => {
+                        Sweet.alert("분류 정보가 삭제되었습니다.").then(() => {
+                            faqClModal.formAndTreeReset();
+                            faqClModal.tree.treeRefresh();
+                        });
+                    });
+                }
+            }
+        }
+
+        ,faqClSelectEvent: function (e, data) {
+            const nodeData = data.node.data;
+            $("#clUid").val(nodeData['no']);
+            $("#clNm").val(nodeData['text']);
+            $("#sortNo").val(nodeData['sortNo']);
+            faqClModal.buttons.css("visibility", "visible");
+        }
+
+        ,openModal: function () {
+            faqClModal.initTree().then(() => {
+                $("#faqClModal").modal('show')
+            })
+        }
+
+        ,closeModal: async function () {
+            const isOk = await Sweet.confirm('작성중이신 정보는 저장되지 않습니다. <br> 모달창을 닫으시겠습니까?');
+            if (isOk) {
+                faqClModal.formAndTreeReset();
+                faqClModal.tree.destroyTree();
+                $("#faqClModal").modal('hide');
+            }
+        }
+
+        ,formAndTreeReset: function () {
+            faqClModal.modalForm[0].reset();
+            faqClModal.modalForm.removeClass("was-validated");
+        }
+    }
+
+</script>

@@ -148,7 +148,7 @@ class Tree {
         return this;
     }
 
-    _getTreeData(url, param, obj, callback) {;
+    _getTreeData(url, param, obj, callback) {
         Http.get(url, param).done((result) => {
             let dataList = result;
             let dataMap = {};
