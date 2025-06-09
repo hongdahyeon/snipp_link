@@ -56,6 +56,17 @@ var boardJS = {
          });
     }
 
+    ,deleteBoard: async function (uid) {
+        const isOk = await Sweet.confirm("게시글을 삭제하시겠습니까?")
+        if(isOk) {
+            Http.delete(`/snipp/api/board/${uid}`).then(() => {
+                Sweet.alert("게시글이 삭제되었습니다.").then(() => {
+                    window.location.reload();
+                })
+            })
+        }
+    }
+
     ,initContent: async function (content = '', isViewMode = false) {
         boardJS.contentEditor = new Editor("content-ckeditor", content, true);
         boardJS.contentEditor = await boardJS.contentEditor.init(isViewMode);

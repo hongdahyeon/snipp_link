@@ -1,10 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
 
-</body>
+<th:block layout:fragment="content">
+
+    <section class="py-5">
+        <div class="container">
+            <div class="text-left px-5 py-5 mb-5 bg-light">
+                <div class="text-left heading-underline">
+                    <h1 class="fw-bolder">게시글 수정</h1>
+                </div>
+            </div>
+            <div class="gx-5">
+                <div class="d-flex flex-column flex-md-row justify-content-between mb-2 gap-2">
+                    <div class="d-flex gap-2"></div>
+                    <div>
+                        <button type="button" id="save-btn" class="btn-primary-custom">저장</button>
+                        <button type="button" id="cancel-btn" class="btn-cancel-custom">취소</button>
+                    </div>
+                </div>
+
+                <div class="card rounded-3 py-5 px-4">
+                    <form id="save-form" novalidate="" class="needs-validation" style="padding: 20px;">
+                        <div class="row mb-4">
+                            <div class="col-lg-12 col-xl-12">
+                                <div class="mb-3">
+                                    <label class="form-label custom-label" for="title">제목<span class="required">*</span></label>
+                                    <input class="form-control custom-input" id="title" name="title" type="text" placeholder="제목을 입력하세요." required="">
+                                    <div class="invalid-feedback">필수 입력값입니다.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-lg-6 col-xl-6">
+                                <div class="mb-3">
+                                    <label class="form-label custom-label" for="useAt-div">사용여부<span class="required">*</span></label>
+                                    <div class="d-flex gap-4" id="useAt-div">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="useAt" value="Y" id="useAt-Y" checked="">
+                                            <label class="form-check-label" for="useAt-Y">사용</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="useAt" value="N" id="useAt-N">
+                                            <label class="form-check-label" for="useAt-N">미사용</label>
+                                        </div>
+                                    </div>
+                                    <div class="invalid-feedback">필수 입력값입니다.</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-xl-6" th:if="${type == 'faq'}">
+                                <div class="mb-3">
+                                    <label class="form-label custom-label" for="choose-clUid">분류 선택<span class="required">*</span>
+                                    </label>
+                                    <div class="input-group custom-input-group">
+                                        <input type="hidden" id="choose-clUid">
+                                        <input type="text" name="clUid" id="choose-clNm" class="form-control custom-input" placeholder="분류를 선택해주세요" readonly="" disabled>
+                                        <button type="button" class="btn btn-primary btn-primary-custom" id="selectClBtn">분류선택</button>
+                                        <div class="invalid-feedback">필수 입력값입니다.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-xl-12">
+                                <div class="mb-3">
+                                    <label class="form-label custom-label" for="content-ckeditor">내용<span class="required">*</span></label>
+                                    <div>
+                                        <div id="content-ckeditor"></div>
+                                    </div>
+                                    <span class="validation-error-message" id="content-ckeditor-error"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <th:block th:replace="~{board/thumbnail/thumbnail-modal :: thumbnail-modal}"></th:block>
+    <th:block th:replace="~{board/faq/faqClChooseModal :: faqClChoose-modal}"></th:block>
+
+</th:block>
+
+<th:block layout:fragment="script">
+    <th:block th:replace="~{board/thumbnail/thumbnail-modal-script::script}"></th:block>
+    <th:block th:replace="~{board/faq/faqClChooseModal-script::script}"></th:block>
+    <script th:src="@{'/assets/js/page/board/board.js'}"></script>
+    <script th:inline="javascript">
+
+        const type = [[${type}]]
+        const bbsUid = [[${recentBbs?.uid}]]
+
+        $(function () {
+
+            boardJS.initContent();
+
+            $("#selectClBtn").on('click', () => {
+                faqClChooseModal.openModal();
+            });
+            $("#cl-choose-btn").on('click', () => {
+                faqClChooseModal.closeModal();
+            });
+
+            $("#save-btn").on('click', () => {
+                boardJS.saveBoardForm();
+            });
+
+            $("#cancel-btn").on('click', () => {
+                Sweet.confirm('작성중이신 정보는 저장되지 않습니다. <br> 목록으로 돌아가시겠습니까?').then((isOk) => {
+                    if(isOk) {
+                        window.location.href = `/snipp/board/${type}`
+                    }
+                })
+            });
+
+        });
+
+    </script>
+</th:block>
+
 </html>

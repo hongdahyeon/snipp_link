@@ -183,6 +183,14 @@ hr.custom-line {
     font-size: 1rem;
     height: auto;
 }
+.custom-input-group input {
+    border-top-left-radius: 0.375rem !important;
+    border-bottom-left-radius: 0.375rem !important;
+}
+.custom-input-group button {
+    border-top-right-radius: 0.375rem !important;
+    border-bottom-right-radius: 0.375rem !important;
+}
 .custom-select {
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;

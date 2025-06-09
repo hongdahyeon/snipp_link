@@ -95,14 +95,14 @@
       });
 
       /* [FAQ] 게시글 수정하러 가기 버튼 이벤트 */
-      $(".update-board").on('click', function (e) {
+      $(document).on('click', '.update-board', function (e) {
         const uid = $(this).data('uid')
-        console.log("update > uid : ", uid)
+        window.location.href = `/snipp/board/${type}/form/${uid}`
       });
       /* [FAQ] 게시글 삭제하기 버튼 이벤트 */
-      $(".delete-board").on('click', function (e) {
+      $(document).on('click', '.delete-board', function (e) {
         const uid = $(this).data('uid')
-        console.log("delete > uid : ", uid)
+        boardJS.deleteBoard(uid);
       });
 
       /* [FAQ] 분류 클릭 이벤트 */

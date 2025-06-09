@@ -170,4 +170,18 @@
          WHERE DELETE_AT = 'N'
            AND CL_UID = #{clUid}
     </select>
+
+    <select id="getDetailOfBoard" resultType="SnippBoardDetail" parameterType="Long">
+        /* snippBoard.getDetailOfBoard */
+        SELECT SBOARD.UID AS BOARD_UID
+              ,SBBS.UID AS BBS_UID
+              ,SBCCL.UID AS CL_UID
+              ,SBOARD.TITLE
+              ,SBOARD.CONTENT
+              ,SBOARD.DELETE_AT
+          FROM SNP_BOARD SBOARD
+         INNER JOIN SNP_BBS SBBS ON SBBS.UID = SBOARD.BBS_UID
+          LEFT JOIN SNP_BBS_CL SBCCL ON SBCCL.UID = SBOARD.CL_UID
+         WHERE UID = #{uid}
+    </select>
 </mapper>

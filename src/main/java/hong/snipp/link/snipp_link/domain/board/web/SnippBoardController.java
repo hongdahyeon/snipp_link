@@ -43,8 +43,8 @@ public class SnippBoardController {
         return "board/index";
     }
 
-    @GetMapping("/{type}/{bbscttUid}")
-    public String view(@PathVariable("type") String type, @PathVariable("bbscttUid") Long bbscttUid, Model model) {
+    @GetMapping("/{type}/{boardUid}")
+    public String view(@PathVariable("type") String type, @PathVariable("boardUid") Long boardUid, Model model) {
         BbsTp code = BbsTp.getBbsTpByText(type);
         if(code == null) return "error/error";
 
@@ -55,8 +55,8 @@ public class SnippBoardController {
         return "board/view";
     }
 
-    @GetMapping("/{type}/form/{bbscttUid}")
-    public String form(@PathVariable("type") String type, @PathVariable("bbscttUid") Long bbscttUid, Model model) {
+    @GetMapping("/{type}/form/{boardUid}")
+    public String form(@PathVariable("type") String type, @PathVariable("boardUid") Long boardUid, Model model) {
         BbsTp code = BbsTp.getBbsTpByText(type);
         if(code == null) return "error/error";
 
@@ -64,6 +64,9 @@ public class SnippBoardController {
         if(recentBbs == null) return "error/error";
 
         model.addAttribute("recentBbs", recentBbs);
+
+        model.addAttribute("form", service.findDetailOfBoard(boardUid));
+
         return "board/form";
     }
 

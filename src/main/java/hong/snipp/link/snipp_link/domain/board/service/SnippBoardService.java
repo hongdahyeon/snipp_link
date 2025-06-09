@@ -5,6 +5,7 @@ import hong.snipp.link.snipp_link.domain.board.domain.SnippBoardMapper;
 import hong.snipp.link.snipp_link.domain.board.dto.request.SnippBoardChange;
 import hong.snipp.link.snipp_link.domain.board.dto.request.SnippBoardParam;
 import hong.snipp.link.snipp_link.domain.board.dto.request.SnippBoardSave;
+import hong.snipp.link.snipp_link.domain.board.dto.response.SnippBoardDetail;
 import hong.snipp.link.snipp_link.domain.board.dto.response.SnippBoardList;
 import hong.snipp.link.snipp_link.domain.board.dto.response.SnippBoardView;
 import hong.snipp.link.snipp_link.domain.comment.service.SnippCommentService;
@@ -127,5 +128,16 @@ public class SnippBoardService {
     @Transactional(readOnly = true)
     public int findBoardCntUseCl(Long clUid) {
         return mapper.countBoardUseCl(clUid);
+    }
+
+    /**
+     * @method      findDetailOfBoard
+     * @author      dahyeon
+     * @date        2025-06-09
+     * @deacription 게시글 상세 정보 조회
+    **/
+    @Transactional(readOnly = true)
+    public SnippBoardDetail findDetailOfBoard(Long boardUid) {
+        return mapper.getDetailOfBoard(boardUid);
     }
 }
