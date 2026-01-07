@@ -39,3 +39,4 @@ out/
 /src/main/java/hong/snipp/link/snipp_link/global/config/JasyptConfigTest.java
 /package.json
 /package-lock.json
+/src/main/resources/static/GMAIL_SMTP.txt

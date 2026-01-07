@@ -1,9 +1,27 @@
 spring:
   profiles:
     active: local
-
   application:
     name: snipp_link
+
+  devtools:
+    restart:
+      enabled: false
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: snipplink@gmail.com
+    password: ENC(P2MX46SKyRzrDVozqOl6fQfqf/iZD6SuHWwZjCVA3HY=)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
   thymeleaf:
     prefix: classpath:templates/
@@ -61,4 +79,3 @@ hong:
   mybatis-setting:
     mapper-locations: file:src/main/java/hong/snipp/link/snipp_link/**/*.xml
     type-aliases-package: hong.snipp.link.snipp_link.**
-
