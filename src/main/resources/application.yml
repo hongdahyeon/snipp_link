@@ -24,7 +24,8 @@ spring:
             client-id: ENC(TkdkiDO2w3bEyY5xZxJhH0rb7d8BZtzy4zskZ7+HkIwW4hH7qI03Io1HuvlEJMoDFmw8uJCjlDMwOaUyIvIMUA==)
             client-secret: ENC(9oC8U85AldJWR0Ihp3ltbz5AZQ7458fkHdOVIwzgUT9pYC7zQneEiuegpaFhw7Eo)
             redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
-            client-authentication-method: POST
+            #client-authentication-method: POST # [수정 전] 에러 발생 (Spring Security 6.x 지원 X)
+            client-authentication-method: client_secret_post
             authorization-grant-type: authorization_code
             scope: name, email
             client-name: Naver
@@ -32,7 +33,8 @@ spring:
             client-id: ENC(+g1VTrFmtaIVgnwk0dErGYABWTXBub2o4Sw9kCwUXYnEXUdZWMCdX5InxyZQHCzi17r2BfVV1cmHjvF4xtqAQQTkDVe8z++KJLPKCYVXhng=)
             client-secret: ENC(llqQXrleRUYPhZCQmZCcLzs5VdtkAyRcBSLPlf1GgvOfvLars9iq6Tdi463H+3V/HnwWh0FQ6mAWgvDTjkV405pWW40Vr6hNEvvUIdGjdOw=)
             redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
-            client-authentication-method: POST
+            #client-authentication-method: POST #변경 이전에 이것때문에 오류가 남
+            client-authentication-method: client_secret_post
             authorization-grant-type: authorization_code
             scope: profile_nickname, account_email
             client-name: Kakao
