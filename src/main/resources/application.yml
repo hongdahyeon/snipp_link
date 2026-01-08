@@ -12,7 +12,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: snipplink@gmail.com
-    password: ENC(P2MX46SKyRzrDVozqOl6fQfqf/iZD6SuHWwZjCVA3HY=)
+    password: ENC(m4XmDMmbP05XFgsinD4FClh3n1zOLt91ih9SPiXs4nYkyD/KrPD6pV0hNZy0TG8wwCsykGRFYAXC7fVd+eLtYA==)
     properties:
       mail:
         smtp:
