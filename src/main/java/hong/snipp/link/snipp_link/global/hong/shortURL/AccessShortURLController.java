@@ -87,6 +87,8 @@ public class AccessShortURLController {
             return "redirect:" + view.getOriginUrl();
 
         } else {
+
+            // TODO : index 페이지에서 errorRedirect 받으면 알랏 띄우기 //
             String queryString = "?errorRedirect="+code;
             return "redirect:/" + queryString;
         }
