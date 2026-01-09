@@ -11,6 +11,9 @@
             ,ACCESS_USER_AGENT
             ,ACCESS_DATE
             ,ACCESS_TP
+            <if test="userUid != null and userUid != ''">
+            ,USER_UID
+            </if>
         ) VALUES (
              #{shortUrl}
             ,#{userUid}
@@ -18,6 +21,9 @@
             ,#{accessUserAgent}
             ,NOW()
             ,#{accessTp}
+            <if test="userUid != null and userUid != ''">
+            ,#{userUid}
+            </if>
         )
     </insert>
 

@@ -1,11 +1,13 @@
 package hong.snipp.link.snipp_link.global.hong.shortURL;
 
 import hong.snipp.link.snipp_link.domain.code.AccessTp;
-import hong.snipp.link.snipp_link.domain.shorturl.shorturl.dto.response.SnippShortUrlView;
-import hong.snipp.link.snipp_link.domain.shorturl.shorturl.service.SnippShortUrlService;
 import hong.snipp.link.snipp_link.domain.shorturl.access.service.SnippSUrlAccessService;
 import hong.snipp.link.snipp_link.domain.shorturl.log.dto.request.SnippSUrlLogSave;
 import hong.snipp.link.snipp_link.domain.shorturl.log.service.SnippSUrlLogService;
+import hong.snipp.link.snipp_link.domain.shorturl.shorturl.dto.response.SnippShortUrlView;
+import hong.snipp.link.snipp_link.domain.shorturl.shorturl.service.SnippShortUrlService;
+import hong.snipp.link.snipp_link.global.auth.dto.SnippSessionUser;
+import hong.snipp.link.snipp_link.global.util.UserUtil;
 import hong.snipp.link.snipp_link.global.util.WebUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -56,8 +58,7 @@ public class AccessShortURLController {
 
             if("N".equals(view.getIsPublic())) {
 
-                // TODO : 로그인 구현 이후 작업 진행 => {param1}에다가 로그인 유저 UID값 넣기 //
-                canAccess = accessService.ifUserCanAccess(0L, encode);
+                canAccess = accessService.ifUserCanAccess(UserUtil.getLoginUser().getUid(), encode);
                 if(canAccess) code = AccessTp.ACCESS_SUCCESS.name();
                 else code = AccessTp.ACCESS_NO_PERMISSION.name();
 
@@ -69,16 +70,17 @@ public class AccessShortURLController {
         }
 
         // 2. 접근 로그 저장
+        SnippSessionUser user = UserUtil.getUser(req);
+        Long userUid = (user != null) ? user.getUid() : null;
         String accessIp = WebUtil.getIpAddress(req);
         String accessUserAgent = req.getHeader("User-Agent");
         SnippSUrlLogSave bean = SnippSUrlLogSave.insertShortURLAccessLog()
                 .shortUrl(encode)
                 .accessIp(accessIp)
                 .accessUserAgent(accessUserAgent)
+                .userUid(userUid)
                 .accessTp(code)
                 .build();
-        // TODO : 로그인 구현 이후 작업 진행 => {param1}에다가 로그인 유저 UID값 넣기 //
-        // if : user-uid is not null -> bean.setUserUid(userUid)
         accessLogService.saveShortURLAccessLog(bean);
 
         // 4. 해당 {originURL}로 이동
@@ -88,7 +90,6 @@ public class AccessShortURLController {
 
         } else {
 
-            // TODO : index 페이지에서 errorRedirect 받으면 알랏 띄우기 //
             String queryString = "?errorRedirect="+code;
             return "redirect:/" + queryString;
         }
