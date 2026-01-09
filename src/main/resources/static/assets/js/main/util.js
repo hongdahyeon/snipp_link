@@ -165,3 +165,40 @@ class StringUtil {
     }
 
 }
+
+class Util {
+
+    static copyToClipboard(message) {
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(message)
+                .then(() => {
+                    Sweet.alert("주소가 복사되었습니다!");
+                })
+                .catch(err => {
+                    Util.fallbackCopyTextToClipboard(message);
+                });
+        } else {
+            Util.fallbackCopyTextToClipboard(message);
+        }
+    }
+
+    static fallbackCopyTextToClipboard(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-9999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            const successful = document.execCommand('copy');
+            const message = (successful) ? "주소가 복사되었습니다!" : "복사에 실패했습니다."
+            Sweet.alert(message);
+        } catch (err) {
+            console.error('Fallback 복사 실패:', err);
+            Sweet.alert("복사에 실패했습니다.");
+        }
+        document.body.removeChild(textArea);
+    }
+
+}
