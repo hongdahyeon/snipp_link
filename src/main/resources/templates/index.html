@@ -96,7 +96,7 @@
                     <div style="width: 80%;" class="mb-4">
                         <div class="d-flex gap-2 mb-2">
                             <input class="form-control custom-input" type="text" placeholder="긴 URL을 입력하세요...">
-                            <button type="button" class="btn-primary-custom btn-lg px-4 me-sm-3">테스트</button>
+                            <button type="button" class="btn-primary-custom btn-lg px-4 me-sm-3" id="make-short-link">테스트</button>
                         </div>
                     </div>
                     <div class="d-flex flex-column gap-1">
@@ -105,9 +105,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <span id="shortUrlText">http://localhost:8083/snipp-short/FJ2hAta</span>
                                 <button class="btn btn-sm btn-outline-secondary border-0" id="copy-short-link" title="주소 복사">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2Zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6ZM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2Z"/>
-                                    </svg>
+                                    <img src="/assets/src/img/page/copy.svg" alt="복사 아이콘">
                                 </button>
                             </div>
                         </div>
@@ -235,13 +233,17 @@
             const urlParams = new URLSearchParams(window.location.search);
             const errorCode = urlParams.get('errorRedirect');
             if (errorCode) {
-                const alertMessage = indexJS.shortAlertMessageMap[errorCode] || indexJS.shortAlertMessageMap['error'];
+                const alertMessage = indexJS.shortAlertMessageMap[errorCode] || indexJS.shortAlertMessageMap['ACCESS_ERROR'];
                 Sweet.alert(alertMessage);
                 history.replaceState({}, document.title, window.location.pathname);
             }
 
             $("#copy-short-link").on('click', () => {
                 indexJS.copyShortLink();
+            });
+
+            $("#make-short-link").on('click', () => {
+                indexJS.makeShortLink();
             });
         });
 

@@ -20,7 +20,8 @@ public enum AccessTp {
     ACCESS_SUCCESS("성공", true),
     ACCESS_NO_PERMISSION("접근 권한 없음", false),
     ACCESS_NOT_FOUND("URL 없음", false),
-    ACCESS_TIME_EXPIRED("유효 기간 만료", false);
+    ACCESS_TIME_EXPIRED("유효 기간 만료", false),
+    ACCESS_ERROR("알수 없는 오류", false);
 
     private String description;
     private boolean isSuccess;
