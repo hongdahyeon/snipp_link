@@ -6,7 +6,6 @@
         /* snippSUrlLog.insert */
         INSERT INTO SNP_SHORTEN_URL_ACCESS_LOG (
              SHORT_URL
-            ,USER_UID
             ,ACCESS_IP
             ,ACCESS_USER_AGENT
             ,ACCESS_DATE
@@ -16,7 +15,6 @@
             </if>
         ) VALUES (
              #{shortUrl}
-            ,#{userUid}
             ,#{accessIp}
             ,#{accessUserAgent}
             ,NOW()
