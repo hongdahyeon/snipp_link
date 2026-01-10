@@ -9,10 +9,33 @@ var indexJS = {
 
     copyShortLink: function () {
         const textToCopy = $("#shortUrlText").text();
+        if(!textToCopy) {
+            Sweet.alert('복사할 주속값이 없습니다!')
+            return;
+        }
         Util.copyToClipboard(textToCopy);
     },
 
     makeShortLink: function () {
-        console.log("make short link")
+        const longLinkURL = $("#long-link").val();
+        if (!longLinkURL) {
+            Sweet.alert('링크를 입력해주세요.');
+            return;
+        }
+        const urlPattern = /^(https?:\/\/)?[a-z0-9-]+(\.[a-z0-9-]+)+([/?].*)?$/i;
+        if (!urlPattern.test(longLinkURL)) {
+            Sweet.alert('올바른 URL 형식이 아닙니다.');
+            return;
+        }
+        const obj = {
+            originUrl: longLinkURL,
+            isPublic: 'Y'
+        }
+        Http.post(`/snipp/api/short-url/create`, obj).then((res) => {
+            $("#shortUrlText").text(res);
+        }).fail((e) => {
+            console.error(e)
+            console.error(e.responseText)
+        })
     }
 }

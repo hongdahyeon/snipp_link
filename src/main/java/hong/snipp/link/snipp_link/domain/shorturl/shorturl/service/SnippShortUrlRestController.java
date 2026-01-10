@@ -37,6 +37,8 @@ public class SnippShortUrlRestController {
      *
      * ORIGIN_URL -> SHORT_URL 생성
      *
+     * TODO >> 생성 방법 로그인 이전도 가능하게 변경?
+     *
      * @api         [POST] /snipp/api/short-url/create
      * @author      work
      * @date        2025-04-15
