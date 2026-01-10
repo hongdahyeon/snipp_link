@@ -16,7 +16,7 @@
         <div class="d-flex flex-column flex-md-row justify-content-between mb-2 gap-2">
           <div class="d-flex gap-2"></div>
           <div>
-            <button type="button" class="btn-primary-custom goto-write">게시글 작성하기</button>
+            <button type="button" class="btn-primary-custom goto-write" th:if="${user != null}">게시글 작성하기</button>
           </div>
         </div>
         <div id="board-table"></div>
