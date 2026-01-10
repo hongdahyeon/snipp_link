@@ -49,6 +49,13 @@ public class AccessShortURLController {
 
         // 1. {shortURL} 정보 찾기
         SnippShortUrlView view = shortUrlService.findShortURLByShortURL(encode);
+        if(view == null) {
+
+            code = AccessTp.ACCESS_ERROR.name();
+            String queryString = "?errorRedirect="+code;
+            return "redirect:/" + queryString;
+        }
+
         if("Y".equals(view.getIsExpired())) {
 
             canAccess = false;
