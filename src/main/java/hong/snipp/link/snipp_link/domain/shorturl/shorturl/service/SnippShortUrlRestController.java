@@ -24,6 +24,7 @@ import java.util.List;
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
  * 2025-04-16        home       파일 이름 변경 : snip -> snipp
+ * 2026-01-12        home       short_url 생성
  */
 @RestController
 @RequiredArgsConstructor
@@ -36,8 +37,6 @@ public class SnippShortUrlRestController {
     /**
      *
      * ORIGIN_URL -> SHORT_URL 생성
-     *
-     * TODO >> 생성 방법 로그인 이전도 가능하게 변경?
      *
      * @api         [POST] /snipp/api/short-url/create
      * @author      work

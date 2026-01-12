@@ -2,6 +2,8 @@ package hong.snipp.link.snipp_link.domain.code;
 
 import lombok.Getter;
 
+import java.util.Arrays;
+
 /**
  * packageName    : hong.snipp.link.snipp_link.domain.code
  * fileName       : UserRole
@@ -13,6 +15,7 @@ import lombok.Getter;
  * -----------------------------------------------------------
  * 2025-04-16        work       최초 생성
  * 2025-04-21        work       SUPER -> ROLE_SUPER 이름 수정
+ * 2025-01-12        home       code -> name
  */
 @Getter
 public enum UserRole {
@@ -34,5 +37,18 @@ public enum UserRole {
             }
         }
         return  false;
+    }
+
+    /**
+     * Code(Enum 상수명) -> Name(설명) 변환
+     * 예: "ROLE_USER" -> "일반 사용자 권한"
+     */
+    public static String getNameByCode(String code) {
+        if (code == null) return "";
+        return Arrays.stream(UserRole.values())
+                .filter(role -> role.name().equals(code))
+                .findFirst()
+                .map(UserRole::getName)
+                .orElse("");
     }
 }
