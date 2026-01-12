@@ -1,5 +1,7 @@
 package hong.snipp.link.snipp_link.domain.user.service;
 
+import hong.snipp.link.snipp_link.domain.code.SocialTp;
+import hong.snipp.link.snipp_link.domain.code.UserRole;
 import hong.snipp.link.snipp_link.domain.user.domain.SnippUser;
 import hong.snipp.link.snipp_link.domain.user.domain.SnippUserMapper;
 import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserChange;
@@ -34,6 +36,7 @@ import java.util.List;
  * 2025-04-22        work       {changeUserPassword, changeUserExpired} 메소드 추가
  * 2025-04-23        work       {findAllUserPage, findAllUserList} 메소드 추가
  * 2025-04-25        work       {findUserByUserUid, changeUserLock, changeUserEnable, changeUser} 메소드 추가
+ * 2026-01-12        home   findAllUserPage 소셜로그인 사용자 한국어 kor
  */
 @Service
 @RequiredArgsConstructor
@@ -145,6 +148,12 @@ public class SnippUserService {
     @Transactional(readOnly = true)
     public Page<SnippUserList> findAllUserPage(SnippUserSearch search, Pageable pageable) {
         List<SnippUserList> list = mapper.page(pageable.generateMap(search));
+        list.forEach((data) -> {
+            data.setUserRoleKr(UserRole.getNameByCode(data.getUserRole()));
+            if(data.getSocialUid() != null) {
+                data.setSocialTpKor(SocialTp.getNameByCode(data.getSocialTp()));
+            }
+        });
         int count = mapper.count(search);
         return new Page<>(list, count, pageable);
     }

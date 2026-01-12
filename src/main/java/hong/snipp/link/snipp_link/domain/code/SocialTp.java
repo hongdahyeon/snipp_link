@@ -1,5 +1,9 @@
 package hong.snipp.link.snipp_link.domain.code;
 
+import lombok.Getter;
+
+import java.util.Arrays;
+
 /**
  * packageName    : hong.snipp.link.snipp_link.domain.code
  * fileName       : SocialTp
@@ -10,7 +14,9 @@ package hong.snipp.link.snipp_link.domain.code;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
+ * 2026-01-12        home       code -> name, getter 추가
  */
+@Getter
 public enum SocialTp {
 
     SOCIAL_KAKAO("카카오"),
@@ -30,5 +36,17 @@ public enum SocialTp {
             }
         }
         return  false;
+    }
+
+    /**
+     * Code(Enum 상수명) -> Name(설명) 변환
+     */
+    public static String getNameByCode(String code) {
+        if (code == null) return "";
+        return Arrays.stream(SocialTp.values())
+                .filter(role -> role.name().equals(code))
+                .findFirst()
+                .map(SocialTp::getName)
+                .orElse("");
     }
 }

@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
  * -----------------------------------------------------------
  * 2025-04-23        work       최초 생성
  * 2025-04-25        work       ResponseIdBean extend 받기
+ * 2026-01-12        home       setter user_role_kr
  */
 @Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SnippUserList extends ResponseIdBean {
@@ -26,6 +27,7 @@ public class SnippUserList extends ResponseIdBean {
     private String userEmail;
     private String userNm;
     private String userRole;
+    private String userRoleKr;
     private String lastConnDt;
     private String lastPwdChngDt;
     private int pwdFailCnt;
@@ -34,5 +36,14 @@ public class SnippUserList extends ResponseIdBean {
 
     private Long socialUid;
     private String socialTp;
+    private String socialTpKor;
     private String socialUserId;
+
+    public void setUserRoleKr(String roleKr) {
+        this.userRoleKr = roleKr;
+    }
+
+    public void setSocialTpKor(String socialTpKor) {
+        this.socialTpKor = socialTpKor;
+    }
 }
