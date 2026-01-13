@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
  * 2025-04-22        work       비번 변경 및 90일 연장 API 추가
  * 2025-04-23        work       {findAllUserPage, findAllUserList} API 추가
  * 2025-04-25        work       유저 단건 조회/수정 + 유저 잠금 및 활성화 수정 API 추가
+ * 2026-01-12       home        유저 목록 조회 (페이징) super 권한
  */
 @RestController
 @RequiredArgsConstructor
@@ -138,12 +139,13 @@ public class SnippUserRestController {
     /**
      *
      * 유저 목록 조회 (페이징)
+     * [권한] ROLE_SUPER
      *
-     * @api         [GET] /snipp/api/user/page
+     * @api         [GET] /snipp/api/user/super/page
      * @author      work
      * @date        2025-04-23
     **/
-    @GetMapping("/page")
+    @GetMapping("/super/page")
     public ResponseEntity findAllUserPage(@Valid SnippUserSearch search, Pageable pageable) {
         Page<SnippUserList> allUserPage = service.findAllUserPage(search, pageable);
         return ResponseEntity.ok(allUserPage);

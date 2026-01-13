@@ -32,6 +32,7 @@ import java.util.List;
  * -----------------------------------------------------------
  * 2025-04-18        work       최초 생성
  * 2025-04-21        work       ~ 개발 작업 완료
+ * 2026-01-12        home       권한 api,url 허용 순서 변경
  */
 @Configuration
 @EnableWebSecurity
@@ -58,11 +59,15 @@ public class SecurityConfig {
      *              {TIP} hasAuthority("ROLE_SUPER") : 정확히 "ROLE_SUPER" 값과 비교를 한다. (접두사 안붙임)
      **/
     private void configureAuthorization(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth) {
-        auth.requestMatchers(Paths.BEFORE_LOGIN).permitAll() // 로그인 전 접근 가능
-            .requestMatchers(Paths.ROLE_SUPER).hasAuthority("ROLE_SUPER") // {ROLE_SUPER} 권한만 접근 가능
-            .requestMatchers(Paths.ROLE_MANAGER).hasAnyAuthority("ROLE_SUPER", "ROLE_MANAGER") // {ROLE_SUPER}, {ROLE_MANAGER} 권한만 접근 가능
-            .requestMatchers(Paths.AFTER_LOGIN).authenticated() // 로그인 후 접근 가능
-            .anyRequest().authenticated(); // 나머지 요청도 로그인 필요
+        auth
+            // 1. 구체적인 권한 제한을 '먼저' 체크
+            .requestMatchers(Paths.ROLE_SUPER).hasAuthority("ROLE_SUPER")
+            .requestMatchers(Paths.ROLE_MANAGER).hasAnyAuthority("ROLE_SUPER", "ROLE_MANAGER")
+            // 2. 그 다음 허용할 것들을 체크
+            .requestMatchers(Paths.BEFORE_LOGIN).permitAll()
+            .requestMatchers(Paths.AFTER_LOGIN).authenticated()
+            // 3. 나머지는 인증 필요
+            .anyRequest().authenticated();
     }
 
     /**

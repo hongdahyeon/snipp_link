@@ -24,6 +24,7 @@ import java.util.List;
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
  * 2025-04-16        home       파일 이름 변경 : snip -> snipp
+ * 2026-01-12        home       short_url 생성
  */
 @RestController
 @RequiredArgsConstructor
