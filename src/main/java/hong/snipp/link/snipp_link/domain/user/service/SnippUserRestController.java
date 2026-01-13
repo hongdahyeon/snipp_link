@@ -33,7 +33,8 @@ import java.util.regex.Pattern;
  * 2025-04-22        work       비번 변경 및 90일 연장 API 추가
  * 2025-04-23        work       {findAllUserPage, findAllUserList} API 추가
  * 2025-04-25        work       유저 단건 조회/수정 + 유저 잠금 및 활성화 수정 API 추가
- * 2026-01-12       home        유저 목록 조회 (페이징) super 권한
+ * 2026-01-12        home       유저 목록 조회 (페이징) super 권한
+ * 2026-01-13        work       유저 잠금/활성화 관련 super 권한
  */
 @RestController
 @RequiredArgsConstructor
@@ -187,11 +188,11 @@ public class SnippUserRestController {
      * => 잠금    : lock / unlock
      * => 활성화  : enable / disable
      *
-     * @api         [PUT] /snipp/user/api/{code}/{uid}
+     * @api         [PUT] /snipp/api/user/super/{code}/{uid}
      * @author      work
      * @date        2025-04-25
     **/
-    @PutMapping("/{code}/{uid}")
+    @PutMapping("/super/{code}/{uid}")
     public ResponseEntity changeUserInfo(@PathVariable("code") String code, @PathVariable("uid") Long uid) {
         if("lock".equals(code) || "unlock".equals(code)) {
 
