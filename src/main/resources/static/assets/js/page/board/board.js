@@ -12,8 +12,8 @@ var boardJS = {
                     const $firstLink = $('#board-cl-faq a.text-muted').first();
                     $firstLink.addClass('selected');
                     clUid = $firstLink.data('uid');
-                }).then(() => {
-                    faqCard.drawFaqBoardCards();
+                }).then(async () => {
+                    await faqCard.drawFaqBoardCards();
                 });
                 break;
             case "free":
@@ -29,13 +29,19 @@ var boardJS = {
             .setPaging(10, 1, 3, true)
             .useIndex("번호")
             .add(new Column('title', '제목'))
-            .add(new Column('useAt', '사용여부').formatter((cell, row, column) => {
-                const color = (cell === 'Y') ? 'green' : 'red'
-                const text = (cell === 'Y') ? '사용' : '미사용'
-                return Grid.draw(
-                    `<span style="color: ${color}">${text}</span>`
-                )
-            }))
+
+        if( user != null && (user?.['role'] === 'ROLE_SUPER' || user?.['role'] === 'ROLE_MANAGER')) {
+            boardJS.table
+                .add(new Column('useAt', '사용여부').formatter((cell, row, column) => {
+                    const color = (cell === 'Y') ? 'green' : 'red'
+                    const text = (cell === 'Y') ? '사용' : '미사용'
+                    return Grid.draw(
+                        `<span style="color: ${color}">${text}</span>`
+                    )
+                }))
+        }
+
+        boardJS.table
             .add(new Column('regUid', '등록자').formatter((cell, row, column) => {
                 const rowData = boardJS.table.getRowDataFull(row)
                 return Grid.draw(`<span>${rowData['regNm']} (${rowData['regId']})</span>`)
