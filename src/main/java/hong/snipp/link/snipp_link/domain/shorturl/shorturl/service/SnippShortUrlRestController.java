@@ -25,6 +25,7 @@ import java.util.List;
  * 2025-04-15        work       최초 생성
  * 2025-04-16        home       파일 이름 변경 : snip -> snipp
  * 2026-01-12        home       short_url 생성
+ * 2026-01-14        work       short_url page 조회 super 권한
  */
 @RestController
 @RequiredArgsConstructor
@@ -52,11 +53,11 @@ public class SnippShortUrlRestController {
      *
      * SHORT_URL 목록 조회 (페이징)
      *
-     * @api         [GET] /snipp/api/short-url/page
+     * @api         [GET] /snipp/api/short-url/super/page
      * @author      work
      * @date        2025-04-15
     **/
-    @GetMapping("/page")
+    @GetMapping("/super/page")
     public ResponseEntity findAllShortURLPage(@Valid SnippShortUrlParam param, Pageable pageable) {
         Page<SnippShortUrlList> allShortURLPage = service.findAllShortURLPage(param, pageable);
         return ResponseEntity.ok(allShortURLPage);

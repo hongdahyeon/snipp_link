@@ -1,6 +1,7 @@
 package hong.snipp.link.snipp_link.domain.shorturl.shorturl.dto.response;
 
 import hong.snipp.link.snipp_link.domain.shorturl.access.dto.response.SnippSUrlAccessList;
+import hong.snipp.link.snipp_link.domain.shorturl.log.dto.response.SnippSUrlLogList;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.List;
  * 2025-04-16        home       * 파일 이름 변경
  *                              - snip -> snipp
  *                              - ShortUrlAccess -> SUrlAccess
+ * 2026-01-14        work       logLists 필드 추가
  */
 @Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SnippShortUrlList {
@@ -33,8 +35,13 @@ public class SnippShortUrlList {
     private String isExpired;
     private String isPublic;
     private List<SnippSUrlAccessList> accessLists = new ArrayList<>();
+    private List<SnippSUrlLogList> logLists = new ArrayList<>();
 
     public void setAccessLists(List<SnippSUrlAccessList> accessLists) {
         this.accessLists = accessLists;
+    }
+
+    public void setLogLists(List<SnippSUrlLogList> logLists) {
+        this.logLists = logLists;
     }
 }

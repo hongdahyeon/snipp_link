@@ -70,6 +70,11 @@ var testJs = {
                     return `<span>[${idx}]: ${cell._id} <br> -> ${cell.data}</span><br><br>`;
                 }).join("");
                 Sweet.alert(cellData);
+
+                const mainId = args[0]['data']
+                console.log(">> mainId: ", mainId)
+                const rowData = testJs.table.getRowData(mainId)
+                console.log(">> rowData: ", rowData)
             });
 
     }
