@@ -7,7 +7,6 @@ var shortUrlLogJS = {
             .get('/snipp/api/short-url/access-log/page')
             .headers("center")
             .setPaging(10, 1, 3, true)
-            /*./!*add(new Column('logUid').width("5%").customName(`<span>유저<br>UID</span>`))*!/*/
             .useIndex('#')
             .add(new Column('shortUrl').customName('<span>short<br>URL</span>'))
             .add(new Column('originUrl', '원본URL'))

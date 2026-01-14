@@ -26,6 +26,7 @@ import java.util.List;
  * 2025-04-16        home       * 파일 이름 변경
  *                              - snip -> snipp
  *                              - ShortUrlAccessLog -> SUrlLog
+ * 2026-01-14        work       findAllLogListByShortLink 추가
  */
 
 @Service
@@ -68,6 +69,19 @@ public class SnippSUrlLogService {
     @Transactional(readOnly = true)
     public List<SnippSUrlLogList> findAllLogList(SnippSUrlLogParam param) {
         List<SnippSUrlLogList> list = mapper.list(param);
+        list.forEach(dto -> dto.setAccessTp(dto.getAccessTp()));
+        return list;
+    }
+
+    /**
+     * @method      findAllLogListByShortLink
+     * @author      dahyeon
+     * @date        2026-01-14
+     * @deacription SHORT_URL 접근 로그 목록 조회 (리스트) [BY) SHORT_URL]
+    **/
+    @Transactional(readOnly = true)
+    public List<SnippSUrlLogList> findAllLogListByShortLink(String shortUrl) {
+        List<SnippSUrlLogList> list = mapper.getAllLogListByShortLink(shortUrl);
         list.forEach(dto -> dto.setAccessTp(dto.getAccessTp()));
         return list;
     }

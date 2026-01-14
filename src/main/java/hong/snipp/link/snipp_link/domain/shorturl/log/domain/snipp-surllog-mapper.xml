@@ -86,4 +86,21 @@
           AND SSUAL.ACCESS_TP = #{accessTp}
         </if>
     </select>
+
+    <select id="getAllLogListByShortLink" parameterType="String" resultType="SnippSUrlLogList">
+        /* snippSUrlLog.getAllLogListByShortLink */
+        SELECT SSUAL.UID AS LOG_UID
+              ,SSUAL.SHORT_URL
+              ,SSU.ORIGIN_URL AS ORIGIN_URL
+              ,SSUAL.USER_UID
+              ,SSUAL.ACCESS_IP
+              ,SSUAL.ACCESS_USER_AGENT
+              ,SSUAL.ACCESS_DATE
+              ,SSUAL.ACCESS_TP
+          FROM SNP_SHORTEN_URL_ACCESS_LOG SSUAL
+         INNER JOIN SNP_SHORTEN_URL SSU ON SSU.SHORT_URL = SSUAL.SHORT_URL
+         WHERE 1 = 1
+           AND SSUAL.SHORT_URL = #{shortUrl}
+         ORDER BY SSUAL.ACCESS_DATE DESC
+    </select>
 </mapper>

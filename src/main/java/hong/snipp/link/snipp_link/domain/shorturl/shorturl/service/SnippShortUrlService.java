@@ -1,5 +1,6 @@
 package hong.snipp.link.snipp_link.domain.shorturl.shorturl.service;
 
+import hong.snipp.link.snipp_link.domain.shorturl.log.service.SnippSUrlLogService;
 import hong.snipp.link.snipp_link.domain.shorturl.shorturl.domain.SnippShortUrl;
 import hong.snipp.link.snipp_link.domain.shorturl.shorturl.domain.SnippShortUrlMapper;
 import hong.snipp.link.snipp_link.domain.shorturl.shorturl.dto.request.SnippShortUrlCreate;
@@ -28,6 +29,7 @@ import java.util.List;
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
  * 2025-04-16        home       파일 이름 변경 : snip -> snipp
+ * 2026-01-14        work       findAllShortURLPage 로그목록 조회 추가
  */
 @Service
 @RequiredArgsConstructor
@@ -35,6 +37,7 @@ public class SnippShortUrlService {
 
     private final SnippShortUrlMapper mapper;
     private final SnippSUrlAccessService accessService;
+    private final SnippSUrlLogService logService;
 
     /**
      * @method      findShortURLByOriginURL
@@ -118,6 +121,7 @@ public class SnippShortUrlService {
            if("N".equals(dto.getIsPublic())) {
                dto.setAccessLists(accessService.findAccessListByUid(dto.getUid()));
            }
+           dto.setLogLists(logService.findAllLogListByShortLink(dto.getShortUrl()));
         });
         int count = mapper.count(param);
         return new Page<>(list, count, pageable);
