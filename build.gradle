@@ -43,6 +43,7 @@ dependencies {
 	// db
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
 	implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client'
+	runtimeOnly 'com.h2database:h2'
 
 	// log console
 	implementation 'org.jodd:jodd-core:5.3.0'
