@@ -22,17 +22,18 @@ import org.springframework.web.cors.CorsConfiguration;
 import java.util.List;
 
 /**
- * packageName    : hong.snipp.link.snipp_link.global.config
- * fileName       : SecurityConfig
- * author         : work
- * date           : 2025-04-18
- * description    : 시큐리티 관련 설정
+ * packageName : hong.snipp.link.snipp_link.global.config
+ * fileName : SecurityConfig
+ * author : work
+ * date : 2025-04-18
+ * description : 시큐리티 관련 설정
  * ===========================================================
- * DATE              AUTHOR             NOTE
+ * DATE AUTHOR NOTE
  * -----------------------------------------------------------
- * 2025-04-18        work       최초 생성
- * 2025-04-21        work       ~ 개발 작업 완료
- * 2026-01-12        home       권한 api,url 허용 순서 변경
+ * 2025-04-18 work 최초 생성
+ * 2025-04-21 work ~ 개발 작업 완료
+ * 2026-01-12 home 권한 api,url 허용 순서 변경
+ * 2026-01-17 work {h2-console 이용을 위해 H2 콘솔 CSRF 예외 처리 }, {H2 콘솔 iframe 허용}
  */
 @Configuration
 @EnableWebSecurity
@@ -46,144 +47,154 @@ public class SecurityConfig {
     private final PrincipalOAuth2UserService oAuth2UserService;
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder(){
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     /**
-     * @method      configureAuthorization
-     * @author      work
-     * @date        2025-03-27
+     * @method configureAuthorization
+     * @author work
+     * @date 2025-03-27
      * @deacription 권한별 접근 권한 설정
-     *              {TIP} hasRole("SUPER") : "ROLE_" 접두사를 붙여서 비교를 한다 => 값이 ROLE_SUPER 같이 저장되어 있어야 한다.
-     *              {TIP} hasAuthority("ROLE_SUPER") : 정확히 "ROLE_SUPER" 값과 비교를 한다. (접두사 안붙임)
+     *              {TIP} hasRole("SUPER") : "ROLE_" 접두사를 붙여서 비교를 한다 => 값이
+     *              ROLE_SUPER 같이 저장되어 있어야 한다.
+     *              {TIP} hasAuthority("ROLE_SUPER") : 정확히 "ROLE_SUPER" 값과 비교를 한다.
+     *              (접두사 안붙임)
      **/
-    private void configureAuthorization(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth) {
+    private void configureAuthorization(
+            AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth) {
         auth
-            // 1. 구체적인 권한 제한을 '먼저' 체크
-            .requestMatchers(Paths.ROLE_SUPER).hasAuthority("ROLE_SUPER")
-            .requestMatchers(Paths.ROLE_MANAGER).hasAnyAuthority("ROLE_SUPER", "ROLE_MANAGER")
-            // 2. 그 다음 허용할 것들을 체크
-            .requestMatchers(Paths.BEFORE_LOGIN).permitAll()
-            .requestMatchers(Paths.AFTER_LOGIN).authenticated()
-            // 3. 나머지는 인증 필요
-            .anyRequest().authenticated();
+                // 1. 구체적인 권한 제한을 '먼저' 체크
+                .requestMatchers(Paths.ROLE_SUPER).hasAuthority("ROLE_SUPER")
+                .requestMatchers(Paths.ROLE_MANAGER).hasAnyAuthority("ROLE_SUPER", "ROLE_MANAGER")
+                // 2. 그 다음 허용할 것들을 체크
+                .requestMatchers(Paths.BEFORE_LOGIN).permitAll()
+                .requestMatchers(Paths.AFTER_LOGIN).authenticated()
+                // 3. 나머지는 인증 필요
+                .anyRequest().authenticated();
     }
 
     /**
-     * @method      configureHandler
-     * @author      work
-     * @date        2025-04-01
+     * @method configureHandler
+     * @author work
+     * @date 2025-04-01
      * @deacription 403, 401 핸들러 처리
      **/
     private void configureHandler(ExceptionHandlingConfigurer<HttpSecurity> exception) {
         exception
-            .accessDeniedHandler(deniedHandler)
-            .authenticationEntryPoint(authenticationHandler);
+                .accessDeniedHandler(deniedHandler)
+                .authenticationEntryPoint(authenticationHandler);
     }
 
     /**
-     * @method      configureCsrf
-     * @author      work
-     * @date        2025-03-27
+     * @method configureCsrf
+     * @author work
+     * @date 2025-03-27
      * @deacription CSRF 공격 방어
      *              * CSRF 토큰을 쿠키에 저장
      *              * HttpOnly 속성 값을 {false}로 설정하여 JS에서 CSRF 토큰에 접근할 수 있도록 한다
      **/
     private void configureCsrf(CsrfConfigurer<HttpSecurity> csrfConfigurer) {
-        csrfConfigurer.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-        //csrfConfigurer.disable();
+        // csrfConfigurer.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+        // // csrfConfigurer.disable();
+        csrfConfigurer
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .ignoringRequestMatchers("/h2-console/**"); // H2 콘솔 CSRF 예외 처리
     }
 
     /**
-     * @method      configureHeaders
-     * @author      work
-     * @date        2025-03-27
+     * @method configureHeaders
+     * @author work
+     * @date 2025-03-27
      * @deacription HTTP 응답 헤더에 대한 보안 설정
-     *              * { Customizer.withDefaults() } : XSS 공격을 방어 ( 브라우저의 CSS 보호 기능을 활성화 )
-     *              * referrerPolicy : 참조자 정책 => 기본적으로 페이지 간에 { 동일 출처 }에서만 참조 정보를 보낼 수 있게 설정
+     *              * { Customizer.withDefaults() } : XSS 공격을 방어 ( 브라우저의 CSS 보호 기능을
+     *              활성화 )
+     *              * referrerPolicy : 참조자 정책 => 기본적으로 페이지 간에 { 동일 출처 }에서만 참조 정보를 보낼
+     *              수 있게 설정
      **/
     private void configureHeaders(HeadersConfigurer<HttpSecurity> headersConfigurer) {
         headersConfigurer
                 .xssProtection(Customizer.withDefaults())
-                .referrerPolicy(policyConfig -> policyConfig.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN));
+                .referrerPolicy(
+                        policyConfig -> policyConfig.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN))
+                .frameOptions(frame -> frame.sameOrigin()); // H2 콘솔 iframe 허용
     }
 
     /**
-     * @method      configureFormLogin
-     * @author      work
-     * @date        2025-03-27
+     * @method configureFormLogin
+     * @author work
+     * @date 2025-03-27
      * @deacription 폼 로그인 설정
      *              * 로그인 성공 및 실패 관련 설정
      **/
     private void configureFormLogin(FormLoginConfigurer<HttpSecurity> formLoginConfigurer) {
         formLoginConfigurer
-                .loginPage(Paths.LOGIN)                     // 로그인 페이지 경로
-                .successHandler(successHandler)             // 로그인 성공 핸들러
-                .failureHandler(failureHandler)             // 로그인 실패 핸들러
-                .usernameParameter("userId")                // 사용자 아이디 파라미터 이름
-                .loginProcessingUrl("/loginProc");          // 로그인 처리 URL
+                .loginPage(Paths.LOGIN) // 로그인 페이지 경로
+                .successHandler(successHandler) // 로그인 성공 핸들러
+                .failureHandler(failureHandler) // 로그인 실패 핸들러
+                .usernameParameter("userId") // 사용자 아이디 파라미터 이름
+                .loginProcessingUrl("/loginProc"); // 로그인 처리 URL
     }
 
-
     /**
-     * @method      configureOAuth2Login
-     * @author      work
-     * @date        2025-03-27
+     * @method configureOAuth2Login
+     * @author work
+     * @date 2025-03-27
      * @deacription oAuth2 로그인
      **/
     private void configureOAuth2Login(OAuth2LoginConfigurer<HttpSecurity> oauth2LoginConfigurer) {
         oauth2LoginConfigurer
-            .loginPage(Paths.LOGIN) // 로그인 페이지 설정
-            .successHandler(successHandler) // 로그인 성공 시 처리할 핸들러
-            .failureHandler(failureHandler) // 로그인 실패 시 처리할 핸들러
-            .userInfoEndpoint(userInfoEndpointConfig ->
-                userInfoEndpointConfig.userService(oAuth2UserService) // 사용자 정보 엔드포인트 설정
-            );
+                .loginPage(Paths.LOGIN) // 로그인 페이지 설정
+                .successHandler(successHandler) // 로그인 성공 시 처리할 핸들러
+                .failureHandler(failureHandler) // 로그인 실패 시 처리할 핸들러
+                .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userService(oAuth2UserService) // 사용자
+                                                                                                                  // 정보
+                                                                                                                  // 엔드포인트
+                                                                                                                  // 설정
+                );
     }
 
-
     /**
-     * @method      configureLogout
-     * @author      work
-     * @date        2025-03-27
+     * @method configureLogout
+     * @author work
+     * @date 2025-03-27
      * @deacription 로그아웃 관련 설정
      **/
     private void configureLogout(LogoutConfigurer<HttpSecurity> logoutConfigurer) {
         logoutConfigurer
-                .logoutUrl(Paths.LOGOUT)        // 로그아웃 URL 설정
-                .logoutSuccessUrl(Paths.LOGIN)  // 로그아웃 성공 후 리다이렉트할 URL 설정
-                .invalidateHttpSession(true)    // 세션 무효화
-                .clearAuthentication(true);     // 인증 정보 지우기
+                .logoutUrl(Paths.LOGOUT) // 로그아웃 URL 설정
+                .logoutSuccessUrl(Paths.LOGIN) // 로그아웃 성공 후 리다이렉트할 URL 설정
+                .invalidateHttpSession(true) // 세션 무효화
+                .clearAuthentication(true); // 인증 정보 지우기
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(cs -> configureCsrf(cs))
-            .cors(corsConfigurer -> corsConfigurer.configurationSource(request -> corsConfiguration()))
-            .headers(header -> configureHeaders(header))
-            .authorizeHttpRequests(auth -> configureAuthorization(auth))
-            .exceptionHandling(ex -> configureHandler(ex))
-            .formLogin(form -> configureFormLogin(form))
-            .oauth2Login(oauth2LoginConfigurer -> configureOAuth2Login(oauth2LoginConfigurer))
-            .logout(logout -> configureLogout(logout));
+                .csrf(cs -> configureCsrf(cs))
+                .cors(corsConfigurer -> corsConfigurer.configurationSource(request -> corsConfiguration()))
+                .headers(header -> configureHeaders(header))
+                .authorizeHttpRequests(auth -> configureAuthorization(auth))
+                .exceptionHandling(ex -> configureHandler(ex))
+                .formLogin(form -> configureFormLogin(form))
+                .oauth2Login(oauth2LoginConfigurer -> configureOAuth2Login(oauth2LoginConfigurer))
+                .logout(logout -> configureLogout(logout));
         return http.build();
     }
 
     /**
-     * @method      corsConfiguration
-     * @author      work
-     * @date        2025-03-27
+     * @method corsConfiguration
+     * @author work
+     * @date 2025-03-27
      * @deacription CORS 설정
      **/
-    private CorsConfiguration corsConfiguration(){
+    private CorsConfiguration corsConfiguration() {
         CorsConfiguration cors = new CorsConfiguration();
-        cors.setAllowedOriginPatterns(List.of("*"));    // 모든 출처 허용
-        cors.setAllowedMethods(List.of("*"));           // 모든 http 메서드 허용
-        cors.setAllowedHeaders(List.of("*"));           // 모든 헤더 허용
-        cors.setAllowCredentials(true);                     // 자격 증명 허용 => 웹 브라우저가 요청을 보낼 때 쿠키와 HTTP 인증 정보를 함께 보내는지 여부를 결정한다.
-        cors.setMaxAge(3600L);                              // pre-flight 요청 캐시 시간 (초)
+        cors.setAllowedOriginPatterns(List.of("*")); // 모든 출처 허용
+        cors.setAllowedMethods(List.of("*")); // 모든 http 메서드 허용
+        cors.setAllowedHeaders(List.of("*")); // 모든 헤더 허용
+        cors.setAllowCredentials(true); // 자격 증명 허용 => 웹 브라우저가 요청을 보낼 때 쿠키와 HTTP 인증 정보를 함께 보내는지 여부를 결정한다.
+        cors.setMaxAge(3600L); // pre-flight 요청 캐시 시간 (초)
         return cors;
     }
 }

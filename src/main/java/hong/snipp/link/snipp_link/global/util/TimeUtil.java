@@ -7,15 +7,16 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 
 /**
- * packageName    : hong.snipp.link.snipp_link.global.util
- * fileName       : TimeUtil
- * author         : work
- * date           : 2025-04-16
- * description    : Date / Time 관련 유틸함수
+ * packageName : hong.snipp.link.snipp_link.global.util
+ * fileName : TimeUtil
+ * author : work
+ * date : 2025-04-16
+ * description : Date / Time 관련 유틸함수
  * ===========================================================
- * DATE              AUTHOR             NOTE
+ * DATE AUTHOR NOTE
  * -----------------------------------------------------------
- * 2025-04-16        work       최초 생성
+ * 2025-04-16 work 최초 생성
+ * 2026-01-17 work formatToDateTimeHM 입력값 포멧 맞추기
  */
 public class TimeUtil {
 
@@ -25,7 +26,7 @@ public class TimeUtil {
 
     private static final LocalDateTime TODAY = LocalDateTime.now();
 
-    public static String nowDate(){
+    public static String nowDate() {
         return TODAY.format(DATE_TIME_FORMATTER);
     }
 
@@ -38,12 +39,12 @@ public class TimeUtil {
     }
 
     /**
-     * @method      addTimeFormat
-     * @author      work
-     * @date        2025-04-16
+     * @method addTimeFormat
+     * @author work
+     * @date 2025-04-16
      * @deacription (입력) YYYY-MM-DD
      *              (출력) YYYY-MM-DD HH:mm
-    **/
+     **/
     public static String addTimeFormat(String dateString) {
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -55,15 +56,18 @@ public class TimeUtil {
     }
 
     /**
-     * @method      formatToDateTimeHM
-     * @author      work
-     * @date        2025-04-16
+     * @method formatToDateTimeHM
+     * @author work
+     * @date 2025-04-16
      * @deacription (형식 변환) "2025-05-01T23:59:59" => "2025-05-01 23:59"
-    **/
+     **/
     public static String formatToDateTimeHM(String isoDateTime) {
-        if (isoDateTime == null || isoDateTime.isBlank()) return "";
+        if (isoDateTime == null || isoDateTime.isBlank())
+            return "";
         try {
-            LocalDateTime dt = LocalDateTime.parse(isoDateTime);
+            // H2 등 DB에서 오는 포맷 "yyyy-MM-dd HH:mm:ss.SSSSSS" 등을 처리하기 위해 T로 변환
+            String standardIso = isoDateTime.replace(" ", "T");
+            LocalDateTime dt = LocalDateTime.parse(standardIso);
             return dt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         } catch (DateTimeParseException e) {
             return isoDateTime; // 혹시 잘못된 형식이면 원본 리턴
@@ -71,11 +75,11 @@ public class TimeUtil {
     }
 
     /**
-     * @method      isXYearAfter
-     * @author      work
-     * @date        2025-04-18
+     * @method isXYearAfter
+     * @author work
+     * @date 2025-04-18
      * @deacription {compareDateString}가 현재로부터 {year}년 이내인지 여부 체크
-    **/
+     **/
     public static boolean isXYearAfter(String compareDateString, int year) {
         LocalDateTime compareDate = LocalDateTime.parse(compareDateString, DATE_TIME_FORMATTER);
         LocalDateTime oneYearAgo = TODAY.minus(year, ChronoUnit.YEARS);
@@ -87,7 +91,7 @@ public class TimeUtil {
         return futureDate.isAfter(TODAY);
     }
 
-    public static String daysAfter(int after){
+    public static String daysAfter(int after) {
         LocalDateTime futureDate = TODAY.plusDays(after);
         return futureDate.format(DATE_TIME_FORMATTER);
     }

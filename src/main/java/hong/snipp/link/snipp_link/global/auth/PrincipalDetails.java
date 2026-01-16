@@ -13,18 +13,19 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * packageName    : hong.snipp.link.snipp_link.global.auth
- * fileName       : PrincipalDetails
- * author         : work
- * date           : 2025-04-16
- * description    :
+ * packageName : hong.snipp.link.snipp_link.global.auth
+ * fileName : PrincipalDetails
+ * author : work
+ * date : 2025-04-16
+ * description :
  * ===========================================================
- * DATE              AUTHOR             NOTE
+ * DATE AUTHOR NOTE
  * -----------------------------------------------------------
- * 2025-04-16        work       최초 생성
- * 2025-04-22        work       세션 유저 권한 필드명 : userRole -> role
+ * 2025-04-16 work 최초 생성
+ * 2025-04-22 work 세션 유저 권한 필드명 : userRole -> role
+ * 2026-01-17 work lastConnDt, lastPwdChngDt 문자열 19이상이면 자르기
  */
-@EqualsAndHashCode(of = {"user"})
+@EqualsAndHashCode(of = { "user" })
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private final SnippSessionUser user;
@@ -38,7 +39,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         return user;
     }
 
-    public PrincipalDetails(SnippSessionUser user, Map<String, Object> attributes){
+    public PrincipalDetails(SnippSessionUser user, Map<String, Object> attributes) {
         this.user = user;
         this.attributes = attributes;
     }
@@ -73,7 +74,11 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     /* 계정 만료 여부 : 마지막 로그인 날짜가 1년이 지났는지 체크 */
     @Override
     public boolean isAccountNonExpired() {
-        return TimeUtil.isXYearAfter(user.getLastConnDt(), 1);
+        String lastConnDt = user.getLastConnDt();
+        if (lastConnDt != null && lastConnDt.length() > 19) {
+            lastConnDt = lastConnDt.substring(0, 19);
+        }
+        return TimeUtil.isXYearAfter(lastConnDt, 1);
     }
 
     /* 계정 잠김 여부 : "Y"가 아니면 잠금 해제된 상태 (true) */
@@ -88,7 +93,10 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         if (user.isSocialLogin()) {
             return true; // 소셜 로그인 유저는 비밀번호 만료 검사 안함
         }
-        return TimeUtil.dateCompare(user.getLastPwdChngDt());
+        String lastPwdChngDt = user.getLastPwdChngDt();
+        if (lastPwdChngDt != null && lastPwdChngDt.length() > 19)
+            lastPwdChngDt = lastPwdChngDt.substring(0, 19);
+        return TimeUtil.dateCompare(lastPwdChngDt);
     }
 
     /* 계정 활성화 여부 : "Y"이면 활성화된 상태 (true) */
@@ -97,4 +105,3 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         return "Y".equals(user.getIsEnable());
     }
 }
-
