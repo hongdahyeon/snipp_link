@@ -23,10 +23,10 @@ import javax.sql.DataSource;
  * date : 2025-04-13
  * description : MyBatisConfig
  * ===========================================================
- * DATE AUTHOR NOTE
+ * DATE             AUTHOR      NOTE
  * -----------------------------------------------------------
- * 2025-04-13 home 최초 생성
- * 2026-01-17 work h2-console 이용을 위해 allowMultiQuery 주석
+ * 2025-04-13       home        최초 생성
+ * 2026-01-17       work        h2-console 이용을 위해 allowMultiQuery 주석
  */
 
 @Component
