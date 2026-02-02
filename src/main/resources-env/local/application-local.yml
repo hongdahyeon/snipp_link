@@ -52,4 +52,4 @@ hong:
 jasypt:
   encryptor:
     bean: 'snippLinkEncryptor'
-    password: SNIPPLINK1004
+    password: ${JASYPT_PASSWORD}
