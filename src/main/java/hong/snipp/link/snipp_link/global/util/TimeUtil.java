@@ -13,10 +13,10 @@ import java.time.temporal.ChronoUnit;
  * date : 2025-04-16
  * description : Date / Time 관련 유틸함수
  * ===========================================================
- * DATE AUTHOR NOTE
+ * DATE             AUTHOR      NOTE
  * -----------------------------------------------------------
- * 2025-04-16 work 최초 생성
- * 2026-01-17 work formatToDateTimeHM 입력값 포멧 맞추기
+ * 2025-04-16       work        최초 생성
+ * 2026-01-17       work        formatToDateTimeHM 입력값 포멧 맞추기
  */
 public class TimeUtil {
 

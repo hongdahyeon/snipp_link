@@ -17,6 +17,7 @@ import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -38,6 +39,7 @@ import java.nio.charset.StandardCharsets;
  * 2025-04-21        work       ~ 개발 작업 완료
  * 2025-04-22        work       (1) 로그인 실패 이력 저장 + 이유
  *                              (2) 폼 로그인 실패 : {userEmail} 정보도 같이 전송
+ * 2026-02-02        work       SessionAuthenticationException 추가
  */
 @Slf4j
 @Component
@@ -67,12 +69,18 @@ public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
 
                 // 해당 사용자가 없음
                 sendMssgAndRedirect(FailureException.UsernameNotFoundException.message, FailureException.UsernameNotFoundException.type, userId, "", response);
-
             }
 
         } else {
 
             SnippUserView user = authUserService.findUserByUserId(userId);
+
+            /* [추가] 중복 로그인 발생 시 처리 */
+            if (exception instanceof SessionAuthenticationException) {
+                String message = FailureException.DuplicateLogin.message;
+                request.getSession().setAttribute("userId", userId);    // 세션에 userId를 담아 forceLogin(강제 로그인) 시 사용할 수 있게 함
+                sendMssgAndRedirect(message, FailureException.DuplicateLogin.type, userId, user.getUserEmail(), response);
+            }
 
             /* [폼로그인] 계정 비활성화 : 관리자가 사용자의 계정 비활성화 */
             if(exception instanceof DisabledException) {

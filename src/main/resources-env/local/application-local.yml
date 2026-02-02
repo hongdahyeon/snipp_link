@@ -1,4 +1,24 @@
 spring:
+  session:
+    # store-type:: 세션 저장소 타입 설정]
+    # => none: 서버 메모리(ConcurrentHashMap)를 사용, 로컬 개발 시 Redis 없이도 로그인 기능을 테스트 가능
+    # => redis: 실제 운영 환경에서는 이 값을 'redis'로 변경하여 외부 Redis 서버에 세션을 저장
+    store-type: none
+  cache:
+    # type :: [캐시 저장 방식 설정]
+    # => simple: 스프링 부트가 제공하는 가장 기본적인 메모리 캐시(ConcurrentHashMap) 방식
+    # => 외부 서버 설치 없이 서버 내부 RAM을 활용하므로 로컬 개발 및 소규모 서비스에 적합
+    type: simple
+  data:
+    redis:
+      # cluster: <--- 이 부분을 삭제하거나 주석 처리하세요.
+      #   nodes: localhost:6379
+      host: localhost  # 이렇게 적어야 "나 혼자 일하는 Redis야"라는 서버와 대화가 통합니다.
+      port: 6379
+      # namespace :: [세션 데이터 네임스페이스]
+      # => Redis 내에서 세션 키들이 섞이지 않도록 'spring:session:snipp_link'라는 접두사 사용
+      # => 하나의 Redis를 여러 프로젝트가 공유할 때 데이터 간섭을 방지하는 중요한 설정
+      namespace: spring:session:snipp_link
   datasource:
     # MariaDB (Backup)
     # url: jdbc:mariadb://localhost:3306/snipp_link?allowPublicKeyRetrieval=true&useSSL=false&allowMultiQueries=true
@@ -19,7 +39,6 @@ spring:
   sql:
     init:
       mode: always
-
 hong:
   short-url:
     secret-key: ENC(y1vnk0wEj21ZWHvsNs5PBS205F6TA98LcopBnfWPcFqkpp1fBOYZL6ILqh5zldH0kth2rHmhC/52C6EuEDnmxg==)
@@ -28,6 +47,7 @@ hong:
     path: D:/hongFileDir/snipp_link/
     start-path: "/ckImage/"
     pattern: "/ckImage/**"
+  max-session: 1 #-1  # 지정안할 경우 1 기본값
 
 jasypt:
   encryptor:

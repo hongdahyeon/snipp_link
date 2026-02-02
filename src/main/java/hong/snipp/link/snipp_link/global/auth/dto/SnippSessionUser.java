@@ -5,6 +5,8 @@ import hong.snipp.link.snipp_link.domain.user.dto.response.SnippUserView;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.io.Serializable;
+
 /**
  * packageName    : hong.snipp.link.snipp_link.global.auth.dto
  * fileName       : SnippSessionUser
@@ -18,11 +20,15 @@ import lombok.Getter;
  * -----------------------------------------------------------
  * 2025-04-16        work       최초 생성
  * 2025-04-22        work       세션 유저 권한 필드명 : userRole -> role
+ * 2026-02-02        work       자바 직렬화(Serialization) 추가
  */
 
 @Getter
 @EqualsAndHashCode(of = "userId", callSuper = false)
-public class SnippSessionUser {
+public class SnippSessionUser implements Serializable {
+
+    // 직렬화 버전 관리를 위한 ID (랜덤값이나 1L 등으로 설정)
+    private static final long serialVersionUID = 1L;
 
     private Long uid;
     private String userId;

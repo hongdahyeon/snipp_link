@@ -63,6 +63,12 @@ dependencies {
 	// https://mvnrepository.com/artifact/commons-io/commons-io
 	implementation("commons-io:commons-io:2.18.0")
 
+	// redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'	// Java Application & Redis Server 연결 드라이버 (ex. Lettuce)
+	implementation 'org.springframework.session:spring-session-data-redis'		// 전략 대행
+																				// => Spring Security의 세션 정보를 서버 메모리가 아닌 Redis에 저장하도록 가로채는 중간 관리자
+
+
 	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'

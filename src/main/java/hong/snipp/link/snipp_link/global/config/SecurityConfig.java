@@ -6,6 +6,7 @@ import hong.snipp.link.snipp_link.global.handler.CustomAuthenticationHandler;
 import hong.snipp.link.snipp_link.global.handler.login.CustomLoginFailureHandler;
 import hong.snipp.link.snipp_link.global.handler.login.CustomLoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.*;
 import org.springframework.security.config.annotation.web.configurers.oauth2.client.OAuth2LoginConfigurer;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -28,12 +30,13 @@ import java.util.List;
  * date : 2025-04-18
  * description : 시큐리티 관련 설정
  * ===========================================================
- * DATE AUTHOR NOTE
+ * DATE         AUTHOR      NOTE
  * -----------------------------------------------------------
- * 2025-04-18 work 최초 생성
- * 2025-04-21 work ~ 개발 작업 완료
- * 2026-01-12 home 권한 api,url 허용 순서 변경
- * 2026-01-17 work {h2-console 이용을 위해 H2 콘솔 CSRF 예외 처리 }, {H2 콘솔 iframe 허용}
+ * 2025-04-18   work        최초 생성
+ * 2025-04-21   work        ~ 개발 작업 완료
+ * 2026-01-12   home        권한 api,url 허용 순서 변경
+ * 2026-01-17   work        {h2-console 이용을 위해 H2 콘솔 CSRF 예외 처리 }, {H2 콘솔 iframe 허용}
+ * 2026-02-02   work        sessionManagement 적용
  */
 @Configuration
 @EnableWebSecurity
@@ -45,6 +48,11 @@ public class SecurityConfig {
     private final CustomAccessDeniedHandler deniedHandler;
     private final CustomAuthenticationHandler authenticationHandler;
     private final PrincipalOAuth2UserService oAuth2UserService;
+
+    private final SessionRegistry sessionRegistry;
+
+    @Value("${hong.max-session}")
+    private Integer maxSession;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -99,7 +107,7 @@ public class SecurityConfig {
         // // csrfConfigurer.disable();
         csrfConfigurer
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .ignoringRequestMatchers("/h2-console/**"); // H2 콘솔 CSRF 예외 처리
+                .ignoringRequestMatchers("/h2-console/**", "/login/force.json"); // H2 콘솔 CSRF 예외 처리
     }
 
     /**
@@ -147,11 +155,7 @@ public class SecurityConfig {
                 .loginPage(Paths.LOGIN) // 로그인 페이지 설정
                 .successHandler(successHandler) // 로그인 성공 시 처리할 핸들러
                 .failureHandler(failureHandler) // 로그인 실패 시 처리할 핸들러
-                .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userService(oAuth2UserService) // 사용자
-                                                                                                                  // 정보
-                                                                                                                  // 엔드포인트
-                                                                                                                  // 설정
-                );
+                .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userService(oAuth2UserService)); // 사용자 정보 엔드포인트 설정
     }
 
     /**
@@ -168,6 +172,16 @@ public class SecurityConfig {
                 .clearAuthentication(true); // 인증 정보 지우기
     }
 
+    private void configureSessionManagement(SessionManagementConfigurer<HttpSecurity> manage) {
+        manage
+            .sessionFixation().changeSessionId() // 1. 세션 고정 공격 방지 (로그인 시 세션 ID 재발급)
+            // 2. 동시 세션 제어 (중복 로그인 방지)
+            .maximumSessions(maxSession)        // 최대 허용 세션 수: -1(무제한 허용), 1(중복 로그인 불가능), 0(로그인 불가능), 2(다중 접속 가능)
+            .maxSessionsPreventsLogin(true)     // true: 신규 로그인 차단, false: 기존 세션 만료
+            .sessionRegistry(sessionRegistry)   // Redis 연동 세션 장부
+            .expiredUrl(Paths.LOGIN);           // 세션 만료 시 이동할 페이지
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -178,6 +192,7 @@ public class SecurityConfig {
                 .exceptionHandling(ex -> configureHandler(ex))
                 .formLogin(form -> configureFormLogin(form))
                 .oauth2Login(oauth2LoginConfigurer -> configureOAuth2Login(oauth2LoginConfigurer))
+                .sessionManagement(manage -> configureSessionManagement(manage))
                 .logout(logout -> configureLogout(logout));
         return http.build();
     }

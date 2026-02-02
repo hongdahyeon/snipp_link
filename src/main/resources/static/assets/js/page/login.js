@@ -26,6 +26,11 @@ var loginJS = {
         loginJS.errorP.html(errorMessage.replace("\n", "<br>"));
 
         switch(type) {
+
+            case "session":
+                loginJS.sessionUser(errorMessage);
+                break;
+
             /* [사용자가 없을때] */
             case "none":
                 loginJS.noneUser(errorMessage);
@@ -61,6 +66,16 @@ var loginJS = {
                 loginJS.socialEnable(userId, errorMessage);
                 break;
         }
+    }
+
+    /* [중복 로그인 방지] */
+    ,sessionUser: function (message) {
+        const force = document.getElementById("force")
+        Sweet.confirm(message.replace("\n", "<br>")).then(isOk => {
+            if (isOk) {
+                force.submit();
+            }
+        })
     }
 
     /* [사용자가 없을때] */
