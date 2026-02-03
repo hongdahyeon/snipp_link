@@ -19,11 +19,11 @@ import java.util.Map;
  * date : 2025-04-16
  * description :
  * ===========================================================
- * DATE AUTHOR NOTE
+ * DATE             AUTHOR      NOTE
  * -----------------------------------------------------------
- * 2025-04-16 work 최초 생성
- * 2025-04-22 work 세션 유저 권한 필드명 : userRole -> role
- * 2026-01-17 work lastConnDt, lastPwdChngDt 문자열 19이상이면 자르기
+ * 2025-04-16       work        최초 생성
+ * 2025-04-22       work        세션 유저 권한 필드명 : userRole -> role
+ * 2026-01-17       work        lastConnDt, lastPwdChngDt 문자열 19이상이면 자르기
  */
 @EqualsAndHashCode(of = { "user" })
 public class PrincipalDetails implements UserDetails, OAuth2User {
