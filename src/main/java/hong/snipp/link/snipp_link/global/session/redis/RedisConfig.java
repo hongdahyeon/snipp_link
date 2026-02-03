@@ -2,13 +2,14 @@ package hong.snipp.link.snipp_link.global.session.redis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
-import org.springframework.data.redis.connection.RedisConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
@@ -21,7 +22,6 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 
 import java.time.Duration;
-import java.util.List;
 
 
 /**
@@ -46,24 +46,26 @@ import java.util.List;
  * => 이를 통해 로컬(None)과 운영(Redis) 환경을 유연하게 스위칭
  */
 @ConditionalOnProperty(name = "spring.session.store-type", havingValue = "redis")
+@Slf4j
 public class RedisConfig {
 
-    private final static Duration sessionTimeoutSeconds = Duration.ofHours(1);
+    @Value("${spring.session.timeout}") // yml의 1h 값을 가져옴
+    private Duration springSessionTimeout;
 
-    @Value("${spring.redis.cluster.nodes}")
-    private List<String> clusterNodes;
+    private final RedisProperties redisProperties;
 
     /**
      * @method      overriddenSessionRepository
      * @author      dahyeon
      * @date        2026-02-02
-     * @deacription 기본 세션 레포지토리를 커스텀 설정으로 덮기
+     * @deacription 직접 정의한 redisTemplate을 주입받아 세션 레포지토리 등록
     **/
     @Primary
     @Bean
-    public RedisIndexedSessionRepository overriddenSessionRepository(RedisIndexedSessionRepository sessionRepository) {
-        sessionRepository.setDefaultMaxInactiveInterval(sessionTimeoutSeconds);
-        return sessionRepository;
+    public RedisIndexedSessionRepository overriddenSessionRepository(@Qualifier("redisTemplate") RedisTemplate<String, Object> redisTemplate) { // 내가 만든 템플릿 주입
+        RedisIndexedSessionRepository repository = new RedisIndexedSessionRepository(redisTemplate);
+        repository.setDefaultMaxInactiveInterval(springSessionTimeout);
+        return repository;
     }
 
     /**
@@ -73,10 +75,10 @@ public class RedisConfig {
      * @deacription Redis를 기반으로 하는 세션 장부(Registry)를생성
      *              => 분산 환경에서 특정 사용자의 세션 리스트 조회 및 강제 만료(expireNow)시 사용
     **/
-    @Bean
-    public SessionRegistry springSessionBackedSessionRegistry(RedisIndexedSessionRepository repository) {
-        return new SpringSessionBackedSessionRegistry<>(repository);
-    }
+     @Bean
+     public SessionRegistry springSessionBackedSessionRegistry(RedisIndexedSessionRepository repository) {
+         return new SpringSessionBackedSessionRegistry<>(repository);
+     }
 
     /**
      * @method      lettuceConnectionFactory
@@ -87,14 +89,21 @@ public class RedisConfig {
     **/
     @Bean
     public RedisConnectionFactory lettuceConnectionFactory() {
-        RedisConfiguration redisConfiguration;
-        if(clusterNodes.size() == 1){
-            String[] split = clusterNodes.get(0).split(":");
-            redisConfiguration = new RedisStandaloneConfiguration(split[0], Integer.parseInt(split[1]));
-        } else {
-            redisConfiguration = new RedisClusterConfiguration(clusterNodes);
+        /*
+        * Creates a new RedisClusterConfiguration for given hostPort combinations.
+        *   - clusterHostAndPorts[0] = 127.0.0.1:23679
+        *   - clusterHostAndPorts[1] = 127.0.0.1:23680 ...
+        *  -> Params: clusterNodes – must not be null.
+        * */
+        if (redisProperties.getCluster() != null && redisProperties.getCluster().getNodes() != null) {
+            log.info(">>>> [운영] Redis 모드: CLUSTER (Nodes: {})", redisProperties.getCluster().getNodes());
+            return new LettuceConnectionFactory(new RedisClusterConfiguration(redisProperties.getCluster().getNodes()));
         }
-        return new LettuceConnectionFactory(redisConfiguration);
+        log.info(">>>> [로컬] Redis 모드: STANDALONE (Host: {}, Port: {})", redisProperties.getHost(), redisProperties.getPort());
+        /*
+        * Create a new RedisStandaloneConfiguration given hostName and port.
+        * */
+        return new LettuceConnectionFactory(new RedisStandaloneConfiguration(redisProperties.getHost(), redisProperties.getPort()));
     }
 
     /**
@@ -104,8 +113,8 @@ public class RedisConfig {
      * @deacription Redis 데이터 조작을 위한 템플릿 설정
     **/
     @Bean
-    public RedisTemplate<Object, Object> redisTemplate() {
-        RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, Object> redisTemplate() {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(lettuceConnectionFactory());
 
         // 데이터 정합성을 위해 Spring 트랜잭션(@Transactional)와 연동 설정
