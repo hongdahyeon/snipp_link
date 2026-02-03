@@ -27,6 +27,10 @@ var loginJS = {
 
         switch(type) {
 
+            case "sessionexpired":
+                Sweet.alert("세션이 만료되었습니다.")
+                break;
+
             case "session":
                 loginJS.sessionUser(errorMessage);
                 break;
