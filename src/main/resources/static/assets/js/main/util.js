@@ -25,14 +25,22 @@ class Http {
         }
     }
 
+    // 모든 메서드에서 공통으로 호출할 헤더 설정 함수 (중복 제거)
+    static setAuthHeaders(xhr) {
+        // CSRF 정보 (유지)
+        const {token, header} = Http.getCookieInfo();
+        if (header && token) {
+            xhr.setRequestHeader(header, token);
+        }
+    }
+
     static get(url, params = '', method = 'GET') {
         return $.ajax({
             type: method,
             url: url,
             data: params,
             beforeSend: function(xhr) {
-                const {token, header} = Http.getCookieInfo();
-                xhr.setRequestHeader(header, token)
+                Http.setAuthHeaders(xhr); // 수정한 함수 호출
             }
         }).fail(e => Http.handleError(e))
     }
@@ -44,8 +52,7 @@ class Http {
             data: params,
             async: false,
             beforeSend: function(xhr) {
-                const {token, header} = Http.getCookieInfo();
-                xhr.setRequestHeader(header, token)
+                Http.setAuthHeaders(xhr); // 수정한 함수 호출
             }
         }).fail(e => Http.handleError(e))
     }
@@ -58,8 +65,7 @@ class Http {
             /*dataType: 'json',*/
             contentType: 'application/json',
             beforeSend: function(xhr) {
-                const {token, header} = Http.getCookieInfo();
-                xhr.setRequestHeader(header, token)
+                Http.setAuthHeaders(xhr); // 수정한 함수 호출
             }
         }).fail(e => Http.handleError(e))
     }
@@ -70,8 +76,7 @@ class Http {
             url: url,
             data: data,
             beforeSend: function(xhr) {
-                const {token, header} = Http.getCookieInfo();
-                xhr.setRequestHeader(header, token)
+                Http.setAuthHeaders(xhr); // 수정한 함수 호출
             }
         }).fail(e => Http.handleError(e))
     }
@@ -84,8 +89,7 @@ class Http {
             /*dataType: 'json',*/
             contentType: 'application/json',
             beforeSend: function(xhr) {
-                const {token, header} = Http.getCookieInfo();
-                xhr.setRequestHeader(header, token)
+                Http.setAuthHeaders(xhr); // 수정한 함수 호출
             }
         }).fail(e => Http.handleError(e))
     }
@@ -98,8 +102,7 @@ class Http {
             contentType: false,
             processData: false,
             beforeSend: function(xhr) {
-                const {token, header} = Http.getCookieInfo();
-                xhr.setRequestHeader(header, token)
+                Http.setAuthHeaders(xhr); // 수정한 함수 호출
             }
         });
     }
@@ -113,8 +116,7 @@ class Http {
                 responseType: 'blob'
             },
             beforeSend: function(xhr) {
-                const {token, header} = Http.getCookieInfo();
-                xhr.setRequestHeader(header, token)
+                Http.setAuthHeaders(xhr); // 수정한 함수 호출
             },
             success: function (blobData, status, xhr) {
                 const contentDisposition = xhr.getResponseHeader('Content-Disposition');

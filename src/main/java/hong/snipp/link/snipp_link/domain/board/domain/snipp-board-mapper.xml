@@ -151,7 +151,6 @@
         <if test="clUid != null and clUid != ''">
            AND SB.CL_UID = #{clUid}
         </if>
-         ORDER BY SB.REG_DT DESC
     </select>
 
     <delete id="delete" parameterType="SnippBoard">
