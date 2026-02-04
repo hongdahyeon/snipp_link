@@ -57,7 +57,7 @@ public class SessionHelper {
         if (si != null && !si.isEmpty() ) {
             si.get(0).expireNow();
         } else {
-            response.sendRedirect("/login?expired");
+            response.sendRedirect("/login?sessionexpired");
         }
     }
 
