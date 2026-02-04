@@ -32,18 +32,12 @@ public class Paths {
             ,new AntPathRequestMatcher("/login")
             ,new AntPathRequestMatcher("/join**")
             ,new AntPathRequestMatcher("/snipp-short/**")
-            ,new AntPathRequestMatcher("/csrf")
             ,new AntPathRequestMatcher("/assets/**")
             ,new AntPathRequestMatcher("/login/force.json")
             ,new AntPathRequestMatcher("/snipp/api/**")
             ,new AntPathRequestMatcher("/snipp/**")
             ,new AntPathRequestMatcher("/ckImage/**")
-    };
-
-    public static final AntPathRequestMatcher[] AFTER_LOGIN = new  AntPathRequestMatcher[]{
-            // 게시글 저장 같은 경우?
-            // 댓글 작성이나?
-    };
+    };;
 
     public static final AntPathRequestMatcher[] ROLE_SUPER = new  AntPathRequestMatcher[]{
              new AntPathRequestMatcher("/snipp/api/**/super/**")

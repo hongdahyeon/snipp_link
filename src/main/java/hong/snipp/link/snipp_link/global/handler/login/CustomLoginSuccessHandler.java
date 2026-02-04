@@ -50,7 +50,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         String userId = request.getParameter("userId");
         if(userId == null) {
 
-            /* oauth2 login */
+            // {{ oauth2 login
             OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
             Map<String, Object> map = new HashMap<>();
 
@@ -63,20 +63,30 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
             log.info("======================= Login User: {} [OAuth2 Login] ===========================", userEmail);
             authUserService.resetLastLoginDtAndPwdFailCntByUserEmail(userEmail);
+            // }}
 
         } else {
 
-            /* form login */
+            // {{ form login
             SnippSessionUser sessionUser = ((PrincipalDetails) authentication.getPrincipal()).getUser();
             String role = sessionUser.getRole();
             log.info("======================= Login User: {} [Role: {}] ===========================", userId,  role);
             authUserService.resetLastLoginDtAndPwdFailCntByUserId(userId);
             userEmail = sessionUser.getUserEmail();
+            // }}
         }
 
-        /* 로그인 이력 저장 */
-        String loginIp = WebUtil.getIpAddress(request);
-        String loginUserAgent = request.getHeader("User-Agent");
+        // {{ 로그인 이력 저장
+        this.saveUserLoginHist(request, userEmail);
+        // }}
+
+        String landingPage = "/snipp";
+        response.sendRedirect(landingPage);
+    }
+    
+    private void saveUserLoginHist(HttpServletRequest req, String userEmail) {
+        String loginIp = WebUtil.getIpAddress(req);
+        String loginUserAgent = req.getHeader("User-Agent");
         SnippLoginHistSave loginHistBean = SnippLoginHistSave.insertLoginHist()
                 .userEmail(userEmail)
                 .accessIp(loginIp)
@@ -85,9 +95,6 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
                 .loginAccessDescription(LoginTp.LOGIN_SUCCESS.name())
                 .build();
         loginHistService.saveLoginHist(loginHistBean);
-
-        String landingPage = "/snipp";
-        response.sendRedirect(landingPage);
     }
 
 }

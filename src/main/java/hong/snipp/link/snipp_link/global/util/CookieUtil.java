@@ -3,13 +3,18 @@ package hong.snipp.link.snipp_link.global.util;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 
+
 /**
-* @fileName     CookieUtil
-* @author       dahyeon
-* @version      1.0.0
-* @date         2026-02-04
-* @summary      쿠키 유틸 클래스 추가
-**/
+ * packageName : hong.snipp.link.snipp_link.global.util
+ * fileName : CookieUtil
+ * author : work
+ * date : 2026-02-04
+ * description : 쿠키 유틸 클래스 추가
+ * ===========================================================
+ * DATE             AUTHOR      NOTE
+ * -----------------------------------------------------------
+ * 2026-02-04       work        최초 생성
+ */
 
 public class CookieUtil {
 

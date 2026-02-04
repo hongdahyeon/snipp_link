@@ -18,7 +18,7 @@ import java.io.PrintWriter;
  * author         : work
  * date           : 2025-04-18
  * description    : 403(Forbidden) 일 경우 실행
- *                  => 로그인을 통해 인증은 됐지만, 인가에서 걸린 경우
+ *                  => 로그인을 통해 인증은 됐지만, 인가에서 걸린 경우 (권한 걸림)
  *                  => 공통 에러 응답으로 내려주도록 변경
  *                  * 권한
  *                  * csrf

@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -29,7 +30,9 @@ import java.util.Map;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-25        work       최초 생성
+ * 2025-02-04        work       force.login
  */
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class HomeRestController {
@@ -57,6 +60,8 @@ public class HomeRestController {
         sessionHelper.findSessionAndExpire(sessionUser, response);
         Authentication authentication = sessionHelper.initializeAuthentication(sessionUser);
         sessionHelper.createSessionAndEditSecurityContext(authentication, request);
+
+        log.info("======================= Force Login User: {} [Role: {}] ===========================", userId,  sessionUser.getRole());
 
         response.sendRedirect("/snipp");
         return ResponseEntity.ok().build();

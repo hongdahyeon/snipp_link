@@ -1,7 +1,10 @@
 package hong.snipp.link.snipp_link.global.handler.advice;
 
 
+import hong.snipp.link.snipp_link.global.auth.PrincipalDetails;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 /**
  * packageName    : hong.snipp.link.snipp_link.global.handler.advice
@@ -21,4 +24,17 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ModelAttribute("isLogin")
+    public boolean isLogin(Authentication auth) {
+        return auth != null && auth.isAuthenticated();
+    }
+
+    @ModelAttribute("isSuper")
+    public boolean isSuper(Authentication auth) {
+        if(auth != null && auth.isAuthenticated()) {
+            String role = ((PrincipalDetails) auth.getPrincipal()).getUser().getRole();
+            return "ROLE_SUPER".equals(role);
+        }
+        return false;
+    }
 }

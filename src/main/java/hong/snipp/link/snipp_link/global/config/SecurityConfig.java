@@ -72,12 +72,11 @@ public class SecurityConfig {
     private void configureAuthorization(
             AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth) {
         auth
-                // 1. 구체적인 권한 제한을 '먼저' 체크
+                // 1. 구체적인 권한 제한을 '"먼저"' 체크
                 .requestMatchers(Paths.ROLE_SUPER).hasAuthority("ROLE_SUPER")
                 .requestMatchers(Paths.ROLE_MANAGER).hasAnyAuthority("ROLE_SUPER", "ROLE_MANAGER")
                 // 2. 그 다음 허용할 것들을 체크
                 .requestMatchers(Paths.BEFORE_LOGIN).permitAll()
-                .requestMatchers(Paths.AFTER_LOGIN).authenticated()
                 // 3. 나머지는 인증 필요
                 .anyRequest().authenticated();
     }
@@ -172,6 +171,12 @@ public class SecurityConfig {
                 .clearAuthentication(true); // 인증 정보 지우기
     }
 
+    /**
+     * @method      configureSessionManagement
+     * @author      dahyeon
+     * @date        2026-02-04
+     * @deacription 서버 세션(Stateful) 방식에서 중복 로그인을 제어하는 설정
+    **/
     private void configureSessionManagement(SessionManagementConfigurer<HttpSecurity> manage) {
         manage
             .sessionFixation().changeSessionId() // 1. 세션 고정 공격 방지 (로그인 시 세션 ID 재발급)
@@ -185,15 +190,15 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(cs -> configureCsrf(cs))
-                .cors(corsConfigurer -> corsConfigurer.configurationSource(request -> corsConfiguration()))
-                .headers(header -> configureHeaders(header))
-                .authorizeHttpRequests(auth -> configureAuthorization(auth))
-                .exceptionHandling(ex -> configureHandler(ex))
-                .formLogin(form -> configureFormLogin(form))
-                .oauth2Login(oauth2LoginConfigurer -> configureOAuth2Login(oauth2LoginConfigurer))
-                .sessionManagement(manage -> configureSessionManagement(manage))
-                .logout(logout -> configureLogout(logout));
+            .csrf(this::configureCsrf)
+            .cors(corsConfigurer -> corsConfigurer.configurationSource(request -> corsConfiguration()))
+            .headers(this::configureHeaders)
+            .authorizeHttpRequests(this::configureAuthorization)
+            .exceptionHandling(this::configureHandler)
+            .formLogin(this::configureFormLogin)
+            .oauth2Login(this::configureOAuth2Login)
+            .sessionManagement(this::configureSessionManagement)
+            .logout(this::configureLogout);
         return http.build();
     }
 
