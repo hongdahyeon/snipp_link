@@ -3,7 +3,9 @@ package hong.snipp.link.snipp_link.global.util;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 
 /**
@@ -17,26 +19,19 @@ import java.time.temporal.ChronoUnit;
  * -----------------------------------------------------------
  * 2025-04-16       work        최초 생성
  * 2026-01-17       work        formatToDateTimeHM 입력값 포멧 맞추기
+ * 2026-02-02       work        static 변수 제거
  */
 public class TimeUtil {
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    // 마이크로초(6자리)까지 대응 가능한 포맷터
+    private static final DateTimeFormatter DATE_TIME_FORMATTER =
+            new DateTimeFormatterBuilder()
+                    .appendPattern("yyyy-MM-dd HH:mm:ss")
+                    .optionalStart()           // 소수점이 있을 수도 있고
+                    .appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true)
+                    .optionalEnd()             // 없을 수도 있음
+                    .toFormatter();
 
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
-
-    private static final LocalDateTime TODAY = LocalDateTime.now();
-
-    public static String nowDate() {
-        return TODAY.format(DATE_TIME_FORMATTER);
-    }
-
-    public static String nowDateYYMMDD() {
-        return TODAY.format(DATE_FORMATTER);
-    }
-
-    public static LocalDate today() {
-        return LocalDate.now();
-    }
 
     /**
      * @method addTimeFormat
@@ -81,23 +76,40 @@ public class TimeUtil {
      * @deacription {compareDateString}가 현재로부터 {year}년 이내인지 여부 체크
      **/
     public static boolean isXYearAfter(String compareDateString, int year) {
-        LocalDateTime compareDate = LocalDateTime.parse(compareDateString, DATE_TIME_FORMATTER);
-        LocalDateTime oneYearAgo = TODAY.minus(year, ChronoUnit.YEARS);
-        return !compareDate.isBefore(oneYearAgo);
+        if (compareDateString == null || compareDateString.isBlank()) return false;
+
+        // 핵심: .132549 같은 나노초가 포함되어 있다면 "yyyy-MM-dd HH:mm:ss" 포맷에 맞춰 자름
+        if (compareDateString.contains(".")) {
+            compareDateString = compareDateString.split("\\.")[0];
+        }
+
+        try {
+            LocalDateTime compareDate = LocalDateTime.parse(compareDateString, DATE_TIME_FORMATTER);
+            // {TODAY}도 메서드 호출 시점의 시간을 새로 가져오는 것이 더 정확
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime oneYearAgo = now.minus(year, ChronoUnit.YEARS);
+            return !compareDate.isBefore(oneYearAgo);
+        } catch (DateTimeParseException e) {
+            // 로그 기록 후 기본값 리턴 (방어적 코드)
+            return false;
+        }
     }
 
     public static boolean dateCompare(String futureDateString) {
         LocalDateTime futureDate = LocalDateTime.parse(futureDateString, DATE_TIME_FORMATTER);
-        return futureDate.isAfter(TODAY);
+        LocalDateTime today = LocalDateTime.now();
+        return futureDate.isAfter(today);
     }
 
     public static String daysAfter(int after) {
-        LocalDateTime futureDate = TODAY.plusDays(after);
+        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime futureDate = today.plusDays(after);
         return futureDate.format(DATE_TIME_FORMATTER);
     }
 
     public static LocalDateTime daysAfter_Date(int after) {
-        return TODAY.plusDays(after);
+        LocalDateTime today = LocalDateTime.now();
+        return today.plusDays(after);
     }
 
 }
