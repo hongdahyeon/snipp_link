@@ -1,7 +1,6 @@
 package hong.snipp.link.snipp_link.global.session;
 
 
-import hong.snipp.link.snipp_link.domain.user.dto.response.SnippUserView;
 import hong.snipp.link.snipp_link.global.auth.PrincipalDetails;
 import hong.snipp.link.snipp_link.global.auth.dto.SnippSessionUser;
 import jakarta.servlet.http.HttpServletRequest;

@@ -64,3 +64,8 @@ jasypt:
   encryptor:
     bean: 'snippLinkEncryptor'
     password: ${JASYPT_PASSWORD}
+
+jwt:
+  secret: ENC(m7nRwva9Trp4Pd5qRIMTZ+SvdjTpsXginTN6hhQAPBUUuFf5TmkoacZ3Tqv9yXPjxsgE3/nEQ1mavudG3JJ5IUYy2qm0gCZ21EWDetnpwug=)
+  access-time: 3600000 # 1시간 (ms)
+  refresh-time: 86400000 # 24시간 (ms)

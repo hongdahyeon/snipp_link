@@ -1,7 +1,9 @@
 package hong.snipp.link.snipp_link.global.util;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.util.WebUtils;
 
 
 /**
@@ -14,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * DATE             AUTHOR      NOTE
  * -----------------------------------------------------------
  * 2026-02-04       work        최초 생성
+ * 2026-02-05       work        clearCookie, getCookie 생성
  */
 
 public class CookieUtil {
@@ -33,5 +36,30 @@ public class CookieUtil {
         cookie.setMaxAge(expiryAge);
         cookie.setPath(path);
         res.addCookie(cookie);
+    }
+
+    /**
+     * @method      clearCookie
+     * @author      dahyeon
+     * @date        2026-02-04
+     * @deacription 쿠키 초기화: maxAge(0)
+    **/
+    public static void clearCookie(HttpServletResponse response, String name) {
+        Cookie cookie = new Cookie(name, null);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+    }
+
+    /**
+     * @method      getCookie
+     * @author      dahyeon
+     * @date        2026-02-04
+     * @deacription 쿠키 조회
+    **/
+    public static String getCookie(HttpServletRequest request, String name) {
+        Cookie cookie = WebUtils.getCookie(request, name);
+        return cookie != null ? cookie.getValue() : null;
     }
 }

@@ -23,17 +23,17 @@ var loginJS = {
         const errorMessage = decodeURIComponent(params.get("mssg"))
         const userId = decodeURIComponent(params.get("userId"))
         const userEmail = decodeURIComponent(params.get("userEmail"))
-        loginJS.errorP.html(errorMessage.replace("\n", "<br>"));
+        if(errorMessage != null) loginJS.errorP.html(errorMessage.replace("\n", "<br>"));
 
         switch(type) {
 
             case "sessionexpired":
-                Sweet.alert("세션이 만료되었습니다.")
+                Sweet.alert(errorMessage);
                 break;
 
-            case "session":
+            /*case "session":
                 loginJS.sessionUser(errorMessage);
-                break;
+                break;*/
 
             /* [사용자가 없을때] */
             case "none":
@@ -72,7 +72,7 @@ var loginJS = {
         }
     }
 
-    /* [중복 로그인 방지] */
+    /*/!* [중복 로그인 방지] *!/
     ,sessionUser: function (message) {
         const force = document.getElementById("force")
         Sweet.confirm(message.replace("\n", "<br>")).then(isOk => {
@@ -80,7 +80,7 @@ var loginJS = {
                 force.submit();
             }
         })
-    }
+    }*/
 
     /* [사용자가 없을때] */
     ,noneUser: function(message) {

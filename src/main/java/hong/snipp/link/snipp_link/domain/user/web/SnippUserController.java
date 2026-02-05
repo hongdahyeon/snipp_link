@@ -1,7 +1,12 @@
 package hong.snipp.link.snipp_link.domain.user.web;
 
+import hong.snipp.link.snipp_link.domain.user.dto.response.SnippUserView;
+import hong.snipp.link.snipp_link.domain.user.service.SnippUserService;
+import hong.snipp.link.snipp_link.global.auth.dto.SnippSessionUser;
+import hong.snipp.link.snipp_link.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -15,11 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-22        work       최초 생성
+ * 2026-02-05        work       {/my-profile} > 유저 데이터 모델 내려주기
  */
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/snipp/user")
 public class SnippUserController {
+
+    private final SnippUserService service;
 
     @GetMapping("/super")
     public String index() {
@@ -27,7 +35,10 @@ public class SnippUserController {
     }
 
     @GetMapping("/my-profile")
-    public String profile() {
+    public String profile(Model model) {
+        SnippSessionUser loginUser = UserUtil.getLoginUser();
+        SnippUserView user = service.findUserByUserUid(loginUser.getUid());
+        model.addAttribute("user", user);
         return "snipp/profile";
     }
 }

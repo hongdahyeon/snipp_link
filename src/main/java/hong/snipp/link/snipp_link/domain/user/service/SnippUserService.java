@@ -36,7 +36,8 @@ import java.util.List;
  * 2025-04-22        work       {changeUserPassword, changeUserExpired} 메소드 추가
  * 2025-04-23        work       {findAllUserPage, findAllUserList} 메소드 추가
  * 2025-04-25        work       {findUserByUserUid, changeUserLock, changeUserEnable, changeUser} 메소드 추가
- * 2026-01-12        home   findAllUserPage 소셜로그인 사용자 한국어 kor
+ * 2026-01-12        home       findAllUserPage 소셜로그인 사용자 한국어 kor
+ * 2026-02-05        work       findUserByUserId 추가
  */
 @Service
 @RequiredArgsConstructor
@@ -175,11 +176,22 @@ public class SnippUserService {
      * @method      findUserByUserUid
      * @author      work
      * @date        2025-04-25
-     * @deacription 유저 단건 조회
+     * @deacription 유저 단건 조회 by.userUid
     **/
     @Transactional(readOnly = true)
     public SnippUserView findUserByUserUid(Long uid) {
         return mapper.getDetail(uid);
+    }
+
+    /**
+     * @method      findUserByUserId
+     * @author      dahyeon
+     * @date        2026-02-04
+     * @deacription 유저 단건 조회 by.userId
+    **/
+    @Transactional(readOnly = true)
+    public SnippUserView findUserByUserId(String userId) {
+        return mapper.getUserByUserId(userId);
     }
 
     /**

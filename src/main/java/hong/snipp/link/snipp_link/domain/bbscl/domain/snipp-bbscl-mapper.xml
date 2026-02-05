@@ -4,44 +4,45 @@
 
     <select id="getBbsClList" resultType="SnippBbsClList" parameterType="SnippBbsClParam">
         /* snippBbsCl.getBbsClList */
-        WITH RECURSIVE CL_TREE AS (
+        WITH RECURSIVE CL_TREE (UID, CL_NM, UPPER_CL, BBS_UID, SORT_NO, DEPTH, PATH, SORT_PATH) AS (
+            -- Anchor Member: 최상위 노드
             SELECT SBC.UID
                   ,SBC.CL_NM
                   ,SBC.UPPER_CL
                   ,SBC.BBS_UID
-                  ,SORT_NO
+                  ,SBC.SORT_NO
                   ,1 AS DEPTH
-                  ,CAST(SBC.CL_NM AS CHAR(1000)) AS PATH
-                  ,CAST(LPAD(SBC.SORT_NO, 5, '0') AS CHAR(1000)) AS SORT_PATH
+                  ,CAST(SBC.CL_NM AS VARCHAR(1000)) AS PATH
+                  ,CAST(LPAD(SBC.SORT_NO, 5, '0') AS VARCHAR(1000)) AS SORT_PATH
               FROM SNP_BBS_CL SBC
              WHERE SBC.UPPER_CL IS NULL
                AND SBC.BBS_UID = #{bbsUid}
                AND SBC.DELETE_AT = 'N'
              UNION ALL
-            SELECT C.UID
-                  ,C.CL_NM
-                  ,C.UPPER_CL
-                  ,C.BBS_UID
-                  ,C.SORT_NO
-                  ,P.DEPTH + 1
-                  ,CONCAT(P.path, ' > ', C.CL_NM)
-                  ,CAST(CONCAT(P.SORT_PATH, '-', LPAD(C.SORT_NO, 5, '0')) AS CHAR(1000))
-            FROM SNP_BBS_CL C
-            JOIN cl_tree P ON C.UPPER_CL = P.UID
-           WHERE C.BBS_UID = #{bbsUid}
-             AND C.DELETE_AT = 'N'
-        )
-        SELECT CT.UID AS NO
-              ,CT.UPPER_CL AS UPPER_NO
-              ,CT.CL_NM AS TEXT
-              ,CT.SORT_NO AS SORT_NO
-              ,CT.BBS_UID AS BBS_UID
-              ,SB.BBS_NM AS BBS_NM
-              ,CT.PATH AS PATH
-              ,CT.DEPTH AS DEPTH
-          FROM cl_tree CT
-         INNER JOIN SNP_BBS SB ON SB.UID = CT.BBS_UID
-         ORDER BY sort_path;
+             SELECT C.UID
+                   ,C.CL_NM
+                   ,C.UPPER_CL
+                   ,C.BBS_UID
+                   ,C.SORT_NO
+                   ,P.DEPTH + 1
+                   ,CAST(CONCAT(P.PATH, ' > ', C.CL_NM) AS VARCHAR(1000)) -- 타입 일치 강제
+                   ,CAST(CONCAT(P.SORT_PATH, '-', LPAD(C.SORT_NO, 5, '0')) AS VARCHAR(1000))
+               FROM SNP_BBS_CL C
+               JOIN CL_TREE P ON C.UPPER_CL = P.UID
+              WHERE C.BBS_UID = #{bbsUid}
+                AND C.DELETE_AT = 'N'
+            )
+            SELECT CT.UID AS NO
+                  ,CT.UPPER_CL AS UPPER_NO
+                  ,CT.CL_NM AS TEXT
+                  ,CT.SORT_NO AS SORT_NO
+                  ,CT.BBS_UID AS BBS_UID
+                  ,SB.BBS_NM AS BBS_NM
+                  ,CT.PATH AS PATH
+                  ,CT.DEPTH AS DEPTH
+              FROM CL_TREE CT
+             INNER JOIN SNP_BBS SB ON SB.UID = CT.BBS_UID
+             ORDER BY SORT_PATH;
     </select>
 
     <insert id="insert" parameterType="SnippBbsCl">

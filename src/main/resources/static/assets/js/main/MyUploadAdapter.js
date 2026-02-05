@@ -39,6 +39,13 @@ class MyUploadAdapter {
         if (header && token) {
             headers.append(header, token);
         }
+        // {{ JWT 사용 추가
+        // 2. JWT 토큰 추가 [핵심 추가]
+        const jwt = localStorage.getItem("accessToken");
+        if (jwt) {
+            headers.append("Authorization", "Bearer " + jwt);
+        }
+        // }}
 
         fetch(this.url, {
             method: "POST",

@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-05-30        work       최초 생성
+ * 2026-02-05        work       생성자 추가
  */
 @Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SnippBbsClSave {
@@ -31,4 +32,11 @@ public class SnippBbsClSave {
 
     @NotNull
     private Long upperCl;
+
+    public SnippBbsClSave(Long bbsUid, String clNm, Long sortNo, Long upperCl) {
+        this.bbsUid = bbsUid;
+        this.clNm = clNm;
+        this.sortNo = sortNo;
+        this.upperCl = upperCl;
+    }
 }
