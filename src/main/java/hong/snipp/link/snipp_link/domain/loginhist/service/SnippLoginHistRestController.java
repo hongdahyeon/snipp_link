@@ -24,10 +24,11 @@ import java.util.List;
  * -----------------------------------------------------------
  * 2025-04-28        work       최초 생성
  * 2026-01-12        home       super 권한 추가
+ * 2026-02-05        work       /snipp/api/login-hist => /api/snipp/login-hist
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/snipp/api/login-hist")
+@RequestMapping("/api/snipp/login-hist")
 public class SnippLoginHistRestController {
 
     private final SnippLoginHistService service;
@@ -36,7 +37,7 @@ public class SnippLoginHistRestController {
      *
      * 로그인 이력 목록 조회 (페이징)
      *
-     * @api         [GET] /snipp/api/login-hist/super/page
+     * @api         [GET] /api/snipp/login-hist/super/page
      * @author      work
      * @date        2025-04-28
     **/
@@ -50,7 +51,7 @@ public class SnippLoginHistRestController {
      *
      * 로그인 이력 목록 조회 (리스트)
      *
-     * @api         [GET] /snipp/api/login-hist/super/list
+     * @api         [GET] /api/snipp/login-hist/super/list
      * @author      work
      * @date        2025-04-28
      **/

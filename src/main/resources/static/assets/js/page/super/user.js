@@ -4,7 +4,7 @@ var userJS = {
 
     initPage: function () {
         userJS.table = new GridTable("user-mng-table")
-            .get('/snipp/api/user/super/page')
+            .get('/api/snipp/user/super/page')
             .headers("center")
             .setPaging(10, 1, 3, true)
             .useIndex('#')
@@ -79,7 +79,7 @@ var userJS = {
             case 'lock':    successMsg = "유저가 잠겼습니다."; break;
             default:        successMsg = "처리되었습니다.";
         }
-        Http.put(`/snipp/api/user/super/${code}/${uid}`).then(() => {
+        Http.put(`/api/snipp/user/super/${code}/${uid}`).then(() => {
             Sweet.alert(successMsg).then(() => {
                 userJS.table.submitTable();
             });

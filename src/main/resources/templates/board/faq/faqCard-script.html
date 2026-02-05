@@ -6,7 +6,8 @@
     var faqCard = {
 
         drawFaqBoardCards: async function () {
-            const res = await Http.get(`/snipp/api/board/page?bbsUid=${bbsUid}&clUid=${clUid}`);
+            clUid = clUid ?? 0
+            const res = await Http.get(`/api/snipp/board/page?bbsUid=${bbsUid}&clUid=${clUid}`);
             faqCard.getHandlebars_faq_card("faqCard-div-template", "faqCard-div", res);
             await faqCard.initEditors(res.list);
         }

@@ -28,10 +28,11 @@ import java.util.List;
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
  * 2025-04-16        work       snip -> snipp 변경
+ * 2026-02-05        work       /snipp/api/bbs => /api/snipp/bbs
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/snipp/api/bbs")
+@RequestMapping("/api/snipp/bbs")
 public class SnippBbsRestController {
 
     private final SnippBbsService service;
@@ -40,7 +41,7 @@ public class SnippBbsRestController {
      *
      * 게시판 저장
      *
-     * @api         [POST] /snipp/api/bbs
+     * @api         [POST] /api/snipp/bbs
      * @author      work
      * @date        2025-04-15
     **/
@@ -57,7 +58,7 @@ public class SnippBbsRestController {
      *
      * 게시판 수정
      *
-     * @api         [PUT] /snipp/api/bbs/{uid}
+     * @api         [PUT] /api/snipp/bbs/{uid}
      * @author      work
      * @date        2025-04-15
     **/
@@ -71,7 +72,7 @@ public class SnippBbsRestController {
      *
      * {uid} 값으로 게시판 단건 조회
      *
-     * @api         [GET] /snipp/api/bbs/{uid}
+     * @api         [GET] /api/snipp/bbs/{uid}
      * @author      work
      * @date        2025-04-15
     **/
@@ -85,7 +86,7 @@ public class SnippBbsRestController {
      *
      * 게시판 목록 조회 (페이징)
      *
-     * @api         [GET] /snipp/api/bbs/page
+     * @api         [GET] /api/snipp/bbs/page
      * @author      work
      * @date        2025-04-15
     **/
@@ -99,7 +100,7 @@ public class SnippBbsRestController {
      *
      * 게시판 목록 조회 (리스트)
      *
-     * @api         [GET] /snipp/api/bbs/list
+     * @api         [GET] /api/snipp/bbs/list
      * @author      work
      * @date        2025-04-15
     **/
@@ -113,7 +114,7 @@ public class SnippBbsRestController {
      *
      * 게시판 단건 삭제
      *
-     * @api         [DELETE] /snipp/api/bbs/delete
+     * @api         [DELETE] /api/snipp/bbs/delete
      * @author      work
      * @date        2025-04-15
     **/

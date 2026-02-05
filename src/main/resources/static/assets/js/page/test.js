@@ -15,7 +15,7 @@ var testJs = {
 
         testJs.table = new GridTable("table")
             .search("userNm")
-            .get('/snipp/api/user/super/page')
+            .get('/api/snipp/user/super/page')
             .headers("left")
             .setPaging(10, 1, 3, true)
             .add(new Column("uid", "선택", true))

@@ -4,7 +4,7 @@ var shortUrlLogJS = {
 
     initPage: function () {
         shortUrlLogJS.table = new GridTable("short-url-log-hist-table")
-            .get('/snipp/api/short-url/access-log/page')
+            .get('/api/snipp/short-url/access-log/page')
             .headers("center")
             .setPaging(10, 1, 3, true)
             .useIndex('#')

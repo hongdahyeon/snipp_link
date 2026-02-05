@@ -87,10 +87,11 @@
                         <div class="text-black-50 fw-bold">
                             긴 길이의 URL 주소를 입력하신 뒤, 테스트 버튼을 누르시면 짧은 URL이 생성됩니다.
                         </div>
-                        <div class="small text-black-50 mt-2" th:if="${user == null}">
+                        <span th:text="${isLogin}"></span>
+                        <div class="small text-black-50 mt-2" th:if="${!isLogin}">
                             더 많은 기능은 로그인을 하시면 사용하실 수 있습니다 :)
                         </div>
-                        <div class="small text-black-50 mt-2" th:unless="${user == null}">
+                        <div class="small text-black-50 mt-2" th:if="${isLogin}">
                             많은 기능을 이용해보세요! :)
                         </div>
                     </div>
@@ -98,8 +99,8 @@
                     <!-- 입력 영역 -->
                     <div style="width: 80%;" class="mb-4">
                         <div class="d-flex gap-2 mb-2">
-                            <input class="form-control custom-input" type="text" placeholder="긴 URL을 입력하세요..." id="long-link"  th:disabled="${user == null}">
-                            <button type="button" class="btn-primary-custom btn-lg px-4 me-sm-3" id="make-short-link" th:disabled="${user == null}">테스트</button>
+                            <input class="form-control custom-input" type="text" placeholder="긴 URL을 입력하세요..." id="long-link"  th:disabled="${!isLogin}">
+                            <button type="button" class="btn-primary-custom btn-lg px-4 me-sm-3" id="make-short-link" th:disabled="${!isLogin}">테스트</button>
                         </div>
                     </div>
                     <div class="d-flex flex-column gap-1">
@@ -232,6 +233,8 @@
     <script th:inline="javascript">
 
         $(document).ready(function(e) {
+
+            indexJS.settingCookie();
 
             const urlParams = new URLSearchParams(window.location.search);
             const errorCode = urlParams.get('errorRedirect');

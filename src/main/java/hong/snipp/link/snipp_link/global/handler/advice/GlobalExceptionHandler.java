@@ -1,7 +1,11 @@
 package hong.snipp.link.snipp_link.global.handler.advice;
 
 
+import hong.snipp.link.snipp_link.global.auth.PrincipalDetails;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 /**
  * packageName    : hong.snipp.link.snipp_link.global.handler.advice
@@ -17,8 +21,32 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
  * 2025-04-15        work       최초 생성
  * 2025-04-22        work       500 랜딩
  * 2025-04-25        work       {@RestControllerAdvice} 랑 엮이면서 생기는 문제로 인해 제거
+ * 2026-02-04        work       {isLogin, isSuper} 추가
+ * 2026-02-05        work       {loginUid} 조회 추가
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ModelAttribute("isLogin")
+    public boolean isLogin(Authentication auth) {
+        return auth != null && auth.isAuthenticated()
+                && !(auth instanceof AnonymousAuthenticationToken);
+    }
+
+    @ModelAttribute("isSuper")
+    public boolean isSuper(Authentication auth) {
+        if(auth != null && auth.isAuthenticated()) {
+            String role = ((PrincipalDetails) auth.getPrincipal()).getUser().getRole();
+            return "ROLE_SUPER".equals(role);
+        }
+        return false;
+    }
+
+    @ModelAttribute("loginUid")
+    public Long loginUid(Authentication auth) {
+        if (auth != null && auth.isAuthenticated() && auth.getPrincipal() instanceof PrincipalDetails) {
+            return ((PrincipalDetails) auth.getPrincipal()).getUser().getUid();
+        }
+        return null;
+    }
 }

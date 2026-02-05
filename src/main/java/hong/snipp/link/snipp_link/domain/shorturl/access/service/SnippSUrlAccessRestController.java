@@ -17,10 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
  * 2025-04-16        home       * 파일 이름 변경
  *                              - snip -> snipp
  *                              - ShortUrlAccess -> SUrlAccess
+ * 2026-02-05        work       /snipp/api/short-url/access => /api/snipp/short-url/access
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/snipp/api/short-url/access")
+@RequestMapping("/api/snipp/short-url/access")
 public class SnippSUrlAccessRestController {
 
     private final SnippSUrlAccessService service;

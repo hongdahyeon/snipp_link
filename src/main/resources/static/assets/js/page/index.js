@@ -1,5 +1,14 @@
 var indexJS = {
 
+    settingCookie: function () {
+        const token = CookieUtil.getCookie("accessTokenCookie");
+        const savedToken = localStorage.getItem("accessToken");
+        if (token && token !== savedToken) {
+            localStorage.setItem("accessToken", token);
+            console.info("인증 토큰 동기화 완료");
+        }
+    },
+
     shortAlertMessageMap: {
         "ACCESS_NO_PERMISSION": "접근 권한이 없습니다.",
         "ACCESS_NOT_FOUND": "해당되는 URL이 없습니다.",
@@ -31,7 +40,7 @@ var indexJS = {
             originUrl: longLinkURL,
             isPublic: 'Y'
         }
-        Http.post(`/snipp/api/short-url/create`, obj).then((res) => {
+        Http.post(`/api/snipp/short-url/create`, obj).then((res) => {
             $("#shortUrlText").text(res);
         }).fail((e) => {
             console.error(e)

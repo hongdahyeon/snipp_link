@@ -4,7 +4,7 @@ var bbsJS = {
 
     ,initTable: function () {
         bbsJS.table = new GridTable("bbs-table")
-            .get('/snipp/api/bbs/page')
+            .get('/api/snipp/bbs/page')
             .headers("left")
             .setPaging(10, 1, 3, true)
             .useIndex("번호")
@@ -36,7 +36,7 @@ var bbsJS = {
             return
         } else {
             const obj = await FormDataToObj.getParameter("save-form")
-            Http.post('/snipp/api/bbs', obj).then(() => {
+            Http.post('/api/snipp/bbs', obj).then(() => {
                 Sweet.alert('게시판이 등록되었습니다.').then(() => {
                     window.location.href = '/snipp/bbs/super'
                 });
@@ -53,7 +53,7 @@ var bbsJS = {
             return
         } else {
             const obj = await FormDataToObj.getParameter("save-form")
-            Http.put(`/snipp/api/bbs/${uid}`, obj).then(() => {
+            Http.put(`/api/snipp/bbs/${uid}`, obj).then(() => {
                 Sweet.alert('게시판이 수정되었습니다.').then(() => {
                     window.location.href = '/snipp/bbs/super'
                 });
@@ -66,7 +66,7 @@ var bbsJS = {
 
         const isOk = await Sweet.confirm('삭제하시겠습니까?')
         if (isOk) {
-            Http.delete(`/snipp/api/bbs/${uid}`).then(() => {
+            Http.delete(`/api/snipp/bbs/${uid}`).then(() => {
                 Sweet.alert('게시판이 삭제되었습니다.').then(() => {
                     window.location.href = '/snipp/bbs/super'
                 });

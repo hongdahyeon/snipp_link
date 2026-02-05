@@ -27,9 +27,9 @@
             <div class="file-div">
               <!--  -->
             </div>
-            <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+            <th:block th:if="${isLogin}">
               <div class="button-div text-end"
-                   th:if="${(user.uid == regUid or #authorization.expression('hasRole(''ROLE_SUPER'')'))}">
+                   th:if="${loginUid == regUid or isSuper}">
                 <button type="button" class="btn-primary-custom update-board" data-uid="{{boardUid}}">수정</button>
                 <button type="button" class="btn-cancel-custom delete-board" data-uid="{{boardUid}}">삭제</button>
               </div>

@@ -1,89 +1,86 @@
 class MyUploadAdapter {
 
     constructor(loader) {
+        // CKEditor 5의 데이터 로더 인스턴스
         this.loader = loader;
-        this.url = "/snipp/image/api/uploadCkImageFile";
+        // 이미지 업로드 API 경로
+        this.url = "/api/snipp/image/uploadCkImageFile";
+        // 요청 취소를 위한 컨트롤러
+        this.controller = new AbortController();
     }
 
-    // Starts the upload process.
+    // 업로드 프로세스 시작
     upload() {
         return this.loader.file.then(
             (file) =>
                 new Promise((resolve, reject) => {
-                    this._initListeners(resolve, reject, file);
-                    this._sendRequest(file);
+                    this._sendRequest(file, resolve, reject);
                 })
         );
     }
 
-    // Aborts the upload process.
+    // 업로드 중단
     abort() {
         if (this.controller) {
             this.controller.abort();
         }
     }
 
-    // Initializes fetch listeners.
-    _initListeners(resolve, reject, file) {
-        const loader = this.loader;
-        const genericErrorText = `Couldn't upload file: ${loader.file.name}.`;
+    // 실제 서버 요청 전송
+    _sendRequest(file, resolve, reject) {
+        const data = new FormData();
+        data.append("file", file);
 
-        const controller = new AbortController();
-        this.controller = controller;
-
-        const signal = controller.signal;
-
-        signal.addEventListener("abort", () => {
-            reject();
-        });
-
-        const options = {
-            method: "POST",
-            body: new FormData(),
-            signal,
-        };
-
-        options.body.append("file", file);
-
-        const {token, header} = Http.getCookieInfo();
         const headers = new Headers();
         headers.append("Accept", "application/json");
-        headers.append(header, token);
 
-        options.headers = headers;
+        // {{ JWT 사용 추가
+        // JWT 토큰 추가 [핵심 추가]
+        const jwt = localStorage.getItem("accessToken");
+        if (jwt) {
+            headers.append("Authorization", "Bearer " + jwt);
+        }
+        // }}
 
-        const responseHandler = (response) => {
-            const contentType = response.headers.get("content-type");
-
-            if (contentType && contentType.indexOf("application/json") !== -1) {
-                return response.json().then((json) => {
-                    if (!json || json.error) {
-                        return reject(
-                            json && json.error ? json.error.message : genericErrorText
-                        );
-                    }
-                    // If the upload is successful, resolve the upload promise with an object containing
-                    // at least the "default" URL, pointing to the image on the server.
-                    resolve({
-                        default: json.url,
-                    });
-                });
-            } else {
-                return reject(genericErrorText);
-            }
-        };
-
-        fetch(this.url, options)
-            .then(responseHandler)
-            .catch((error) => {
-                if (error.name === "AbortError") {
-                    return;
-                }
-                reject(genericErrorText);
-            });
+        fetch(this.url, {
+            method: "POST",
+            body: data,
+            headers: headers,
+            signal: this.controller.signal,
+        })
+        .then((response) => this._handleResponse(response, resolve, reject, file.name))
+        .catch((error) => {
+            if (error.name === "AbortError") return;
+            reject(`Couldn't upload file: ${file.name}.`);
+        });
     }
 
-    // Prepares the data and sends the request.
-    _sendRequest(file) {
+    // 서버 응답 처리 로직
+    _handleResponse(response, resolve, reject, fileName) {
+        const genericErrorText = `Couldn't upload file: ${fileName}.`;
+
+        // 1. HTTP 상태 코드 확인 (401은 중복 로그인 혹은 만료)
+        if (!response.ok) {
+            if (response.status === 401) {
+                return reject("세션이 만료되었거나 다른 곳에서 로그인되었습니다.");
+            }
+            return reject(genericErrorText);
+        }
+
+        // 2. JSON 응답 파싱
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+            return response.json().then((json) => {
+                if (!json || json.error || !json.url) {
+                    return reject(json && json.error ? json.error.message : genericErrorText);
+                }
+                // 성공 시 서버에서 받은 이미지 URL 반환
+                resolve({
+                    default: json.url,
+                });
+            });
+        }
+
+        return reject(genericErrorText);
     }
 }

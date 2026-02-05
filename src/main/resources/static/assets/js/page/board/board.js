@@ -24,7 +24,7 @@ var boardJS = {
 
     ,initTable: function () {
         boardJS.table = new GridTable("board-table")
-            .get(`/snipp/api/board/page?bbsUid=${bbsUid}`)
+            .get(`/api/snipp/board/page?bbsUid=${bbsUid}`)
             .headers("left")
             .setPaging(10, 1, 3, true)
             .useIndex("번호")
@@ -56,7 +56,7 @@ var boardJS = {
     ,drawFaqCl: function () {
          return new Promise(async (resolve) => {
              boardJS.faqClDiv = new FaqCl("board-cl-faq");
-             const res = await Http.get('/snipp/api/bbs-cl/tree', {bbsUid});
+             const res = await Http.get('/api/snipp/bbs-cl/tree', {bbsUid});
              boardJS.faqClDiv.data(res).draw();
              resolve();
          });
@@ -65,7 +65,7 @@ var boardJS = {
     ,deleteBoard: async function (uid) {
         const isOk = await Sweet.confirm("게시글을 삭제하시겠습니까?")
         if(isOk) {
-            Http.delete(`/snipp/api/board/${uid}`).then(() => {
+            Http.delete(`/api/snipp/board/${uid}`).then(() => {
                 Sweet.alert("게시글이 삭제되었습니다.").then(() => {
                     window.location.reload();
                 })
@@ -101,7 +101,7 @@ var boardJS = {
                 if(type === 'faq') obj['clUid'] = $("#choose-clUid").val()
                 obj['thumbnailSrc'] = thumbnailModal.thumbNailImg
 
-                Http.post('/snipp/api/board', obj).then(() => {
+                Http.post('/api/snipp/board', obj).then(() => {
                     Sweet.alert("게시글이 등록되었습니다.").then(() => {
                         window.location.href = `/snipp/board/${type}`
                     })

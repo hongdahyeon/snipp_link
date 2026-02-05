@@ -4,7 +4,7 @@ var loginhistJS = {
 
     initPage: function () {
         loginhistJS.table = new GridTable("short-url-log-hist-table")
-            .get('/snipp/api/login-hist/super/page')
+            .get('/api/snipp/login-hist/super/page')
             .headers("center")
             .setPaging(10, 1, 3, true)
             .useIndex('#')

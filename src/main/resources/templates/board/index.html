@@ -16,7 +16,7 @@
         <div class="d-flex flex-column flex-md-row justify-content-between mb-2 gap-2">
           <div class="d-flex gap-2"></div>
           <div>
-            <button type="button" class="btn-primary-custom goto-write" th:if="${user != null}">게시글 작성하기</button>
+            <button type="button" class="btn-primary-custom goto-write" th:if="${isLogin}">게시글 작성하기</button>
           </div>
         </div>
         <div id="board-table"></div>
@@ -31,8 +31,8 @@
         <h1 class="fw-bolder" th:text="${recentBbs?.bbsNm}"></h1>
       </div>
       <div class="row gx-5">
-        <th:block th:if="${#authorization.expression('isAuthenticated()')}">
-          <div class="d-flex flex-column flex-md-row justify-content-between mb-2 gap-2" th:if="${#authorization.expression('hasRole(''ROLE_SUPER'')')}">
+        <th:block th:if="${isLogin}">
+          <div class="d-flex flex-column flex-md-row justify-content-between mb-2 gap-2" th:if="${isSuper}">
             <div class="d-flex gap-2"></div>
             <div>
               <button type="button" class="btn-primary-custom goto-write">게시글 작성하기</button>
@@ -43,8 +43,8 @@
           <div class="card border-0 shadow-sm p-2" style="background-color: #85abee69;">
             <div id="board-cl-faq"></div>
           </div>
-          <th:block th:if="${#authorization.expression('isAuthenticated()')}">
-            <span class="cl-span" th:if="${#authorization.expression('hasRole(''ROLE_SUPER'')')}">
+          <th:block th:if="${isLogin}">
+            <span class="cl-span" th:if="${isSuper}">
               분류 수정 및 추가하기
             </span>
           </th:block>
@@ -113,7 +113,7 @@
         $(this).addClass('selected');
         const uid = $(this).data('uid');
         const upper = $(this).data('upper');
-        clUid = uid;
+        clUid = uid ?? 0;
         faqCard.drawFaqBoardCards();
       });
 

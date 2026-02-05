@@ -1,15 +1,12 @@
 var mainScriptJS = {
 
     logoutFunction: function () {
-        const {header, token} = Http.getCookieInfo()
+        // {{ JWT 사용 추가
+        localStorage.removeItem("accessToken");
+        // }}
         const form = document.createElement("form")
-        const csrfInput = document.createElement("input")
         form.method = "POST"
         form.action = "/logout"
-        csrfInput.type = 'hidden'
-        csrfInput.name = "_csrf";
-        csrfInput.value = token
-        form.appendChild(csrfInput)
         document.body.appendChild(form)
         form.submit()
     }

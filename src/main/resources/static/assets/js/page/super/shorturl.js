@@ -4,7 +4,7 @@ var shortUrlJS = {
 
     initPage: function () {
         shortUrlJS.table = new GridTable("short-url-mng-table")
-            .get('/snipp/api/short-url/super/page')
+            .get('/api/snipp/short-url/super/page')
             .headers("center")
             .setPaging(10, 1, 3, true)
             .useIndex('#')

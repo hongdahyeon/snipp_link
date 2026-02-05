@@ -31,7 +31,7 @@
           </li>
 
           <!-- [SUPER] 권한 메뉴 -->
-          <li class="nav-item dropdown" th:if="${#authorization.expression('isAuthenticated()') and #authorization.expression('hasRole(''SUPER'')')}">
+          <li class="nav-item dropdown" th:if="${isLogin and isSuper}">
             <a class="nav-link dropdown-toggle" id="systemManageMenu" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">시스템 관리</a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="systemManageMenu">
               <li><a class="dropdown-item" href="/snipp/short-url/super">nShortURL 관리</a></li>
@@ -41,7 +41,7 @@
           </li>
 
           <!-- [SUPER] 권한 메뉴 -->
-          <li class="nav-item dropdown" th:if="${#authorization.expression('isAuthenticated()') and #authorization.expression('hasRole(''SUPER'')')}">
+          <li class="nav-item dropdown" th:if="${isLogin and isSuper}">
             <a class="nav-link dropdown-toggle" id="histManageMenu" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">이력 관리</a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="histManageMenu">
               <li><a class="dropdown-item" href="/snipp/short-url/access-log/super">nShortURL 접근 이력 관리</a></li>
@@ -55,10 +55,10 @@
               <i class="bi bi-person-circle"></i>&nbsp;프로필
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
-              <li><a class="dropdown-item" href="/snipp/short-url/my-url" th:if="${#authorization.expression('isAuthenticated()')}">나의 nShortURL</a></li>
-              <li><a class="dropdown-item" href="/snipp/user/my-profile" th:if="${#authorization.expression('isAuthenticated()')}">프로필</a></li>
-              <li><a class="dropdown-item" href="javascript:void(0);" onclick="mainScriptJS.logoutFunction()" th:if="${#authorization.expression('isAuthenticated()')}">로그아웃</a></li>
-              <li><a class="dropdown-item" href="/login" th:unless="${#authorization.expression('isAuthenticated()')}">로그인</a></li>
+              <li><a class="dropdown-item" href="/snipp/short-url/my-url" th:if="${isLogin}">나의 nShortURL</a></li>
+              <li><a class="dropdown-item" href="/snipp/user/my-profile" th:if="${isLogin}">프로필</a></li>
+              <li><a class="dropdown-item" href="javascript:void(0);" onclick="mainScriptJS.logoutFunction()" th:if="${isLogin}">로그아웃</a></li>
+              <li><a class="dropdown-item" href="/login" th:unless="${isLogin}">로그인</a></li>
             </ul>
           </li>
 

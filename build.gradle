@@ -68,6 +68,10 @@ dependencies {
 	implementation 'org.springframework.session:spring-session-data-redis'		// 전략 대행
 																				// => Spring Security의 세션 정보를 서버 메모리가 아닌 Redis에 저장하도록 가로채는 중간 관리자
 
+	// jwt
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5' // 또는 jjwt-gson
 
 	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

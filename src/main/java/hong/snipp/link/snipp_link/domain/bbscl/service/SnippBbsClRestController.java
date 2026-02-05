@@ -22,11 +22,12 @@ import java.util.List;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-05-30        work       최초 생성
+ * 2026-02-05        work       /snipp/api/bbs-cl => /api/snipp/bbs-cl
  */
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/snipp/api/bbs-cl")
+@RequestMapping("/api/snipp/bbs-cl")
 public class SnippBbsClRestController {
 
     private final SnippBbsClService service;
@@ -36,7 +37,7 @@ public class SnippBbsClRestController {
      * 분류 정보 리스트 형태 조회
      * =>
      *
-     * @api         [GET] /snipp/api/bbs-cl/list
+     * @api         [GET] /api/snipp/bbs-cl/list
      * @author      dahyeon
      * @date        2025-05-30
     **/
@@ -50,7 +51,7 @@ public class SnippBbsClRestController {
      *
      * 분류 정보 리스트 형태 조회 => 트리 형태 변환후 리턴
      *
-     * @api         [GET] /snipp/api/bbs-cl/tree
+     * @api         [GET] /api/snipp/bbs-cl/tree
      * @author      dahyeon
      * @date        2025-05-30
     **/
@@ -64,7 +65,7 @@ public class SnippBbsClRestController {
      *
      * 게시판 분류 정보 저장
      *
-     * @api         [POST] /snipp/spi/bbs-cl
+     * @api         [POST] /api/snipp/bbs-cl
      * @author      dahyeon
      * @date        2025-05-30
     **/
@@ -78,7 +79,7 @@ public class SnippBbsClRestController {
      *
      * 게시판 분류 정보 수정
      *
-     * @api         [PUT] /snipp/api/bbs-cl/{uid}
+     * @api         [PUT] /api/snipp/bbs-cl/{uid}
      * @author      dahyeon
      * @date        2025-05-30
     **/
@@ -92,7 +93,7 @@ public class SnippBbsClRestController {
      *
      * 게시판 분류 정보 삭제
      *
-     * @api         [DELETE] /snipp/api/bbs-cl/{uid}
+     * @api         [DELETE] /api/snipp/bbs-cl/{uid}
      * @author      dahyeon
      * @date        2025-05-30
     **/

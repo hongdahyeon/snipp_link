@@ -19,10 +19,11 @@ import java.util.Map;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-23        work       최초 생성
+ * 2026-02-05        work       /snipp/image/api => /api/snipp/image
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/snipp/image/api")
+@RequestMapping("/api/snipp/image")
 public class EditorImageUploaderRestController {
 
     private final EditorImageUploaderService service;
@@ -31,7 +32,7 @@ public class EditorImageUploaderRestController {
      *
      * CK-Editor 이미지 업로더
      *
-     * @api         [POST] /snipp/image/api/uploadCkImageFile
+     * @api         [POST] /api/snipp/image/uploadCkImageFile
      * @author      work
      * @date        2025-04-23
     **/

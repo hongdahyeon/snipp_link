@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
+ * 2026-02-05        work       /snipp/api/social-user => /api/snipp/social-user
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/snipp/api/social-user")
+@RequestMapping("/api/snipp/social-user")
 public class SnippSocialUserRestController {
 
     private final SnippSocialUserService service;

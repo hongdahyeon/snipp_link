@@ -26,10 +26,11 @@ import java.util.List;
  * 2025-04-16        home       파일 이름 변경 : snip -> snipp
  * 2026-01-12        home       short_url 생성
  * 2026-01-14        work       short_url page 조회 super 권한
+ * 2026-02-05        work       /snipp/api/short-url => /api/snipp/short-url
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/snipp/api/short-url")
+@RequestMapping("/api/snipp/short-url")
 public class SnippShortUrlRestController {
 
     private final SnippShortUrlService service;
@@ -39,7 +40,7 @@ public class SnippShortUrlRestController {
      *
      * ORIGIN_URL -> SHORT_URL 생성
      *
-     * @api         [POST] /snipp/api/short-url/create
+     * @api         [POST] /api/snipp/short-url/create
      * @author      work
      * @date        2025-04-15
     **/
@@ -53,7 +54,7 @@ public class SnippShortUrlRestController {
      *
      * SHORT_URL 목록 조회 (페이징)
      *
-     * @api         [GET] /snipp/api/short-url/super/page
+     * @api         [GET] /api/snipp/short-url/super/page
      * @author      work
      * @date        2025-04-15
     **/
@@ -67,7 +68,7 @@ public class SnippShortUrlRestController {
      *
      * SHORT_URL 목록 조회 (리스트)
      *
-     * @api         [GET] /snipp/api/short-url/list
+     * @api         [GET] /api/snipp/short-url/list
      * @author      work
      * @date        2025-04-15
     **/
