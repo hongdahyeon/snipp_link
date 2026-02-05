@@ -5,18 +5,23 @@ import hong.snipp.link.snipp_link.global.handler.CustomAccessDeniedHandler;
 import hong.snipp.link.snipp_link.global.handler.CustomAuthenticationHandler;
 import hong.snipp.link.snipp_link.global.handler.login.CustomLoginFailureHandler;
 import hong.snipp.link.snipp_link.global.handler.login.CustomLoginSuccessHandler;
+import hong.snipp.link.snipp_link.global.jwt.JwtAuthenticationFilter;
+import hong.snipp.link.snipp_link.global.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.*;
 import org.springframework.security.config.annotation.web.configurers.oauth2.client.OAuth2LoginConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -37,6 +42,7 @@ import java.util.List;
  * 2026-01-12   home        권한 api,url 허용 순서 변경
  * 2026-01-17   work        {h2-console 이용을 위해 H2 콘솔 CSRF 예외 처리 }, {H2 콘솔 iframe 허용}
  * 2026-02-02   work        sessionManagement 적용
+ * 2026-02-05   work        JwtAuthenticationFilter 추가
  */
 @Configuration
 @EnableWebSecurity
@@ -50,6 +56,11 @@ public class SecurityConfig {
     private final PrincipalOAuth2UserService oAuth2UserService;
 
     private final SessionRegistry sessionRegistry;
+
+    // {{ JWT 사용 추가
+    private final JwtProvider jwtProvider;
+    private final RedisTemplate<String, String> redisTemplate;
+    // }}
 
     @Value("${hong.max-session}")
     private Integer maxSession;
@@ -193,11 +204,23 @@ public class SecurityConfig {
             .csrf(this::configureCsrf)
             .cors(corsConfigurer -> corsConfigurer.configurationSource(request -> corsConfiguration()))
             .headers(this::configureHeaders)
+            // {{ JWT 사용 추가 -------------------------------------------
+            // [핵심 추가] JWT 필터를 시큐리티 필터 체인 맨 앞단에 배치
+            // }} --------------------------------------------------------
+            .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, redisTemplate),
+                        UsernamePasswordAuthenticationFilter.class)
             .authorizeHttpRequests(this::configureAuthorization)
             .exceptionHandling(this::configureHandler)
             .formLogin(this::configureFormLogin)
             .oauth2Login(this::configureOAuth2Login)
-            .sessionManagement(this::configureSessionManagement)
+            // {{ JWT 사용 추가 : 주석
+            // .sessionManagement(this::configureSessionManagement)
+            // }}
+            // {{ JWT 사용 추가 => Redis에 {spring:session} 키로 값이 생성되지 않는다.
+            .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 서버가 세션을 생성/사용하지 않음
+            )
+            // }}
             .logout(this::configureLogout);
         return http.build();
     }

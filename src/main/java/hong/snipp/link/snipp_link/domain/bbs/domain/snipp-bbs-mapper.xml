@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hong.snipp.link.snipp_link.domain.bbs.domain.SnippBbsMapper">
 
-    <insert id="insert" parameterType="SnippBbs">
+    <insert id="insert" parameterType="SnippBbs" useGeneratedKeys="true" keyProperty="uid">
         /* snippBbs.insert */
         INSERT INTO SNP_BBS (
              BBS_TP

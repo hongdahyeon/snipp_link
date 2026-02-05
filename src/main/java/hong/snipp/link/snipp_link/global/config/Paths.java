@@ -25,6 +25,19 @@ public class Paths {
 
     public static final String LOGOUT = "/logout";
 
+    public static final String[] JWT_EXCLUDE_PATTERNS  = {
+            "/assets/css/**",    // (예: /assets/css/main.css)
+            "/assets/fonts/**",
+            "/assets/js/core/**",
+            "/assets/src/**",
+            "/html/**",
+            "/favicon.ico",
+            "/login",
+            "/loginProc",
+            "/api/auth/refresh",
+            "/login/force.json"
+    };
+
     public static final AntPathRequestMatcher[] BEFORE_LOGIN = new  AntPathRequestMatcher[]{
              new AntPathRequestMatcher("/")
             ,new AntPathRequestMatcher("/csrf")

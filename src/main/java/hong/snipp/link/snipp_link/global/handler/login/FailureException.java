@@ -27,6 +27,7 @@ public enum FailureException {
     AccountExpiredException("최근 로그인일로부터 1년이 지나 \n  휴먼 계정이 되었습니다. \n 이메일 인증을 해주세요.", "account"),
     InternalAuthenticationServiceException("내부 시스템 문제로 로그인 요청을 처리할 수 없습니다. \n 관리자에게 문의해주세요.", "error"),
     DuplicateLogin("이미 접속 중인 아이디입니다. \n 다시 로그인하시겠습니까?", "session"),
+    SessionExpired("세션이 만료되었습니다.", "sessionexpired"),
     LockedException("비밀번호 5회 오류로 계정이 잠겼습니다. \n 관리자에게 문의해주세요.", "error");
 
     public String message;

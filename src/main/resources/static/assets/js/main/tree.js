@@ -183,7 +183,7 @@ class Tree {
             callback(data);
         })
         .fail(() => {
-            Util.alert("메뉴를 불러오지 못했습니다.");
+            Swwet.alert("메뉴를 불러오지 못했습니다.");
         });
     }
 

@@ -7,6 +7,8 @@ import hong.snipp.link.snipp_link.domain.bbs.dto.request.SnippBbsParam;
 import hong.snipp.link.snipp_link.domain.bbs.dto.request.SnippBbsSave;
 import hong.snipp.link.snipp_link.domain.bbs.dto.response.SnippBbsList;
 import hong.snipp.link.snipp_link.domain.bbs.dto.response.SnippBbsView;
+import hong.snipp.link.snipp_link.domain.bbscl.dto.request.SnippBbsClSave;
+import hong.snipp.link.snipp_link.domain.bbscl.service.SnippBbsClService;
 import hong.snipp.link.snipp_link.domain.board.service.SnippBoardService;
 import hong.snipp.link.snipp_link.domain.code.BbsTp;
 import hong.snipp.link.snipp_link.global.bean.page.Page;
@@ -32,6 +34,7 @@ import java.util.List;
  * 2025-04-16        work       snip -> snipp 변경
  * 2025-04-25        work       private -> private final
  * 2025-05-29        work       {view} 추가
+ * 2026-02-05        work       게시판 생성 시점 > 게시판에 대한 분류 ROOT 자동 생성
  */
 @Service
 @RequiredArgsConstructor
@@ -39,6 +42,7 @@ public class SnippBbsService {
 
     private final SnippBbsMapper mapper;
     private final SnippBoardService boardService;
+    private final SnippBbsClService clService;
 
     /**
      * @method      saveBbs
@@ -48,7 +52,9 @@ public class SnippBbsService {
     **/
     @Transactional
     public void saveBbs(SnippBbsSave request) {
-        mapper.insert(new SnippBbs(request));
+        SnippBbs bean = new SnippBbs(request);
+        mapper.insert(bean);
+        clService.saveBbsCl(new SnippBbsClSave(bean.getUid(), "ROOT", 1L, null));
     }
 
     /**
