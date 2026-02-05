@@ -13,7 +13,7 @@
                   ,SBC.SORT_NO
                   ,1 AS DEPTH
                   ,CAST(SBC.CL_NM AS VARCHAR(1000)) AS PATH
-                  ,CAST(LPAD(SBC.SORT_NO, 5, '0') AS VARCHAR(1000)) AS SORT_PATH
+                  ,CAST(LPAD(CAST(SBC.SORT_NO AS VARCHAR), 5, '0') AS VARCHAR(1000)) AS SORT_PATH
               FROM SNP_BBS_CL SBC
              WHERE SBC.UPPER_CL IS NULL
                AND SBC.BBS_UID = #{bbsUid}
@@ -25,7 +25,7 @@
                    ,C.BBS_UID
                    ,C.SORT_NO
                    ,P.DEPTH + 1
-                   ,CAST(CONCAT(P.PATH, ' > ', C.CL_NM) AS VARCHAR(1000)) -- 타입 일치 강제
+                   ,CAST(CONCAT(P.PATH, ' > ', C.CL_NM) AS VARCHAR(1000))
                    ,CAST(CONCAT(P.SORT_PATH, '-', LPAD(C.SORT_NO, 5, '0')) AS VARCHAR(1000))
                FROM SNP_BBS_CL C
                JOIN CL_TREE P ON C.UPPER_CL = P.UID
@@ -62,9 +62,9 @@
             ,#{bbsUid}
             ,#{sortNo}
             ,#{regUid}
-            ,NOW()
+            ,CURRENT_TIMESTAMP
             ,#{updtUid}
-            ,NOW()
+            ,CURRENT_TIMESTAMP
         )
     </insert>
 

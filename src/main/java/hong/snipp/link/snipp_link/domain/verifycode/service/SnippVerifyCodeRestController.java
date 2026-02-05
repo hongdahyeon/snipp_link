@@ -16,10 +16,11 @@ import org.springframework.web.bind.annotation.*;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-22        work       최초 생성
+ * 2026-02-05        work       /snipp/api/verify-code => /api/snipp/verify-code
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/snipp/api/verify-code")
+@RequestMapping("/api/snipp/verify-code")
 public class SnippVerifyCodeRestController {
 
     private final SnippVerifyCodeService service;
@@ -28,7 +29,7 @@ public class SnippVerifyCodeRestController {
      *
      * 인증번호 유효성 체크
      *
-     * @api         [PUT] /snipp/api/verify-code/check-verify-code
+     * @api         [PUT] /api/snipp/verify-code/check-verify-code
      * @author      work
      * @date        2025-04-22
     **/

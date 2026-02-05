@@ -43,6 +43,7 @@ import java.util.List;
  * 2026-01-17   work        {h2-console 이용을 위해 H2 콘솔 CSRF 예외 처리 }, {H2 콘솔 iframe 허용}
  * 2026-02-02   work        sessionManagement 적용
  * 2026-02-05   work        JwtAuthenticationFilter 추가
+ * 2026-02-05   work        JWT 사용으로 인해 CSRF 필터는 끄기(비활성화)
  */
 @Configuration
 @EnableWebSecurity
@@ -111,13 +112,15 @@ public class SecurityConfig {
      * @deacription CSRF 공격 방어
      *              * CSRF 토큰을 쿠키에 저장
      *              * HttpOnly 속성 값을 {false}로 설정하여 JS에서 CSRF 토큰에 접근할 수 있도록 한다
+     *              => (수정) JWT 사용으로 인해 CSRF 필터는 끄기 : 오히려 불필요한 연산과 에러 유발
      **/
     private void configureCsrf(CsrfConfigurer<HttpSecurity> csrfConfigurer) {
-        // csrfConfigurer.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-        // // csrfConfigurer.disable();
-        csrfConfigurer
+          csrfConfigurer.disable();
+          // {{ JWT 토큰 사용 : 주석
+        /*csrfConfigurer
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .ignoringRequestMatchers("/h2-console/**", "/login/force.json"); // H2 콘솔 CSRF 예외 처리
+                .ignoringRequestMatchers("/h2-console/**", "/login/force.json"); // H2 콘솔 CSRF 예외 처리*/
+        // }}
     }
 
     /**

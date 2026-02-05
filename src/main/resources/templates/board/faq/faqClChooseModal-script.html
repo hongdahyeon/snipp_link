@@ -10,7 +10,7 @@
         , initTree: function () {
             return new Promise((resolve, reject) => {
                 faqClChooseModal.tree = new Tree("faqCl-change-tree", false, false);
-                faqClChooseModal.tree.drawTree(`/snipp/api/bbs-cl/list`, () => {
+                faqClChooseModal.tree.drawTree(`/api/snipp/bbs-cl/list`, () => {
                     return {bbsUid}
                 });
                 faqClChooseModal.tree.customTreeSelectEvent((e, d) => {

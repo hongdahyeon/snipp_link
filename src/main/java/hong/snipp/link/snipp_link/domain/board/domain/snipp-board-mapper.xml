@@ -33,9 +33,9 @@
             ,#{clUid}
             ,'N'
             ,#{regUid}
-            ,NOW()
+            ,CURRENT_TIMESTAMP
             ,#{updtUid}
-            ,NOW()
+            ,CURRENT_TIMESTAMP
         )
     </insert>
 
@@ -45,7 +45,7 @@
            SET TITLE = #{title}
               ,CONTENT = #{content}
               ,UPDT_UID = #{updtUid}
-              ,UPDT_DT = NOW()
+              ,UPDT_DT = CURRENT_TIMESTAMP
          WHERE UID = #{uid}
     </update>
 
@@ -158,7 +158,7 @@
         UPDATE SNP_BOARD
            SET DELETE_AT = 'Y'
               ,UPDT_UID = #{updtUid}
-              ,UPDT_DT = NOW()
+              ,UPDT_DT = CURRENT_TIMESTAMP
          WHERE UID = #{uid}
     </delete>
 

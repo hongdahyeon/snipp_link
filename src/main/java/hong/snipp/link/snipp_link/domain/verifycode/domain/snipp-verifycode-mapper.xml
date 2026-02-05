@@ -13,7 +13,7 @@
              #{verifyCode}
             ,#{userEmail}
             ,'N'
-            ,NOW()
+            ,CURRENT_TIMESTAMP
         )
     </insert>
 
@@ -37,7 +37,7 @@
     <update id="updateUserLastLoginDt" parameterType="String">
         /* snippVerifyCode.updateUserLastLoginDt */
         UPDATE SNP_USER
-           SET LAST_CONN_DT = NOW()
+           SET LAST_CONN_DT = CURRENT_TIMESTAMP
          WHERE USER_EMAIL = #{userEmail}
     </update>
 </mapper>

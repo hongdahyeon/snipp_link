@@ -35,10 +35,11 @@ import java.util.regex.Pattern;
  * 2025-04-25        work       유저 단건 조회/수정 + 유저 잠금 및 활성화 수정 API 추가
  * 2026-01-12        home       유저 목록 조회 (페이징) super 권한
  * 2026-01-13        work       유저 잠금/활성화 관련 super 권한
+ * 2026-02-05        work       /snipp/api/user => /api/snipp/user
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/snipp/api/user")
+@RequestMapping("/api/snipp/user")
 public class SnippUserRestController {
 
     private final SnippUserService service;
@@ -61,7 +62,7 @@ public class SnippUserRestController {
      * > code : id / email
      * -> value : id(id값) / email(email값)
      *
-     * @api         [GET] /snipp/api/user/{code}/duplicate-check
+     * @api         [GET] /api/snipp/user/{code}/duplicate-check
      * @author      work
      * @date        2025-04-21
      **/
@@ -99,7 +100,7 @@ public class SnippUserRestController {
      *
      * 사용자 저장
      *
-     * @api         [POST] /snipp/api/user
+     * @api         [POST] /api/snipp/user
      * @author      work
      * @date        2025-04-21
     **/
@@ -113,7 +114,7 @@ public class SnippUserRestController {
      *
      * 비밀번호 수정 및 90일 연장
      *
-     * @api         [PUT] /snipp/api/user/change-password
+     * @api         [PUT] /api/snipp/user/change-password
      * @author      work
      * @date        2025-04-22
     **/
@@ -127,7 +128,7 @@ public class SnippUserRestController {
      *
      * 휴먼 계정 (로그인 안한지 1년 지남) -> 이메일 인증번호로 풀기
      *
-     * @api         [GET] /snipp/api/user/is-expired
+     * @api         [GET] /api/snipp/user/is-expired
      * @author      work
      * @date        2025-04-22
     **/
@@ -142,7 +143,7 @@ public class SnippUserRestController {
      * 유저 목록 조회 (페이징)
      * [권한] ROLE_SUPER
      *
-     * @api         [GET] /snipp/api/user/super/page
+     * @api         [GET] /api/snipp/user/super/page
      * @author      work
      * @date        2025-04-23
     **/
@@ -157,7 +158,7 @@ public class SnippUserRestController {
      *
      * 유저 목록 조회 (리스트)
      *
-     * @api         [GET] /snipp/api/user/list
+     * @api         [GET] /api/snipp/user/list
      * @author      work
      * @date        2025-04-23
     **/
@@ -171,7 +172,7 @@ public class SnippUserRestController {
      *
      * 유저 단건 조회
      *
-     * @api         [GET] /snipp/api/user/{uid}
+     * @api         [GET] /api/snipp/user/{uid}
      * @author      work
      * @date        2025-04-25
     **/
@@ -188,7 +189,7 @@ public class SnippUserRestController {
      * => 잠금    : lock / unlock
      * => 활성화  : enable / disable
      *
-     * @api         [PUT] /snipp/api/user/super/{code}/{uid}
+     * @api         [PUT] /api/snipp/user/super/{code}/{uid}
      * @author      work
      * @date        2025-04-25
     **/
@@ -212,7 +213,7 @@ public class SnippUserRestController {
      *
      * 유저 단건 수정
      *
-     * @api         [PUT] /snipp/user/api/{uid}
+     * @api         [PUT] /api/snipp/user/{uid}
      * @author      work
      * @date        2025-04-25
     **/

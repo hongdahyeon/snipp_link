@@ -19,9 +19,9 @@
             ,#{useAt}
             ,'N'
             ,#{regUid}
-            ,NOW()
+            ,CURRENT_TIMESTAMP
             ,#{updtUid}
-            ,NOW()
+            ,CURRENT_TIMESTAMP
         )
     </insert>
 
@@ -31,7 +31,7 @@
            SET BBS_NM = #{bbsNm}
               ,USE_AT = #{useAt}
               ,UPDT_UID = #{updtUid}
-              ,UPDT_DT = NOW()
+              ,UPDT_DT = CURRENT_TIMESTAMP
          WHERE UID = #{uid}
     </update>
 
@@ -144,7 +144,7 @@
         UPDATE SNP_BBS
            SET DELETE_AT = 'Y'
                ,UPDT_UID = #{updtUid}
-               ,UPDT_DT = NOW()
+               ,UPDT_DT = CURRENT_TIMESTAMP
           WHERE UID = #{uid}
     </delete>
 

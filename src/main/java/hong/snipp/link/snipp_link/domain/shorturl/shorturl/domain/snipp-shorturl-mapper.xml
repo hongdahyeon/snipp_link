@@ -9,8 +9,8 @@
               ,SHORT_URL
               ,CREATED_AT
               ,EXPIRES_AT
-              ,CASE WHEN (EXPIRES_AT >= NOW()) THEN 'N'
-                    WHEN (NOW() > EXPIRES_AT) THEN 'Y'
+              ,CASE WHEN (EXPIRES_AT >= CURRENT_TIMESTAMP) THEN 'N'
+                    WHEN (CURRENT_TIMESTAMP > EXPIRES_AT) THEN 'Y'
                 END AS IS_EXPIRED
               ,IS_PUBLIC
           FROM SNP_SHORTEN_URL
@@ -25,8 +25,8 @@
               ,SHORT_URL
               ,CREATED_AT
               ,EXPIRES_AT
-              ,CASE WHEN (EXPIRES_AT >= NOW()) THEN 'N'
-                    WHEN (NOW() > EXPIRES_AT) THEN 'Y'
+              ,CASE WHEN (EXPIRES_AT >= CURRENT_TIMESTAMP) THEN 'N'
+                    WHEN (CURRENT_TIMESTAMP > EXPIRES_AT) THEN 'Y'
                 END AS IS_EXPIRED
               ,IS_PUBLIC
           FROM SNP_SHORTEN_URL
@@ -44,8 +44,8 @@
         ) VALUES (
              #{originUrl}
             ,''
-            ,NOW()
-            ,(NOW() + INTERVAL '1' WEEK)
+            ,CURRENT_TIMESTAMP
+            ,DATEADD('WEEK', 1, CURRENT_TIMESTAMP)
             ,#{isPublic}
         )
     </insert>
@@ -71,8 +71,8 @@
               ,SHORT_URL
               ,CREATED_AT
               ,EXPIRES_AT
-              ,CASE WHEN (EXPIRES_AT >= NOW()) THEN 'N'
-                    WHEN (NOW() > EXPIRES_AT) THEN 'Y'
+              ,CASE WHEN (EXPIRES_AT >= CURRENT_TIMESTAMP) THEN 'N'
+                    WHEN (CURRENT_TIMESTAMP > EXPIRES_AT) THEN 'Y'
                  END AS IS_EXPIRED
               ,IS_PUBLIC
           FROM SNP_SHORTEN_URL SSU
@@ -96,8 +96,8 @@
               ,SHORT_URL
               ,CREATED_AT
               ,EXPIRES_AT
-              ,CASE WHEN (EXPIRES_AT >= NOW()) THEN 'N'
-                    WHEN (NOW() > EXPIRES_AT) THEN 'Y'
+              ,CASE WHEN (EXPIRES_AT >= CURRENT_TIMESTAMP) THEN 'N'
+                    WHEN (CURRENT_TIMESTAMP > EXPIRES_AT) THEN 'Y'
                  END AS IS_EXPIRED
               ,IS_PUBLIC
           FROM SNP_SHORTEN_URL SSU

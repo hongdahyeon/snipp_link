@@ -17,7 +17,7 @@
              #{shortUrl}
             ,#{accessIp}
             ,#{accessUserAgent}
-            ,NOW()
+            ,CURRENT_TIMESTAMP
             ,#{accessTp}
             <if test="userUid != null and userUid != ''">
             ,#{userUid}
