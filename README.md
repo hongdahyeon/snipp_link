@@ -71,7 +71,7 @@
 - **보안 설정 (Security)**:
    - **CSRF 비활성화**: JWT를 `Authorization` 헤더에 담아 전송하는 무상태 구조이므로 CSRF 보안을 비활성화하여 통신 효율을 높이고 Thymeleaf 템플릿 의존성을 제거함.
    - **권한 제어 (Paths 기반)**: `Paths.java`에 정의된 매처를 통해 역할별 접근 제한을 중앙 관리함.
-      - **로그인 이전**: `/snipp/**`, `/api/snipp/**` 등 기본 접근 허용
+      - **로그인 이전**: `/snipp/**`, `/api/snipp/**`, `/snipp-short/**` 등 기본 접근 허용
       - **SUPER 권한**: `/snipp/**/super/**`, `/api/snipp/**/super/**`
       - **MANAGER 권한**: `/snipp/**/manager/**`, `/api/snipp/**/manager/**`
 
