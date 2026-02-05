@@ -139,7 +139,7 @@ var loginJS = {
             change: false,
             userId: loginJS.changePwdModalForm_userId.val()
         }
-        Http.put('/snipp/api/user/change-password', obj).then(() => {
+        Http.put('/api/snipp/user/change-password', obj).then(() => {
             Sweet.alert("비밀번호가 연장되었습니다.").then(() => {
                window.location.href = '/login'
             });
@@ -156,7 +156,7 @@ var loginJS = {
                 password: loginJS.changePwdModalForm_password.val(),
                 change: true
             }
-            Http.put('/snipp/api/user/change-password', obj).then(() => {
+            Http.put('/api/snipp/user/change-password', obj).then(() => {
                 Sweet.alert("비밀번호가 수정되었습니다.").then(() => {
                     window.location.href = '/login'
                 });
@@ -169,7 +169,7 @@ var loginJS = {
     ,sendVerifyCode: function () {
         const userEmail = loginJS.accountExpiredModalForm_userEmail.val()
         loginJS.accountExpiredModal_sendVerifyCodeBtn.prop('disabled', true).prop('readonly', true);
-        Http.get('/snipp/api/user/is-expired', {userEmail}).then(() => {
+        Http.get('/api/snipp/user/is-expired', {userEmail}).then(() => {
            Sweet.alert('이메일로 인증번호가 발송되었습니다.');
         });
     }
@@ -182,7 +182,7 @@ var loginJS = {
                 userEmail: loginJS.accountExpiredModalForm_userEmail.val(),
                 verifyCode: loginJS.accountExpiredModalForm_verifyCode.val()
             }
-            Http.put('/snipp/api/verify-code/check-verify-code', obj).then((res) => {
+            Http.put('/api/snipp/verify-code/check-verify-code', obj).then((res) => {
                 if(res) {
                     Sweet.alert('휴먼 계정이 풀렸습니다.').then(() => {
                        window.location.href = '/login'

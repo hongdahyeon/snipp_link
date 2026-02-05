@@ -16,8 +16,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  * 2025-04-21        work       ~ 개발 작업 완료
  * 2025-04-22        work       * 기본적으로 모든 api > 로그인 이전 접근 가능
  *                              * 권한 있는 경우
- *                                -> [api] /snipp/api/{패키지명}/{role}/**
+ *                                -> [api] /api/snipp/{패키지명}/{role}/**
  *                                -> [url] /snipp/{패키지명}/{role}/**
+ * 2026-02-05        work        /snipp/api/{패키지명}/{role}/** => /api/snipp/{패키지명}/{role}/**
  */
 public class Paths {
 
@@ -47,18 +48,18 @@ public class Paths {
             ,new AntPathRequestMatcher("/snipp-short/**")
             ,new AntPathRequestMatcher("/assets/**")
             ,new AntPathRequestMatcher("/login/force.json")
-            ,new AntPathRequestMatcher("/snipp/api/**")
+            ,new AntPathRequestMatcher("/api/snipp/**")
             ,new AntPathRequestMatcher("/snipp/**")
             ,new AntPathRequestMatcher("/ckImage/**")
     };;
 
     public static final AntPathRequestMatcher[] ROLE_SUPER = new  AntPathRequestMatcher[]{
-             new AntPathRequestMatcher("/snipp/api/**/super/**")
-            ,new AntPathRequestMatcher("/snipp/**/super")
+             new AntPathRequestMatcher("/api/snipp/**/super/**")
+            ,new AntPathRequestMatcher("/snipp/**/super/**")
     };
 
     public static final AntPathRequestMatcher[] ROLE_MANAGER = new  AntPathRequestMatcher[]{
-             new AntPathRequestMatcher("/snipp/api/**/manager/**")
-            ,new AntPathRequestMatcher("/snipp/**/manager")
+             new AntPathRequestMatcher("/api/snipp/**/manager/**")
+            ,new AntPathRequestMatcher("/snipp/**/manager/**")
     };
 }

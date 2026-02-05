@@ -40,7 +40,7 @@ var indexJS = {
             originUrl: longLinkURL,
             isPublic: 'Y'
         }
-        Http.post(`/snipp/api/short-url/create`, obj).then((res) => {
+        Http.post(`/api/snipp/short-url/create`, obj).then((res) => {
             $("#shortUrlText").text(res);
         }).fail((e) => {
             console.error(e)

@@ -26,10 +26,11 @@ import java.util.List;
  * 2025-04-15        work       최초 생성
  * 2025-04-16        work       snip -> snipp 변경
  * 2025-05-30        work       {findBoardCntUseCl} api 추가
+ * 2026-02-05        work       /snipp/api/board => /api/snipp/board
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/snipp/api/board")
+@RequestMapping("/api/snipp/board")
 public class SnippBoardRestController {
 
     private final SnippBoardService service;
@@ -38,7 +39,7 @@ public class SnippBoardRestController {
      *
      * 게시글 저장
      *
-     * @api         [POST] /snipp/api/board
+     * @api         [POST] /api/snipp/board
      * @author      work
      * @date        2025-04-15
     **/
@@ -52,7 +53,7 @@ public class SnippBoardRestController {
      *
      * 게시글 수정
      *
-     * @api         [PUT] /snipp/api/board/{uid}
+     * @api         [PUT] /api/snipp/board/{uid}
      * @author      work
      * @date        2025-04-15
     **/
@@ -66,7 +67,7 @@ public class SnippBoardRestController {
      *
      * 게시글 단건 조회
      *
-     * @api         [GET] /snipp/api/board/{uid}
+     * @api         [GET] /api/snipp/board/{uid}
      * @author      work
      * @date        2025-04-15
     **/
@@ -80,7 +81,7 @@ public class SnippBoardRestController {
      *
      * 게시글 목록 조회 (페이징)
      *
-     * @api         [GET] /snipp/api/board/page
+     * @api         [GET] /api/snipp/board/page
      * @author      work
      * @date        2025-04-15
     **/
@@ -94,7 +95,7 @@ public class SnippBoardRestController {
      *
      * 게시글 목록 조회 (리스트)
      *
-     * @api         [GET] /snipp/api/board/list
+     * @api         [GET] /api/snipp/board/list
      * @author      work
      * @date        2025-04-15
     **/
@@ -108,7 +109,7 @@ public class SnippBoardRestController {
      *
      * 게시글 단건 삭제
      *
-     * @api         [DELETE] /snipp/api/board/{uid}
+     * @api         [DELETE] /api/snipp/board/{uid}
      * @author      work
      * @date        2025-04-15
     **/
@@ -122,7 +123,7 @@ public class SnippBoardRestController {
      *
      * {clUid} 분류를 이용하는 게시글 개수 카운팅
      *
-     * @api         [GET] /snipp/api/board/child/{uid}
+     * @api         [GET] /api/snipp/board/child/{uid}
      * @author      dahyeon
      * @date        2025-05-30
     **/

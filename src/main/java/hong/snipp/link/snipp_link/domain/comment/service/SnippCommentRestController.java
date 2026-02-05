@@ -18,10 +18,11 @@ import org.springframework.web.bind.annotation.*;
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
  * 2025-04-16        work       snip -> snipp 변경
+ * 2026-02-05        work       /snipp/api/comment => /api/snipp/comment
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/snipp/api/comment")
+@RequestMapping("/api/snipp/comment")
 public class SnippCommentRestController {
 
     private final SnippCommentService service;
@@ -30,7 +31,7 @@ public class SnippCommentRestController {
      *
      * 댓글 저장
      *
-     * @api         [POST] /snipp/api/comment
+     * @api         [POST] /api/snipp/comment
      * @author      work
      * @date        2025-04-15
     **/
@@ -44,7 +45,7 @@ public class SnippCommentRestController {
      *
      * 댓글 수정
      *
-     * @api         [PUT] /snipp/api/comment/{uid}
+     * @api         [PUT] /api/snipp/comment/{uid}
      * @author      work
      * @date        2025-04-15
     **/
@@ -58,7 +59,7 @@ public class SnippCommentRestController {
      *
      * 댓글 삭제
      *
-     * @api         [DELETE] /snipp/api/comment/{uid}
+     * @api         [DELETE] /api/snipp/comment/{uid}
      * @author      work
      * @date        2025-04-15
     **/

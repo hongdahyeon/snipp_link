@@ -4,7 +4,7 @@ class MyUploadAdapter {
         // CKEditor 5의 데이터 로더 인스턴스
         this.loader = loader;
         // 이미지 업로드 API 경로
-        this.url = "/snipp/image/api/uploadCkImageFile";
+        this.url = "/api/snipp/image/uploadCkImageFile";
         // 요청 취소를 위한 컨트롤러
         this.controller = new AbortController();
     }
@@ -34,13 +34,8 @@ class MyUploadAdapter {
         const headers = new Headers();
         headers.append("Accept", "application/json");
 
-        // 1. CSRF 토큰 (보안 유지용)
-        const {header, token} = Http.getCookieInfo();
-        if (header && token) {
-            headers.append(header, token);
-        }
         // {{ JWT 사용 추가
-        // 2. JWT 토큰 추가 [핵심 추가]
+        // JWT 토큰 추가 [핵심 추가]
         const jwt = localStorage.getItem("accessToken");
         if (jwt) {
             headers.append("Authorization", "Bearer " + jwt);

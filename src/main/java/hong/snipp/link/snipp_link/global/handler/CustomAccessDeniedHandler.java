@@ -27,6 +27,7 @@ import java.io.PrintWriter;
  * -----------------------------------------------------------
  * 2025-04-18        work       최초 생성
  * 2025-04-21        work       ~ 개발 작업 완료
+ * 2026-02-05        work       로그 출력 수정
  */
 @Slf4j
 @Component
@@ -35,15 +36,14 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest req, HttpServletResponse res, AccessDeniedException deniedException) throws IOException {
         String deniedMessage = deniedException.getMessage();
-        if (deniedMessage != null) {
-            String message = deniedMessage.toLowerCase();
-            if (message.contains("csrf")) {
-                log.warn("======================= CSRF 문제 발생 ===========================");
-                this.returnMessage(res, "CSRF 토큰이 유효하지 않거나 누락되었습니다.", "CSRF Error");
-            } else {
-                log.warn("======================= 권한 부족 ===========================");
-                this.returnMessage(res, "해당 리소스에 접근할 권한이 없습니다.", "Access Denied");
-            }
+        // 로그에 어떤 URL에서 어떤 사유로 거부되었는지 상세히 기록
+        log.warn("Access Denied: URL={}, Message={}", req.getRequestURI(), deniedMessage);
+        if (deniedMessage != null && deniedMessage.toLowerCase().contains("csrf")) {
+            log.warn("======================= CSRF Token 관련 보안 오류 발생 =======================");
+            this.returnMessage(res, "CSRF 토큰이 유효하지 않거나 누락되었습니다.", "CSRF_ERROR");
+        } else {
+            log.warn("======================= 접근 권한(Role) 부족 오류 발생 =======================");
+            this.returnMessage(res, "해당 리소스에 접근할 권한이 없습니다.", "ACCESS_DENIED");
         }
     }
 

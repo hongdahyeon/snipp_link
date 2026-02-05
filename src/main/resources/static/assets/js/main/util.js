@@ -62,13 +62,8 @@ class Http {
 
     // 모든 메서드에서 공통으로 호출할 헤더 설정 함수 (중복 제거)
     static setAuthHeaders(xhr) {
-        // 1. CSRF 정보 (기존 유지)
-        const {token, header} = Http.getCookieInfo();
-        if (header && token) {
-            xhr.setRequestHeader(header, token);
-        }
         // {{ JWT 사용 추가
-        // 2. JWT 토큰 추가 [핵심 추가]
+        // JWT 토큰 추가 [핵심 추가]
         const jwt = localStorage.getItem("accessToken");
         if (jwt) {
             xhr.setRequestHeader("Authorization", "Bearer " + jwt);
@@ -287,11 +282,11 @@ class Http {
         // }}
     }
 
-    static getCookieInfo(){
+    /*static getCookieInfo(){
         const token = $("meta[name='_csrf']").attr("content")
         const header = $("meta[name='_csrf_header']").attr("content");
         return { header : header, token : token }
-    }
+    }*/
 
 }
 

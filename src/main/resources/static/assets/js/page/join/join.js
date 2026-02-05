@@ -17,7 +17,7 @@ var joinJS = {
             Simple.warn("아이디는 필수 입력값입니다.", "필수 입력");
             return false;
         }
-        Http.get(`/snipp/api/user/id/duplicate-check`, {value: userId}).then((res) => {
+        Http.get(`/api/snipp/user/id/duplicate-check`, {value: userId}).then((res) => {
             if(res['checkCanUse']) {
 
                 Simple.success(res.message);
@@ -36,7 +36,7 @@ var joinJS = {
             Simple.warn("이메일은 필수 입력값입니다.", "필수 입력")
             return false;
         }
-        Http.get(`/snipp/api/user/email/duplicate-check`, {value: userEmail}).then((res) => {
+        Http.get(`/api/snipp/user/email/duplicate-check`, {value: userEmail}).then((res) => {
             if(res['checkCanUse']) {
 
                 Simple.success(res.message);
@@ -85,7 +85,7 @@ var joinJS = {
                 password: joinJS.passwordInput.val(),
                 userNm: $("#userNm").val()
             }
-            Http.post('/snipp/api/user', obj).then(() => {
+            Http.post('/api/snipp/user', obj).then(() => {
                 Sweet.alert("회원가입이 완료되었습니다.").then(() => {
                     window.location.href = '/join3'
                 });

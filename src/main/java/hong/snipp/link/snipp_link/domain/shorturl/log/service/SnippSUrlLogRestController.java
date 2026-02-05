@@ -26,10 +26,11 @@ import java.util.List;
  * 2025-04-16        home       * 파일 이름 변경
  *                              - snip -> snipp
  *                              - ShortUrlAccessLog -> SUrlLog
+ * 2026-02-05        work       /snipp/api/short-url/access-log => /api/snipp/short-url/access-log
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/snipp/api/short-url/access-log")
+@RequestMapping("/api/snipp/short-url/access-log")
 public class SnippSUrlLogRestController {
 
     private final SnippSUrlLogService service;
@@ -38,7 +39,7 @@ public class SnippSUrlLogRestController {
      *
      * SHORT_URL 접근 로그 목록 조회 (페이징)
      *
-     * @api         [GET] /snipp/api/short-url/access-log/page
+     * @api         [GET] /api/snipp/short-url/access-log/page
      * @author      work
      * @date        2025-04-15
     **/
@@ -52,7 +53,7 @@ public class SnippSUrlLogRestController {
      *
      * SHORT_URL 접근 로그 목록 조회 (리스트)
      *
-     * @api         [GET] /snipp/api/short-url/access-log/list
+     * @api         [GET] /api/snipp/short-url/access-log/list
      * @author      work
      * @date        2025-04-15
     **/

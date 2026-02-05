@@ -10,7 +10,7 @@
         , initTree: function () {
             return new Promise((resolve, reject) => {
                 faqClModal.tree = new Tree("faqCl-change-tree", true, false);
-                faqClModal.tree.drawTree(`/snipp/api/bbs-cl/list`, () => {
+                faqClModal.tree.drawTree(`/api/snipp/bbs-cl/list`, () => {
                     return {bbsUid}
                 });
                 faqClModal.tree.customAddFunction("분류 추가", (data) => {
@@ -33,7 +33,7 @@
                 clNm: "새 분류",
                 sortNo: obj.children.length + 1,
             };
-            Http.post('/snipp/api/bbs-cl', clObj).then(() => {
+            Http.post('/api/snipp/bbs-cl', clObj).then(() => {
                 Sweet.alert("분류 정보가 추가되었습니다.").then(() => {
                     faqClModal.formAndTreeReset();
                     faqClModal.tree.treeRefresh();
@@ -53,7 +53,7 @@
                     clNm: $("#clNm").val(),
                     sortNo: $("#sortNo").val()
                 }
-                Http.put(`/snipp/api/bbs-cl/${uid}`, obj).then(() => {
+                Http.put(`/api/snipp/bbs-cl/${uid}`, obj).then(() => {
                     Sweet.alert("분류 정보가 수정되었습니다.").then(() => {
                         faqClModal.formAndTreeReset();
                         faqClModal.tree.treeRefresh();
@@ -70,10 +70,10 @@
             if (node.children.length) Sweet.alert("하위 분류 정보가 존재하여 메뉴를 삭제하지 못했습니다.")
             else {
                 const uid = node['id']
-                const res = await Http.get(`/snipp/api/board/child/${uid}`)
+                const res = await Http.get(`/api/snipp/board/child/${uid}`)
                 if(res !== 0) Sweet.alert("분류에 엮인 게시물이 존재하여 삭제할 수 없습니다.")
                 else {
-                    Http.delete(`/snipp/api/bbs-cl/${uid}`).then(() => {
+                    Http.delete(`/api/snipp/bbs-cl/${uid}`).then(() => {
                         Sweet.alert("분류 정보가 삭제되었습니다.").then(() => {
                             faqClModal.formAndTreeReset();
                             faqClModal.tree.treeRefresh();
