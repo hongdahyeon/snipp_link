@@ -41,6 +41,7 @@ import static hong.snipp.link.snipp_link.global.jwt.JwtProvider.*;
  * 2025-04-22        work       로그인 성공 이력 저장 + 사유
  * 2025-04-22        work       로그인 성공시 랜딩 페이지 : /snipp
  * 2026-02-05        work       JWT 사용 추가 관련 로직 개발
+ * 2026-02-06        work       소셜 로그인 > userId 가져오기 (userId null로 인한 JWT 생성시 오류 발생)
  */
 @Slf4j
 @Component
@@ -62,6 +63,10 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         String userId = request.getParameter("userId");
         if(userId == null) {
 
+            // JWT 토큰 발급을 위해 userId 가져오기
+            PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+            userId = principalDetails.getUser().getUserId();
+
             /* oauth2 login */
             OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
             Map<String, Object> map = new HashMap<>();
@@ -73,7 +78,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
                 else userEmail = (String) map.get("email");
             } else userEmail = (String) map.get("email");
 
-            log.info("======================= Login User: {} [OAuth2 Login] ===========================", userEmail);
+            log.info("======================= Login User: [OAuth2 Login][userId: {}][email: {}] ===========================", userId, userEmail);
             authUserService.resetLastLoginDtAndPwdFailCntByUserEmail(userEmail);
 
         } else {
@@ -81,7 +86,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
             /* form login */
             SnippSessionUser sessionUser = ((PrincipalDetails) authentication.getPrincipal()).getUser();
             String role = sessionUser.getRole();
-            log.info("======================= Login User: {} [Role: {}] ===========================", userId,  role);
+            log.info("======================= Login User: [Role: {}][userId: {}][email: {}] ===========================", role, userId, userEmail);
             authUserService.resetLastLoginDtAndPwdFailCntByUserId(userId);
             userEmail = sessionUser.getUserEmail();
         }

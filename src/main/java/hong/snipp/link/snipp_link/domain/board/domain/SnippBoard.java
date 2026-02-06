@@ -58,6 +58,7 @@ public class SnippBoard extends AuditBean {
         this.uid = uid;
         this.title = request.getTitle();
         this.content = request.getContent();
+        this.useAt = request.getUseAt();
     }
 
     /**

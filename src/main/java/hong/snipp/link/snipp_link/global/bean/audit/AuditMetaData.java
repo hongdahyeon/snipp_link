@@ -2,6 +2,8 @@ package hong.snipp.link.snipp_link.global.bean.audit;
 
 import lombok.Getter;
 
+import java.util.UUID;
+
 /**
  * packageName    : hong.snipp.link.snipp_link.global.bean.audit
  * fileName       : AuditMetaData
@@ -13,6 +15,7 @@ import lombok.Getter;
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
  * 2025-05-29        work       필드 추가
+ * 2026-02-06        work       mainId 값은 동적 생성
  */
 
 @Getter
@@ -27,6 +30,6 @@ public class AuditMetaData {
     private String updtId;
     private String updtNm;
 
-    private String mainId;
+    private String mainId = UUID.randomUUID().toString();
 
 }

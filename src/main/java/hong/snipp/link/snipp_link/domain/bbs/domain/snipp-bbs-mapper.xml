@@ -56,8 +56,7 @@
 
     <select id="page" resultType="SnippBbsList" parameterType="SnippBbsParam">
         /* snippBbs.page */
-        SELECT CONCAT('MAIN', '_', SB.UID) AS MAIN_ID
-              ,SB.UID AS BBS_UID
+        SELECT SB.UID AS BBS_UID
               ,SB.BBS_TP
               ,SB.BBS_NM
               ,SB.USE_AT
