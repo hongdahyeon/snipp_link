@@ -1,5 +1,6 @@
 package hong.snipp.link.snipp_link.domain.board.dto.request;
 
+import hong.snipp.link.snipp_link.global.annotation.YorN;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -26,4 +27,7 @@ public class SnippBoardChange {
 
     @NotBlank
     private String content;
+
+    @YorN
+    private String useAt;
 }

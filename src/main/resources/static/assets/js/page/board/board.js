@@ -48,8 +48,9 @@ var boardJS = {
             }))
             .init()
             .rowClick((...args) => {
-                const rowData = boardJS.table.getRowDataFull(args[1])
-                window.location.href =`/snipp/board/${type}/${rowData['bbsUid']}`
+                const mainId = args[1]._cells[0].data;
+                const rowData = boardJS.table.getRowData(mainId)
+                window.location.href =`/snipp/board/${type}/${rowData['boardUid']}`
             });
     }
 
@@ -62,12 +63,12 @@ var boardJS = {
          });
     }
 
-    ,deleteBoard: async function (uid) {
+    ,deleteBoard: async function (uid, type) {
         const isOk = await Sweet.confirm("게시글을 삭제하시겠습니까?")
         if(isOk) {
             Http.delete(`/api/snipp/board/${uid}`).then(() => {
                 Sweet.alert("게시글이 삭제되었습니다.").then(() => {
-                    window.location.reload();
+                    window.location.href = `/snipp/board/${type}`
                 })
             })
         }
@@ -78,7 +79,7 @@ var boardJS = {
         boardJS.contentEditor = await boardJS.contentEditor.init(isViewMode);
     }
 
-    ,saveBoardForm: function () {
+    ,saveBoardForm: function (isPost = true, boardUid = null) {
 
         const content = boardJS.contentEditor.getEditorData();
         const $form = $("#save-form")
@@ -101,11 +102,19 @@ var boardJS = {
                 if(type === 'faq') obj['clUid'] = $("#choose-clUid").val()
                 obj['thumbnailSrc'] = thumbnailModal.thumbNailImg
 
-                Http.post('/api/snipp/board', obj).then(() => {
-                    Sweet.alert("게시글이 등록되었습니다.").then(() => {
-                        window.location.href = `/snipp/board/${type}`
-                    })
-                });
+                if(isPost) {
+                    Http.post('/api/snipp/board', obj).then(() => {
+                        Sweet.alert("게시글이 등록되었습니다.").then(() => {
+                            window.location.href = `/snipp/board/${type}`
+                        })
+                    });
+                } else {
+                    Http.put(`/api/snipp/board/${boardUid}`, obj).then(() => {
+                        Sweet.alert("게시글이 수정되었습니다.").then(() => {
+                            window.location.href = `/snipp/board/${type}`
+                        })
+                    });
+                }
             });
 
         }

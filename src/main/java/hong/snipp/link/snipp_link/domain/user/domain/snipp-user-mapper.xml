@@ -109,8 +109,7 @@
 
     <select id="page" parameterType="SnippUserSearch" resultType="SnippUserList">
         /* snippUser.page */
-        SELECT CONCAT('MAIN', '_', SU.UID) AS MAIN_ID
-              ,SU.UID
+        SELECT SU.UID
               ,SU.USER_ID
               ,SU.PASSWORD
               ,SU.USER_EMAIL

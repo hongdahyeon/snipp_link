@@ -103,7 +103,7 @@
       /* [FAQ] 게시글 삭제하기 버튼 이벤트 */
       $(document).on('click', '.delete-board', function (e) {
         const uid = $(this).data('uid')
-        boardJS.deleteBoard(uid);
+        boardJS.deleteBoard(uid, type);
       });
 
       /* [FAQ] 분류 클릭 이벤트 */

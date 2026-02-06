@@ -2,6 +2,7 @@ package hong.snipp.link.snipp_link.domain.shorturl.shorturl.dto.response;
 
 import hong.snipp.link.snipp_link.domain.shorturl.access.dto.response.SnippSUrlAccessList;
 import hong.snipp.link.snipp_link.domain.shorturl.log.dto.response.SnippSUrlLogList;
+import hong.snipp.link.snipp_link.global.bean.ResponseIdBean;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +26,7 @@ import java.util.List;
  * 2026-01-14        work       logLists 필드 추가
  */
 @Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SnippShortUrlList {
+public class SnippShortUrlList extends ResponseIdBean {
 
     private Long uid;
     private String originUrl;

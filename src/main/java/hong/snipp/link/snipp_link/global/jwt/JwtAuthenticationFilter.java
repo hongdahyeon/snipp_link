@@ -34,6 +34,9 @@ import static hong.snipp.link.snipp_link.global.jwt.JwtProvider.*;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-02-05        work       최초 생성
+ * 2026-02-06        work       요청 path에 따라 jwt 조회 구분
+ *                              (1) /api/**  : ajax요청을 통해 들어오기에 무조건 헤더에서만 체크
+ *                              (2) 화면 이동 : 쿠키+헤더에서 jwt 체크
  */
 
 
@@ -44,20 +47,35 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtProvider jwtProvider;
     private final RedisTemplate<String, String> redisTemplate;
 
-    private String resolveToken(HttpServletRequest request) {
-        // 1. 헤더 체크 (Ajax 요청용)
-        String bearer = request.getHeader("Authorization");
+    public String resolveToken(HttpServletRequest req) {
+
+        String path = req.getServletPath();
+        String bearer = req.getHeader("Authorization");
+
+        // 1. API 요청(/api/**)인 경우 -> 오직 헤더만 인정
+        if (path.startsWith("/api/")) {
+            if (StringUtils.hasText(bearer) && bearer.startsWith("Bearer ")) {
+                log.info("===> API 요청, 헤더에 토큰 있음");
+                return bearer.substring(7);
+            }
+            log.info("===> API 요청, 헤더에 토큰 없음");
+            return null; // API인데 헤더에 토큰 없으면 바로 탈락
+        }
+
+        // 2. 일반 페이지 요청인 경우 -> 헤더 우선, 없으면 쿠키 체크 (화면 이동용)
         if (StringUtils.hasText(bearer) && bearer.startsWith("Bearer ")) {
+            log.info("===> 페이지 요청, 헤더에 토큰 있음");
             return bearer.substring(7);
         }
-        // 2. 쿠키 체크 (Thymeleaf 페이지 이동/새로고침용)
-        if (request.getCookies() != null) {
-            for (Cookie cookie : request.getCookies()) {
+        if (req.getCookies() != null) {
+            for (Cookie cookie : req.getCookies()) {
                 if (AccessTokenCookieName.equals(cookie.getName())) {
+                    log.info("===> 페이지 요청, 쿠키에 토큰 있음");
                     return cookie.getValue();
                 }
             }
         }
+        log.info("===> 쿠키 없음");
         return null;
     }
 
@@ -78,7 +96,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String token = resolveToken(request);
+        String token = this.resolveToken(request);
 
         // 1. 헤더에 있는 토큰 조회
         if (token != null && jwtProvider.isValidateToken(token)) {
@@ -99,7 +117,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String path = request.getServletPath();
                 if (path.startsWith("/api/")) {
                     // API 요청 >> 401 에러 반환 (프론트에서 처리할 수 있게)
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Multiple Login Detected");
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
+                    response.setContentType("application/json;charset=UTF-8");
+                    response.getWriter().write("{\"error\": \"UNAUTHORIZED\"}");
+                    return; // 필터 종료
                 } else {
                     // 타임리프 페이지 요청 >> 로그인 페이지로 리다이렉트
                     String type = FailureException.SessionExpired.type;

@@ -27,8 +27,7 @@
 
     <select id="page" parameterType="SnippSUrlLogParam" resultType="SnippSUrlLogList">
         /* snippSUrlLog.page */
-        SELECT CONCAT('MAIN', '_', SSUAL.UID) AS MAIN_ID
-              ,SSUAL.UID AS LOG_UID
+        SELECT SSUAL.UID AS LOG_UID
               ,SSUAL.SHORT_URL
               ,SSU.ORIGIN_URL AS ORIGIN_URL
               ,SSUAL.USER_UID

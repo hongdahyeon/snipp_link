@@ -44,6 +44,7 @@
         UPDATE SNP_BOARD
            SET TITLE = #{title}
               ,CONTENT = #{content}
+              ,USE_AT = #{useAt}
               ,UPDT_UID = #{updtUid}
               ,UPDT_DT = CURRENT_TIMESTAMP
          WHERE UID = #{uid}
@@ -65,7 +66,7 @@
           FROM SNP_BOARD SB
           LEFT JOIN SNP_USER SU_REG ON SU_REG.UID = SB.REG_UID
           LEFT JOIN SNP_USER SU_UPDT ON SU_UPDT.UID = SB.UPDT_UID
-         WHERE UID = #{uid}
+         WHERE SB.UID = #{uid}
     </select>
 
     <select id="page" parameterType="SnippBoardParam" resultType="SnippBoardList">
@@ -178,9 +179,20 @@
               ,SBOARD.TITLE
               ,SBOARD.CONTENT
               ,SBOARD.DELETE_AT
+              ,SBOARD.USE_AT
+              ,SBOARD.REG_UID
+              ,SBOARD.REG_DT
+              ,SU_REG.USER_ID AS REG_ID
+              ,SU_REG.USER_NM AS REG_NM
+              ,SBOARD.UPDT_UID
+              ,SBOARD.UPDT_DT
+              ,SU_UPDT.USER_ID AS UPDT_ID
+              ,SU_UPDT.USER_NM AS UPDT_NM
           FROM SNP_BOARD SBOARD
          INNER JOIN SNP_BBS SBBS ON SBBS.UID = SBOARD.BBS_UID
           LEFT JOIN SNP_BBS_CL SBCCL ON SBCCL.UID = SBOARD.CL_UID
-         WHERE UID = #{uid}
+          LEFT JOIN SNP_USER SU_REG ON SU_REG.UID = SBOARD.REG_UID
+          LEFT JOIN SNP_USER SU_UPDT ON SU_UPDT.UID = SBOARD.UPDT_UID
+         WHERE SBOARD.UID = #{uid}
     </select>
 </mapper>
