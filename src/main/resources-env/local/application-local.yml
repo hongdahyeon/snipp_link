@@ -50,6 +50,13 @@ spring:
       # 만약 테이블 구조가 바뀔 때만 실행하고 싶다면 embedded 사용
       # 'always'일 경우: 'schema.sql(DDL)', 'data.sql(DML)' 파일을 찾아 수행
       mode: never #always
+  docker:
+    use: true
+    compose:
+      file: ./docker/docker-compose.yml
+      log-path: ./docker/logs  # 로그 저장 폴더 경로 추가
+      lifecycle-management: start_and_stop
+
 hong:
   short-url:
     secret-key: ENC(y1vnk0wEj21ZWHvsNs5PBS205F6TA98LcopBnfWPcFqkpp1fBOYZL6ILqh5zldH0kth2rHmhC/52C6EuEDnmxg==)
@@ -69,3 +76,14 @@ jwt:
   secret: ENC(m7nRwva9Trp4Pd5qRIMTZ+SvdjTpsXginTN6hhQAPBUUuFf5TmkoacZ3Tqv9yXPjxsgE3/nEQ1mavudG3JJ5IUYy2qm0gCZ21EWDetnpwug=)
   access-time: 3600000 # 1시간 (ms)
   refresh-time: 86400000 # 24시간 (ms)
+
+s3-storage:
+  use: true
+  target: minio
+  bucket: snipp-link
+  access-key: ENC(b1qazW7Y6IL2Wv6pr8ljt4PBcbqHVEOD22S0y4TJR6m1remDtjnVsuOUOBRBFe6M)
+  secret-key: ENC(QS8FwT7UhW0NmzFQP7triSIc47t9pc4055sDqgiDIBCEzMLO2uBS1CZiL0DHA/iD)
+  region: us-east-1
+  endpoints:
+    minio: http://127.0.0.1:19000
+    seaweedfs: http://127.0.0.1:18333

@@ -41,5 +41,9 @@ out/
 /package-lock.json
 /src/main/resources/static/GMAIL_SMTP.txt
 
-
+### env ###
 .env
+
+### docker ###
+docker/minio_data
+docker/seaweedfs_data
