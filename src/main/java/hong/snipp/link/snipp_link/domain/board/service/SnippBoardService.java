@@ -9,6 +9,7 @@ import hong.snipp.link.snipp_link.domain.board.dto.response.SnippBoardDetail;
 import hong.snipp.link.snipp_link.domain.board.dto.response.SnippBoardList;
 import hong.snipp.link.snipp_link.domain.board.dto.response.SnippBoardView;
 import hong.snipp.link.snipp_link.domain.comment.service.SnippCommentService;
+import hong.snipp.link.snipp_link.domain.file.dto.response.SnippFileList;
 import hong.snipp.link.snipp_link.domain.file.service.SnippFileService;
 import hong.snipp.link.snipp_link.global.bean.page.Page;
 import hong.snipp.link.snipp_link.global.bean.page.Pageable;
@@ -33,6 +34,7 @@ import java.util.List;
  * 2025-04-16        work       snip -> snipp 변경
  * 2025-05-30        work       {findBoardCntUseCl} 메소드 추가
  * 2026-02-08        work       게시글 저장, 수정 file 업로드 로직 추가
+ * 2026-02-08        work       게시글 상세 정보 조회 > files 조회 추가
  */
 @Service
 @RequiredArgsConstructor
@@ -148,6 +150,11 @@ public class SnippBoardService {
     **/
     @Transactional(readOnly = true)
     public SnippBoardDetail findDetailOfBoard(Long boardUid) {
-        return mapper.getDetailOfBoard(boardUid);
+        SnippBoardDetail detail = mapper.getDetailOfBoard(boardUid);
+        if(detail != null && detail.getFileUid() != null) {
+            List<SnippFileList> files = fileService.findFileListByFileUid(detail.getFileUid());
+            detail.setFiles(files);
+        }
+        return detail;
     }
 }

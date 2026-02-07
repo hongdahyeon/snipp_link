@@ -43,4 +43,77 @@
            ,CURRENT_TIMESTAMP
         )
     </insert>
+
+    <select id="page" parameterType="SnippFileParam" resultType="SnippFileList">
+        /* snippFile.page */
+        SELECT SF.UID
+              ,SF.FILE_ID
+              ,SF.FILE_NM
+              ,SF.ORG_FILE_NM
+              ,SF.FILE_URL
+              ,SF.FILE_PATH
+              ,SF.FILE_TYPE
+              ,SF.EXTENSION
+              ,SF.STORAGE_TP
+              ,SF.FILE_SIZE
+              ,SF.DOWN_CNT
+              ,SF.DELETE_AT
+              ,SF.REG_UID
+              ,SF.REG_DT
+              ,SU_REG.USER_ID AS REG_ID
+              ,SU_REG.USER_NM AS REG_NM
+              ,SF.UPDT_UID
+              ,SF.UPDT_DT
+              ,SU_UPDT.USER_ID AS UPDT_ID
+              ,SU_UPDT.USER_NM AS UPDT_NM
+          FROM SNP_FILE SF
+          LEFT JOIN SNP_USER SU_REG ON SU_REG.UID = SF.REG_UID
+          LEFT JOIN SNP_USER SU_UPDT ON SU_UPDT.UID = SF.UPDT_UID
+         WHERE SF.UID = #{uid}
+           AND SF.DELETE_AT = 'N'
+         ORDER BY SF.REG_DT DESC
+        <if test="startNumber != null and endNumber != null">
+         LIMIT #{endNumber} OFFSET #{startNumber}
+        </if>
+    </select>
+
+    <select id="count" parameterType="SnippFileParam" resultType="int">
+        /* snippFile.count */
+        SELECT COUNT(*)
+          FROM SNP_FILE SF
+          LEFT JOIN SNP_USER SU_REG ON SU_REG.UID = SF.REG_UID
+          LEFT JOIN SNP_USER SU_UPDT ON SU_UPDT.UID = SF.UPDT_UID
+         WHERE SF.UID = #{uid}
+           AND SF.DELETE_AT = 'N'
+    </select>
+
+    <select id="list" parameterType="Long" resultType="SnippFileList">
+        /* snippFile.list */
+        SELECT SF.UID
+              ,SF.FILE_ID
+              ,SF.FILE_NM
+              ,SF.ORG_FILE_NM
+              ,SF.FILE_URL
+              ,SF.FILE_PATH
+              ,SF.FILE_TYPE
+              ,SF.EXTENSION
+              ,SF.STORAGE_TP
+              ,SF.FILE_SIZE
+              ,SF.DOWN_CNT
+              ,SF.DELETE_AT
+              ,SF.REG_UID
+              ,SF.REG_DT
+              ,SU_REG.USER_ID AS REG_ID
+              ,SU_REG.USER_NM AS REG_NM
+              ,SF.UPDT_UID
+              ,SF.UPDT_DT
+              ,SU_UPDT.USER_ID AS UPDT_ID
+              ,SU_UPDT.USER_NM AS UPDT_NM
+          FROM SNP_FILE SF
+          LEFT JOIN SNP_USER SU_REG ON SU_REG.UID = SF.REG_UID
+          LEFT JOIN SNP_USER SU_UPDT ON SU_UPDT.UID = SF.UPDT_UID
+         WHERE SF.UID = #{uid}
+           AND SF.DELETE_AT = 'N'
+         ORDER BY SF.REG_DT DESC
+    </select>
 </mapper>
