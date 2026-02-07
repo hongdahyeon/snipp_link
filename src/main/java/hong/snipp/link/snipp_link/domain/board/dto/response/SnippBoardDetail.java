@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-06-09        work       최초 생성
+ * 2026-02-08        work       {fileUid} 필드 추가
  */
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,4 +28,5 @@ public class SnippBoardDetail extends AuditMetaData {
     private String content;
     private String deleteAt;
     private String useAt;
+    private Long fileUid;
 }

@@ -79,41 +79,65 @@ var boardJS = {
         boardJS.contentEditor = await boardJS.contentEditor.init(isViewMode);
     }
 
-    ,saveBoardForm: function (isPost = true, boardUid = null) {
-
+    ,saveBoardForm: function (isPost = true, boardUid = null, fileUid = null) {
         const content = boardJS.contentEditor.getEditorData();
-        const $form = $("#save-form")
-        if (!$form[0].checkValidity() || content.length === 0 || ( type === 'faq' && $("#choose-clUid").val().length === 0) ) {
+        const $form = $("#save-form");
+
+        if (!$form[0].checkValidity() || content.length === 0 || (type === 'faq' && $("#choose-clUid").val().length === 0)) {
 
             $form.addClass("was-validated");
             boardJS.etcValidationCheck();
-            return
+            return;
 
         } else {
 
             boardJS.etcValidationCheck();
             thumbnailModal.chooseThumbNail().then(async () => {
-                let obj = {
+
+                // 1. FormData 객체 생성
+                const formData = new FormData();
+
+                // 2. 게시글 메타데이터 객체 생성
+                const boardData = {
                     title: $("#title").val(),
                     content: content,
                     useAt: $('input[name="useAt"]:checked').val(),
-                    bbsUid: bbsUid
-                }
-                if(type === 'faq') obj['clUid'] = $("#choose-clUid").val()
-                obj['thumbnailSrc'] = thumbnailModal.thumbNailImg
+                    bbsUid: bbsUid,
+                    thumbnailSrc: thumbnailModal.thumbNailImg
+                };
+                if (type === 'faq') boardData['clUid'] = $("#choose-clUid").val();
+                if (!isPost) boardData['fileUid'] = fileUid;
 
+                // 3. {request}
+                formData.append("request", new Blob([JSON.stringify(boardData)], {
+                    type: "application/json"
+                }));
+
+                // 4. {files} 파일 추가
+                const files = $("#fileInput")[0].files;
+                if (files.length > 0) {
+                    for (let i = 0; i < files.length; i++) {
+                        formData.append("files", files[i]);
+                    }
+                }
+
+                // 5. post, put
                 if(isPost) {
-                    Http.post('/api/snipp/board', obj).then(() => {
+
+                    Http.post('/api/snipp/board', formData).then(() => {
                         Sweet.alert("게시글이 등록되었습니다.").then(() => {
-                            window.location.href = `/snipp/board/${type}`
-                        })
+                            window.location.href = `/snipp/board/${type}`;
+                        });
                     });
+
                 } else {
-                    Http.put(`/api/snipp/board/${boardUid}`, obj).then(() => {
+
+                    Http.put(`/api/snipp/board/${boardUid}`, formData).then(() => {
                         Sweet.alert("게시글이 수정되었습니다.").then(() => {
-                            window.location.href = `/snipp/board/${type}`
-                        })
+                            window.location.href = `/snipp/board/${type}`;
+                        });
                     });
+
                 }
             });
 

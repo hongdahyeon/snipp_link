@@ -9,12 +9,15 @@ import hong.snipp.link.snipp_link.domain.board.dto.response.SnippBoardDetail;
 import hong.snipp.link.snipp_link.domain.board.dto.response.SnippBoardList;
 import hong.snipp.link.snipp_link.domain.board.dto.response.SnippBoardView;
 import hong.snipp.link.snipp_link.domain.comment.service.SnippCommentService;
+import hong.snipp.link.snipp_link.domain.file.service.SnippFileService;
 import hong.snipp.link.snipp_link.global.bean.page.Page;
 import hong.snipp.link.snipp_link.global.bean.page.Pageable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -29,6 +32,7 @@ import java.util.List;
  * 2025-04-15        work       최초 생성
  * 2025-04-16        work       snip -> snipp 변경
  * 2025-05-30        work       {findBoardCntUseCl} 메소드 추가
+ * 2026-02-08        work       게시글 저장, 수정 file 업로드 로직 추가
  */
 @Service
 @RequiredArgsConstructor
@@ -36,6 +40,7 @@ public class SnippBoardService {
 
     private final SnippBoardMapper mapper;
     private final SnippCommentService commentService;
+    private final SnippFileService fileService;
 
     /**
      * @method      countAllBoard
@@ -55,8 +60,10 @@ public class SnippBoardService {
      * @deacription 게시글 저장
     **/
     @Transactional
-    public void saveBoard(SnippBoardSave request) {
-        mapper.insert(new SnippBoard(request));
+    public void saveBoard(SnippBoardSave request, List<MultipartFile> files) throws IOException {
+        Long fileUid = fileService.uploadFiles(files, null);
+        SnippBoard bean = new SnippBoard(request, fileUid);
+        mapper.insert(bean);
     }
 
     /**
@@ -66,8 +73,11 @@ public class SnippBoardService {
      * @deacription 게시글 수정
     **/
     @Transactional
-    public void changeBoard(Long uid, SnippBoardChange request) {
-        mapper.update(new SnippBoard(uid, request));
+    public void changeBoard(Long uid, SnippBoardChange request, List<MultipartFile> files) throws IOException {
+        Long fileUid = request.getFileUid();
+        fileUid = fileService.uploadFiles(files, fileUid);
+        SnippBoard bean = new SnippBoard(uid, request, fileUid);
+        mapper.update(bean);
     }
 
     /**

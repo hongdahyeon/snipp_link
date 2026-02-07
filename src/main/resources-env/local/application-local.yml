@@ -34,7 +34,7 @@ spring:
     # [2026.02.03 수정] H2를 메모리가 아닌 파일 저장 방식으로 변경 (데이터 유지)
     # (기존) url: jdbc:h2:mem:snipp_link;MODE=MariaDB;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     # 아래 경로의 '~/snipp_link'는 사용자 폴더에 snipp_link.mv.db 파일로 저장된다는 뜻
-    url: jdbc:h2:file:~/snipp_link;MODE=MariaDB;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:file:~/snipp_link;MODE=MariaDB;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1
     username: sa
     password: 
     driver-class-name: org.h2.Driver
@@ -49,7 +49,7 @@ spring:
       # 최초 한 번 테이블을 만든 후에는 never로 바꿔야 데이터가 초기화되지 않습니다.
       # 만약 테이블 구조가 바뀔 때만 실행하고 싶다면 embedded 사용
       # 'always'일 경우: 'schema.sql(DDL)', 'data.sql(DML)' 파일을 찾아 수행
-      mode: never #always
+      mode: always #never
   docker:
     use: true
     compose:

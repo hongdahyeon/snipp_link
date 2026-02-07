@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
  * 2025-04-16        work       snip -> snipp 변경
+ * 2026-02-08        work       {fileUid} 필드 추가
  */
 
 @Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,4 +31,6 @@ public class SnippBoardChange {
 
     @YorN
     private String useAt;
+
+    private Long fileUid;
 }

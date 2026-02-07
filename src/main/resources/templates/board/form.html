@@ -76,6 +76,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row mb-4">
+                            <div class="col-lg-12 col-xl-12">
+                                <div class="mb-3">
+                                    <label class="form-label custom-label" for="fileInput">파일 첨부</label>
+                                    <div class="input-group">
+                                        <input type="file" class="form-control custom-input" id="fileInput" name="files" multiple>
+                                    </div>
+                                    <div class="form-text mt-2">여러 파일을 선택할 수 있으며, 전체 크기를 확인해 주세요.</div>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
 
@@ -101,6 +112,7 @@
 
         $(function () {
 
+            const fileUid = form?.fileUid
             boardJS.initContent(form?.content);
 
             $("#selectClBtn").on('click', () => {
@@ -115,7 +127,7 @@
             });
 
             $("#save-btn").on('click', () => {
-                boardJS.saveBoardForm(false, boardUid);
+                boardJS.saveBoardForm(false, boardUid, fileUid);
             });
 
             $("#cancel-btn").on('click', () => {

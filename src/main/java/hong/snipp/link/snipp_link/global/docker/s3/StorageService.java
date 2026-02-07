@@ -19,7 +19,8 @@ public interface StorageService {
     /**
      * InputStream을 이용한 업로드
      */
-    void uploadFromInputStream(InputStream inputStream, long contentLength, String objectName, String contentType);
+    void uploadFromInputStream( InputStream inputStream, long contentLength,
+                                String objectName, String contentType);
 
     /**
      * 파일 다운로드 (InputStream 반환)
