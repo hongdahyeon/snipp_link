@@ -15,19 +15,6 @@ class FormDataToObj {
 
 class Http {
 
-    // {{ JWT 사용 추가 : 주석
-    // static handleError(e) {
-    //     if (e.status === 401) {
-    //         Sweet.alert("다시 로그인 해주세요.").then(() => {
-    //             window.location.href = '/';
-    //         })
-    //     } else {
-    //         console.error('AJAX Error: ', e);
-    //     }
-    // }
-    // }}
-
-    // {{ JWT 사용 추가
     static handleError(originalRequest, e) {
         if (e.status === 401) {
             // 중복 로그인 혹은 단순 만료인지 확인하기 위해 재발급 시도
@@ -58,32 +45,17 @@ class Http {
             });
         }
     }
-    // }}
 
     // 모든 메서드에서 공통으로 호출할 헤더 설정 함수 (중복 제거)
     static setAuthHeaders(xhr) {
-        // {{ JWT 사용 추가
-        // JWT 토큰 추가 [핵심 추가]
+        // JWT 토큰 추가
         const jwt = localStorage.getItem("accessToken");
         if (jwt) {
             xhr.setRequestHeader("Authorization", "Bearer " + jwt);
         }
-        // }}
     }
 
     static get(url, params = '', method = 'GET') {
-        // {{ JWT 사용 추가 : 주석
-        // return $.ajax({
-        //     type: method,
-        //     url: url,
-        //     data: params,
-        //     beforeSend: function(xhr) {
-        //         Http.setAuthHeaders(xhr); // 수정한 함수 호출
-        //     }
-        // }).fail(e => Http.handleError(e))
-        // }}
-
-        // {{ JWT 사용 추가
         const settings = {
             type: method,
             url: url,
@@ -91,23 +63,9 @@ class Http {
             beforeSend: function(xhr) { Http.setAuthHeaders(xhr); }
         };
         return $.ajax(settings).fail(e => Http.handleError(settings, e));
-        // }}
     }
 
     static syncGet(url, params='', async = false, method = 'GET'){
-        // {{ JWT 사용 추가 : 주석
-        // return $.ajax({
-        //     type: method,
-        //     url: url,
-        //     data: params,
-        //     async: false,
-        //     beforeSend: function(xhr) {
-        //         Http.setAuthHeaders(xhr); // 수정한 함수 호출
-        //     }
-        // }).fail(e => Http.handleError(e))
-        // }}
-
-        // {{ JWT 사용 추가
         const settings = {
             type: method,
             url: url,
@@ -116,49 +74,25 @@ class Http {
             beforeSend: function(xhr) { Http.setAuthHeaders(xhr); }
         };
         return $.ajax(settings).fail(e => Http.handleError(settings, e));
-        // }}
     }
 
     static post(url, data, method = 'POST') {
-        // {{ JWT 사용 추가 : 주석
-        // return $.ajax({
-        //     type: method,
-        //     url: url,
-        //     data: JSON.stringify(data),
-        //     /*dataType: 'json',*/
-        //     contentType: 'application/json',
-        //     beforeSend: function(xhr) {
-        //         Http.setAuthHeaders(xhr); // 수정한 함수 호출
-        //     }
-        // }).fail(e => Http.handleError(e))
-        // }}
-
-        // {{ JWT 사용 추가
+        // 1. check FormData
+        const isFormData = data instanceof FormData;
         const settings = {
             type: method,
             url: url,
-            data: JSON.stringify(data),
-            /*dataType: 'json',*/
-            contentType: 'application/json',
-            beforeSend: function(xhr) { Http.setAuthHeaders(xhr); }
+            data: isFormData ? data : JSON.stringify(data), // 2. {FormData}일 경우 그대로 전달, 아닐 경우 JSON 문자열로 변환
+            contentType: isFormData ? false : 'application/json', // 3. {FormData}일 경우 false, 설정하여 브라우저가 boundary 값을 포함한 {multipart/form-data}를 자동 설정하게 함
+            processData: isFormData ? false : true, // 4. {FormData}일 경우 {jQuery}가 데이터를 쿼리 스트링으로 변환하지 못하도록 false 설정
+            beforeSend: function(xhr) {
+                Http.setAuthHeaders(xhr);
+            }
         };
         return $.ajax(settings).fail(e => Http.handleError(settings, e));
-        // }}
     }
 
     static delete(url, data, method = 'DELETE') {
-        // {{ JWT 사용 추가 : 주석
-        // return $.ajax({
-        //     type: method,
-        //     url: url,
-        //     data: data,
-        //     beforeSend: function(xhr) {
-        //         Http.setAuthHeaders(xhr); // 수정한 함수 호출
-        //     }
-        // }).fail(e => Http.handleError(e))
-        // }}
-
-        // {{ JWT 사용 추가
         const settings = {
             type: method,
             url: url,
@@ -166,51 +100,25 @@ class Http {
             beforeSend: function(xhr) { Http.setAuthHeaders(xhr); }
         };
         return $.ajax(settings).fail(e => Http.handleError(settings, e));
-        // }}
     }
 
     static put(url, data, method='PUT') {
-        // {{ JWT 사용 추가 : 주석
-        // return $.ajax({
-        //     type: method,
-        //     url: url,
-        //     data: JSON.stringify(data),
-        //     /*dataType: 'json',*/
-        //     contentType: 'application/json',
-        //     beforeSend: function(xhr) {
-        //         Http.setAuthHeaders(xhr); // 수정한 함수 호출
-        //     }
-        // }).fail(e => Http.handleError(e))
-        // }}
-
-        // {{ JWT 사용 추가
+        // 1. check FormData
+        const isFormData = data instanceof FormData;
         const settings = {
             type: method,
             url: url,
-            data: JSON.stringify(data),
-            /*dataType: 'json',*/
-            contentType: 'application/json',
-            beforeSend: function(xhr) { Http.setAuthHeaders(xhr); }
+            data: isFormData ? data : JSON.stringify(data), // 2. {FormData}일 경우 그대로 전달, 아닐 경우 JSON 문자열로 변환
+            contentType: isFormData ? false : 'application/json', // 3. {FormData}일 경우 false, 설정하여 브라우저가 boundary 값을 포함한 {multipart/form-data}를 자동 설정하게 함
+            processData: isFormData ? false : true, // 4. {FormData}일 경우 {jQuery}가 데이터를 쿼리 스트링으로 변환하지 못하도록 false 설정
+            beforeSend: function(xhr) {
+                Http.setAuthHeaders(xhr);
+            }
         };
         return $.ajax(settings).fail(e => Http.handleError(settings, e));
-        // }}
     }
 
     static filePost(url, formData, method = 'POST'){
-        // {{ JWT 사용 추가 : 주석
-        // return $.ajax({
-        //     type: method,
-        //     url: url,
-        //     data: formData,
-        //     contentType: false,
-        //     processData: false,
-        //     beforeSend: function(xhr) {
-        //         Http.setAuthHeaders(xhr); // 수정한 함수 호출
-        //     }
-        // });
-        // }}
-
-        // {{ JWT 사용 추가
         const settings = {
             type: method,
             url: url,
@@ -220,39 +128,9 @@ class Http {
             beforeSend: function(xhr) { Http.setAuthHeaders(xhr); }
         };
         return $.ajax(settings).fail(e => Http.handleError(settings, e));
-        // }}
     }
 
     static fileDownload(id){
-        // {{ JWT 사용 추가 : 주석
-        // let filename = ''
-        // return $.ajax({
-        //     url: `/api/downloadFile/${id}`,
-        //     method: 'GET',
-        //     xhrFields: {
-        //         responseType: 'blob'
-        //     },
-        //     beforeSend: function(xhr) {
-        //         Http.setAuthHeaders(xhr); // 수정한 함수 호출
-        //     },
-        //     success: function (blobData, status, xhr) {
-        //         const contentDisposition = xhr.getResponseHeader('Content-Disposition');
-        //         const matches = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(contentDisposition);
-        //         filename = matches && matches[1] ? matches[1].replace(/['"]/g, '').replace('UTF-8', '') : "";
-        //
-        //         if (filename) {
-        //             const link = $('<a style="display: none;"></a>');
-        //             link.attr('href', window.URL.createObjectURL(blobData));
-        //             link.attr('download', decodeURIComponent(filename));
-        //             $('body').append(link);
-        //             link[0].click();
-        //             link.remove();
-        //         }
-        //     }
-        // });
-        // }}
-
-        // {{ JWT 사용 추가 : 주석
         let filename = '';
         const settings = {
             url: `/api/downloadFile/${id}`,
@@ -279,14 +157,7 @@ class Http {
             }
         };
         return $.ajax(settings).fail(e => Http.handleError(settings, e));
-        // }}
     }
-
-    /*static getCookieInfo(){
-        const token = $("meta[name='_csrf']").attr("content")
-        const header = $("meta[name='_csrf_header']").attr("content");
-        return { header : header, token : token }
-    }*/
 
 }
 

@@ -9,9 +9,12 @@ import hong.snipp.link.snipp_link.global.bean.page.Page;
 import hong.snipp.link.snipp_link.global.bean.page.Pageable;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -27,6 +30,8 @@ import java.util.List;
  * 2025-04-16        work       snip -> snipp 변경
  * 2025-05-30        work       {findBoardCntUseCl} api 추가
  * 2026-02-05        work       /snipp/api/board => /api/snipp/board
+ * 2026-02-08        work       - {post} files 추가
+ *                              - {put} files 추가
  */
 @RestController
 @RequiredArgsConstructor
@@ -43,9 +48,12 @@ public class SnippBoardRestController {
      * @author      work
      * @date        2025-04-15
     **/
-    @PostMapping
-    public ResponseEntity saveBoard(@RequestBody @Valid SnippBoardSave request) {
-        service.saveBoard(request);
+    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity saveBoard(
+            @RequestPart("request") @Valid SnippBoardSave request,
+            @RequestPart(value = "files", required = false) List<MultipartFile> files
+    ) throws IOException {
+        service.saveBoard(request, files);
         return ResponseEntity.ok().build();
     }
 
@@ -57,9 +65,13 @@ public class SnippBoardRestController {
      * @author      work
      * @date        2025-04-15
     **/
-    @PutMapping("/{uid}")
-    public ResponseEntity changeBoard(@PathVariable("uid") Long uid, @RequestBody @Valid SnippBoardChange request) {
-        service.changeBoard(uid, request);
+    @PutMapping(value = "/{uid}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity changeBoard(
+            @PathVariable("uid") Long uid,
+            @RequestPart("request") @Valid SnippBoardChange request,
+            @RequestPart(value = "files", required = false) List<MultipartFile> files
+    ) throws IOException {
+        service.changeBoard(uid, request, files);
         return ResponseEntity.ok().build();
     }
 

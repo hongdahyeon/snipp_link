@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
  * 2025-04-16        work       snip -> snipp 변경
  * 2025-05-30        work       useAt, thumbnailSrc 필드 추가
  * 2025-05-30        work       {clUid} 필드 추가
+ * 2026-02-08        work       {fileUid} 필드 추가
  */
 @Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SnippBoard extends AuditBean {
@@ -31,6 +32,7 @@ public class SnippBoard extends AuditBean {
     private String content;
     private String useAt;
     private String thumbnailSrc;
+    private Long fileUid;
     private String deleteAt;
 
     /**
@@ -39,12 +41,13 @@ public class SnippBoard extends AuditBean {
      * @date        2025-04-15
      * @deacription 게시글 저장용 생성자
     **/
-    public SnippBoard(SnippBoardSave request) {
+    public SnippBoard(SnippBoardSave request, Long fileUid) {
         this.bbsUid = request.getBbsUid();
         this.title = request.getTitle();
         this.content = request.getContent();
         this.useAt = request.getUseAt();
         this.thumbnailSrc = request.getThumbnailSrc();
+        this.fileUid = fileUid;
         this.clUid = request.getClUid();
     }
 
@@ -54,11 +57,12 @@ public class SnippBoard extends AuditBean {
      * @date        2025-04-15
      * @deacription 게시글 수정용 생성자
     **/
-    public SnippBoard(Long uid, SnippBoardChange request) {
+    public SnippBoard(Long uid, SnippBoardChange request, Long fileUid) {
         this.uid = uid;
         this.title = request.getTitle();
         this.content = request.getContent();
         this.useAt = request.getUseAt();
+        this.fileUid = fileUid;
     }
 
     /**
