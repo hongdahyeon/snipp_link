@@ -1,0 +1,42 @@
+version: "3.8"
+
+# 프로젝트 전체의 접두어를 설정 (도커 네트워크/볼륨 이름에 반영됨)
+name: snipp-link-infra
+
+services:
+  seaweedfs:
+    # 컨테이너 이름을 유니크하게 고정
+    container_name: snipp-link-seaweedfs
+    image: chrislusf/seaweedfs:3.59
+    ports:
+      - "19333:9333"   # Master (기존 9333 중복 방지)
+      - "18080:8080"   # Volume (기존 8080 중복 방지)
+      - "18888:8888"   # Filer UI (기존 8888 중복 방지)
+      - "18333:8333"   # S3 API (Spring Boot 연동 포트)
+      - "28888:18888"  # gRPC
+    command: "server -s3 -s3.port=8333 -filer -dir=/data -master.volumeSizeLimitMB=1024"
+    volumes:
+      - ./seaweedfs_data:/data
+    networks:
+      - snipp-link-network
+
+  minio:
+    # 컨테이너 이름을 유니크하게 고정
+    container_name: snipp-link-minio
+    image: minio/minio:RELEASE.2024-11-07T00-52-20Z
+    ports:
+      - "19000:9000"   # S3 API (Spring Boot 연동 포트)
+      - "19001:9001"   # Console UI
+    environment:
+      MINIO_ROOT_USER: ${MINIO_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD}
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./minio_data:/data
+    networks:
+      - snipp-link-network
+
+networks:
+  # 프로젝트 전용 가상 네트워크 정의
+  snipp-link-network:
+    driver: bridge
