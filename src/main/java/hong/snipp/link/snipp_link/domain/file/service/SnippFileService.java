@@ -4,7 +4,11 @@ package hong.snipp.link.snipp_link.domain.file.service;
 import hong.snipp.link.snipp_link.domain.code.FileStorageTp;
 import hong.snipp.link.snipp_link.domain.file.domain.SnippFile;
 import hong.snipp.link.snipp_link.domain.file.domain.SnippFileMapper;
+import hong.snipp.link.snipp_link.domain.file.dto.request.SnippFileParam;
 import hong.snipp.link.snipp_link.domain.file.dto.request.SnippFileUpload;
+import hong.snipp.link.snipp_link.domain.file.dto.response.SnippFileList;
+import hong.snipp.link.snipp_link.global.bean.page.Page;
+import hong.snipp.link.snipp_link.global.bean.page.Pageable;
 import hong.snipp.link.snipp_link.global.docker.s3.S3Config;
 import hong.snipp.link.snipp_link.global.docker.s3.StorageService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +30,7 @@ import java.util.UUID;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-02-08        work       최초 생성
+ * 2026-02-08        work       파일 페이징, 리스트 조회
  */
 
 @Service
@@ -95,5 +100,17 @@ public class SnippFileService {
         }
 
         return fileUid;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<SnippFileList> findAllFilePageByFileUid(SnippFileParam param, Pageable pageable) {
+        List<SnippFileList> list = mapper.page(pageable.generateMap(param));
+        int count = mapper.count(param);
+        return new Page<>(list, count, pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public List<SnippFileList> findFileListByFileUid(Long fileUid) {
+        return mapper.list(fileUid);
     }
 }
