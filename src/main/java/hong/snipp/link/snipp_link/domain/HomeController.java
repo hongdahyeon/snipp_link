@@ -1,6 +1,8 @@
 package hong.snipp.link.snipp_link.domain;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 2025-04-16        work       최초 생성
  * 2025-04-21        work       회원가입 관련 url 추가
  * 2025-04-22        work       기본 메인 페이지 URL : /snipp
+ * 2026-02-09        work       인증된 사용자는 로그인 페이지 접근시, /snipp 리디릭션
  */
 
 @Controller
@@ -30,8 +33,13 @@ public class HomeController {
     }
 
     @GetMapping("/login")
-    public String login() {
-        return "login";
+    public String login(Authentication authentication) {
+        // 인증 정보가 있고, 실제 인증된 사용자(익명 사용자 ROLE_ANONYMOUS 제외)라면
+        if (authentication != null && authentication.isAuthenticated()
+                && !(authentication instanceof AnonymousAuthenticationToken)) {
+            return "redirect:/snipp"; // 로그인한 유저는 메인으로 튕겨냄
+        }
+        return "login"; // 로그인 안 한 유저만 로그인 페이지 진입
     }
 
     // todo 추후 삭제

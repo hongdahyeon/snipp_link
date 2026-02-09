@@ -86,9 +86,9 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
             /* form login */
             SnippSessionUser sessionUser = ((PrincipalDetails) authentication.getPrincipal()).getUser();
             String role = sessionUser.getRole();
+            userEmail = sessionUser.getUserEmail();
             log.info("======================= Login User: [Role: {}][userId: {}][email: {}] ===========================", role, userId, userEmail);
             authUserService.resetLastLoginDtAndPwdFailCntByUserId(userId);
-            userEmail = sessionUser.getUserEmail();
         }
 
         // {{ JWT 사용 추가 :  JWT 발급 및 Redis 장부 기입

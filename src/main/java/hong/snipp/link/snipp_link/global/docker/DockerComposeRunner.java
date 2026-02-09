@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -22,9 +23,11 @@ import java.nio.charset.StandardCharsets;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-02-07        work       최초 생성
+ * 2026-02-09        work       runner order 추가
  */
 
 @Slf4j
+@Order(1)
 @Component
 public class DockerComposeRunner implements ApplicationRunner {
 

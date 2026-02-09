@@ -26,6 +26,7 @@ import java.util.Map;
  *                              (1) updateUserPassword : 유저 비밀번호 변경 + 90일 연장
  *                              (2) updateUserChangePasswordDt : 유저 비밀번호 변경일 90일 연장
  * 2025-04-22        work       {updateUserLock, updateUserEnable} 메소드 추가
+ * 2026-02-09        work       {countByUserRole} 추가
  */
 @Mapper
 public interface SnippUserMapper extends BaseMapper<SnippUser> {
@@ -33,6 +34,8 @@ public interface SnippUserMapper extends BaseMapper<SnippUser> {
     SnippUserView getUserByUserId(String userId);
 
     int countByUserEmail(String userEmail);
+
+    int countByUserRole(String role);
 
     int updateLastLoginDtAndPwdFailCntByUserId(String userId);
 
