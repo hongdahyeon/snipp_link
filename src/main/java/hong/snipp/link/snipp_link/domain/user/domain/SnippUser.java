@@ -4,6 +4,7 @@ import hong.snipp.link.snipp_link.domain.code.UserRole;
 import hong.snipp.link.snipp_link.domain.socialuser.dto.request.SnippOAuth2UserSave;
 import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserChange;
 import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserChangePwd;
+import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserInitSave;
 import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserSave;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -24,6 +25,7 @@ import lombok.NoArgsConstructor;
  * 2025-04-21        work       소셜/폼 로그인 유저 저장용 생성자 추가
  * 2025-04-22        work       유저의 비밀번호 변경 및 비번 변경일 연장 생성자 추가
  * 2025-04-25        work       유저 수정 관련 생성자 추가
+ * 2026-02-09        work       초기 데이터 추가를 위한 생성자 추가
  */
 @Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SnippUser {
@@ -57,7 +59,7 @@ public class SnippUser {
     }
 
     /**
-     * @method      SnippUser 생성자 2
+     * @method      SnippUser 생성자 2-1
      * @author      work
      * @date        2025-04-21
      * @deacription 폼 로그인 유저 저장용 생성자
@@ -68,6 +70,20 @@ public class SnippUser {
         this.userEmail = request.getUserEmail();
         this.userNm = request.getUserNm();
         this.userRole = UserRole.ROLE_USER.name();
+    }
+
+    /**
+     * @method      SnippUser 생성자 2-2
+     * @author      dahyeon
+     * @date        2026-02-09
+     * @deacription 초기 유저 데이터 생성용 생성자
+    **/
+    public SnippUser(SnippUserInitSave request, String encodePassword) {
+        this.userId = request.getUserId();
+        this.password = encodePassword;
+        this.userEmail = request.getUserEmail();
+        this.userNm = request.getUserNm();
+        this.userRole = request.getRole();
     }
 
     /**

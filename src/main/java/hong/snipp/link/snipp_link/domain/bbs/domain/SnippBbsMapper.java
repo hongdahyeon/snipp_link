@@ -15,9 +15,12 @@ import org.apache.ibatis.annotations.Mapper;
  * 2025-04-15        work       최초 생성
  * 2025-04-16        work       snip -> snipp 변경
  * 2025-05-29        work       {getRecentBbs} 추가
+ * 2026-02-09        work       {countByBbsTp} 추가
  */
 @Mapper
 public interface SnippBbsMapper extends BaseMapper<SnippBbs> {
 
     SnippBbs getRecentBbs(String bbsTp);
+
+    int countByBbsTp(String bbsTp);
 }

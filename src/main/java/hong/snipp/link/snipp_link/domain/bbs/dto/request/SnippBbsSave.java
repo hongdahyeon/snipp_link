@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
  * -----------------------------------------------------------
  * 2025-04-15        work       최초 생성
  * 2025-04-16        work       snip -> snipp 변경
+ * 2026-02-09        work       데이터 초기 생성을 위해 생성자 추가
  */
 @Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SnippBbsSave {
@@ -29,4 +30,10 @@ public class SnippBbsSave {
 
     @YorN(allowNull = false)
     private String useAt;
+
+    public SnippBbsSave(String bbsTp, String bbsNm, String useAt) {
+        this.bbsTp = bbsTp;
+        this.bbsNm = bbsNm;
+        this.useAt = useAt;
+    }
 }

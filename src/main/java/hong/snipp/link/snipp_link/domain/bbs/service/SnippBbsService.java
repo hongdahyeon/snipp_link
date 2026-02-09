@@ -35,6 +35,7 @@ import java.util.List;
  * 2025-04-25        work       private -> private final
  * 2025-05-29        work       {view} 추가
  * 2026-02-05        work       게시판 생성 시점 > 게시판에 대한 분류 ROOT 자동 생성
+ * 2026-02-09        work       초기 데이터 추가를 위한 {isExistBbsTp} 추가
  */
 @Service
 @RequiredArgsConstructor
@@ -43,6 +44,18 @@ public class SnippBbsService {
     private final SnippBbsMapper mapper;
     private final SnippBoardService boardService;
     private final SnippBbsClService clService;
+
+    /**
+     * @method      isExistBbsTp
+     * @author      dahyeon
+     * @date        2026-02-09
+     * @deacription {bbsTp} 유형의 게시판 조회
+    **/
+    @Transactional(readOnly = true)
+    public boolean isExistBbsTp(String bbsTp) {
+        int findBbsTpCnt = mapper.countByBbsTp(bbsTp);
+        return findBbsTpCnt != 0;
+    }
 
     /**
      * @method      saveBbs

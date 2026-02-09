@@ -30,6 +30,13 @@
          WHERE USER_EMAIL = #{userEmail}
     </select>
 
+    <select id="countByUserRole" parameterType="String" resultType="int">
+        /* snippUser.countByUserRole */
+        SELECT COUNT(*)
+          FROM SNP_USER
+         WHERE USER_ROLE = #{role}
+    </select>
+
     <select id="countByUserId" parameterType="String" resultType="int">
         /* snippUser.countByUserId */
         SELECT COUNT(*)
