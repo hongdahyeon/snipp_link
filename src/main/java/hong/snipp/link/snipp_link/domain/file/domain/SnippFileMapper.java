@@ -1,5 +1,6 @@
 package hong.snipp.link.snipp_link.domain.file.domain;
 
+import hong.snipp.link.snipp_link.domain.file.dto.response.SnippFileView;
 import hong.snipp.link.snipp_link.global.bean.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,10 +14,15 @@ import org.apache.ibatis.annotations.Mapper;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2026-02-08        work       최초 생성
+ * 2026-02-09        work       deleteFileByFileId 추가
  */
 
 @Mapper
 public interface SnippFileMapper extends BaseMapper<SnippFile> {
 
     Long generateUid();
+
+    SnippFileView getFileByFileId(String fileId);
+
+    void deleteFileByFileId(String fileId);
 }
