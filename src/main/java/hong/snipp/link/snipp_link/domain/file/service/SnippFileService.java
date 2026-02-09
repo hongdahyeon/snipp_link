@@ -7,11 +7,13 @@ import hong.snipp.link.snipp_link.domain.file.domain.SnippFileMapper;
 import hong.snipp.link.snipp_link.domain.file.dto.request.SnippFileParam;
 import hong.snipp.link.snipp_link.domain.file.dto.request.SnippFileUpload;
 import hong.snipp.link.snipp_link.domain.file.dto.response.SnippFileList;
+import hong.snipp.link.snipp_link.domain.file.dto.response.SnippFileView;
 import hong.snipp.link.snipp_link.global.bean.page.Page;
 import hong.snipp.link.snipp_link.global.bean.page.Pageable;
 import hong.snipp.link.snipp_link.global.docker.s3.S3Config;
 import hong.snipp.link.snipp_link.global.docker.s3.StorageService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,8 +33,10 @@ import java.util.UUID;
  * -----------------------------------------------------------
  * 2026-02-08        work       최초 생성
  * 2026-02-08        work       파일 페이징, 리스트 조회
+ * 2026-02-09        work       {findFileByFileId, deleteFiles} 추가
  */
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SnippFileService {
@@ -41,6 +45,12 @@ public class SnippFileService {
     private final StorageService storageService;
     private final S3Config s3Config;
 
+    /**
+     * @method      createFileId
+     * @author      dahyeon
+     * @date        2026-02-08
+     * @deacription {fileId} 생성
+    **/
     private String createFileId() {
         return UUID.randomUUID().toString();
     }
@@ -48,7 +58,7 @@ public class SnippFileService {
     /**
      * @method      uploadFiles
      * @author      dahyeon
-     * @date        2026-02-07
+     * @date        2026-02-08
      * @deacription 파일 목록 업로드
     **/
     @Transactional
@@ -102,6 +112,12 @@ public class SnippFileService {
         return fileUid;
     }
 
+    /**
+     * @method      findAllFilePageByFileUid
+     * @author      dahyeon
+     * @date        2026-02-08
+     * @deacription 파일 목록 페이징 조회
+    **/
     @Transactional(readOnly = true)
     public Page<SnippFileList> findAllFilePageByFileUid(SnippFileParam param, Pageable pageable) {
         List<SnippFileList> list = mapper.page(pageable.generateMap(param));
@@ -109,8 +125,46 @@ public class SnippFileService {
         return new Page<>(list, count, pageable);
     }
 
+    /**
+     * @method      findFileListByFileUid
+     * @author      dahyeon
+     * @date        2026-02-08
+     * @deacription 파일 목록 조회 by file_uid
+    **/
     @Transactional(readOnly = true)
     public List<SnippFileList> findFileListByFileUid(Long fileUid) {
         return mapper.list(fileUid);
+    }
+
+    /**
+     * @method      findFileByFileId
+     * @author      dahyeon
+     * @date        2026-02-09
+     * @deacription 파일 조회 by file_id
+    **/
+    @Transactional(readOnly = true)
+    public SnippFileView findFileByFileId(String fileId) {
+        return mapper.getFileByFileId(fileId);
+    }
+
+    /**
+     * @method      deleteFiles
+     * @author      dahyeon
+     * @date        2026-02-09
+     * @deacription 파일 여러건 삭제 + storage 삭제
+    **/
+    @Transactional
+    public void deleteFiles(List<String> fileIds) {
+        if(fileIds != null && !fileIds.isEmpty()) {
+            for (String fileId: fileIds) {
+                SnippFileView fileView = mapper.getFileByFileId(fileId);
+                mapper.deleteFileByFileId(fileId);
+                try {
+                    storageService.removeFile(fileView.getFileNm());
+                } catch (Exception e) {
+                    log.warn(">>>> S3 스토리지 오류 발생: " + e.getMessage());
+                }
+            }
+        }
     }
 }

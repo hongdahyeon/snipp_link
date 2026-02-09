@@ -14,6 +14,7 @@ import hong.snipp.link.snipp_link.domain.file.service.SnippFileService;
 import hong.snipp.link.snipp_link.global.bean.page.Page;
 import hong.snipp.link.snipp_link.global.bean.page.Pageable;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,7 +36,9 @@ import java.util.List;
  * 2025-05-30        work       {findBoardCntUseCl} 메소드 추가
  * 2026-02-08        work       게시글 저장, 수정 file 업로드 로직 추가
  * 2026-02-08        work       게시글 상세 정보 조회 > files 조회 추가
+ * 2026-02-09        work       게시글 수정 시점에 파일 삭제 로직 추가
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SnippBoardService {
@@ -78,6 +81,7 @@ public class SnippBoardService {
     public void changeBoard(Long uid, SnippBoardChange request, List<MultipartFile> files) throws IOException {
         Long fileUid = request.getFileUid();
         fileUid = fileService.uploadFiles(files, fileUid);
+        fileService.deleteFiles(request.getDeleteFiles());
         SnippBoard bean = new SnippBoard(uid, request, fileUid);
         mapper.update(bean);
     }
