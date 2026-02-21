@@ -2,8 +2,8 @@ package hong.snipp.link.snipp_link.domain.user.service;
 
 import hong.snipp.link.snipp_link.domain.socialuser.dto.request.SnippOAuth2UserSave;
 import hong.snipp.link.snipp_link.domain.socialuser.service.SnippSocialUserService;
-import hong.snipp.link.snipp_link.domain.user.domain.SnippUser;
-import hong.snipp.link.snipp_link.domain.user.domain.SnippUserMapper;
+import hong.snipp.link.snipp_link.domain.user.entity.SnippUser;
+import hong.snipp.link.snipp_link.domain.user.dao.SnippUserMapper;
 import hong.snipp.link.snipp_link.domain.user.dto.response.SnippUserView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

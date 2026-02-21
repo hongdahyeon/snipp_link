@@ -1,9 +1,9 @@
 package hong.snipp.link.snipp_link.domain.user.service;
 
-import hong.snipp.link.snipp_link.domain.code.SocialTp;
-import hong.snipp.link.snipp_link.domain.code.UserRole;
-import hong.snipp.link.snipp_link.domain.user.domain.SnippUser;
-import hong.snipp.link.snipp_link.domain.user.domain.SnippUserMapper;
+import hong.snipp.link.snipp_link.domain.codeenum.SocialTp;
+import hong.snipp.link.snipp_link.domain.codeenum.UserRole;
+import hong.snipp.link.snipp_link.domain.user.entity.SnippUser;
+import hong.snipp.link.snipp_link.domain.user.dao.SnippUserMapper;
 import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserChange;
 import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserChangePwd;
 import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserSave;

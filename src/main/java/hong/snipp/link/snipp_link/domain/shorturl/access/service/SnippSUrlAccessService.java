@@ -1,7 +1,7 @@
 package hong.snipp.link.snipp_link.domain.shorturl.access.service;
 
-import hong.snipp.link.snipp_link.domain.shorturl.access.domain.SnippSUrlAccess;
-import hong.snipp.link.snipp_link.domain.shorturl.access.domain.SnippSUrlAccessMapper;
+import hong.snipp.link.snipp_link.domain.shorturl.access.entity.SnippSUrlAccess;
+import hong.snipp.link.snipp_link.domain.shorturl.access.dao.SnippSUrlAccessMapper;
 import hong.snipp.link.snipp_link.domain.shorturl.access.dto.response.SnippSUrlAccessList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package hong.snipp.link.snipp_link.domain.bbs.service;
 
-import hong.snipp.link.snipp_link.domain.bbs.domain.SnippBbs;
-import hong.snipp.link.snipp_link.domain.bbs.domain.SnippBbsMapper;
+import hong.snipp.link.snipp_link.domain.bbs.entity.SnippBbs;
+import hong.snipp.link.snipp_link.domain.bbs.dao.SnippBbsMapper;
 import hong.snipp.link.snipp_link.domain.bbs.dto.request.SnippBbsChange;
 import hong.snipp.link.snipp_link.domain.bbs.dto.request.SnippBbsParam;
 import hong.snipp.link.snipp_link.domain.bbs.dto.request.SnippBbsSave;
@@ -10,7 +10,7 @@ import hong.snipp.link.snipp_link.domain.bbs.dto.response.SnippBbsView;
 import hong.snipp.link.snipp_link.domain.bbscl.dto.request.SnippBbsClSave;
 import hong.snipp.link.snipp_link.domain.bbscl.service.SnippBbsClService;
 import hong.snipp.link.snipp_link.domain.board.service.SnippBoardService;
-import hong.snipp.link.snipp_link.domain.code.BbsTp;
+import hong.snipp.link.snipp_link.domain.codeenum.BbsTp;
 import hong.snipp.link.snipp_link.global.bean.page.Page;
 import hong.snipp.link.snipp_link.global.bean.page.Pageable;
 import hong.snipp.link.snipp_link.global.exception.SnippException;

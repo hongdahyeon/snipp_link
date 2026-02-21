@@ -1,7 +1,7 @@
 package hong.snipp.link.snipp_link.domain.socialuser.service;
 
-import hong.snipp.link.snipp_link.domain.socialuser.domain.SnippSocialUser;
-import hong.snipp.link.snipp_link.domain.socialuser.domain.SnippSocialUserMapper;
+import hong.snipp.link.snipp_link.domain.socialuser.entity.SnippSocialUser;
+import hong.snipp.link.snipp_link.domain.socialuser.dao.SnippSocialUserMapper;
 import hong.snipp.link.snipp_link.domain.socialuser.dto.request.SnippOAuth2UserSave;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

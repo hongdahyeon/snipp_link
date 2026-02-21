@@ -1,7 +1,7 @@
 package hong.snipp.link.snipp_link.domain.verifycode.service;
 
-import hong.snipp.link.snipp_link.domain.verifycode.domain.SnippVerifyCode;
-import hong.snipp.link.snipp_link.domain.verifycode.domain.SnippVerifyCodeMapper;
+import hong.snipp.link.snipp_link.domain.verifycode.entity.SnippVerifyCode;
+import hong.snipp.link.snipp_link.domain.verifycode.dao.SnippVerifyCodeMapper;
 import hong.snipp.link.snipp_link.domain.verifycode.dto.request.SnippCheckVerifyCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

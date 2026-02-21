@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hong.snipp.link.snipp_link.domain.board.dao.SnippBoardMapper">
+
+    <select id="countAllBoard" parameterType="Long" resultType="int">
+        /* snippBoard.countAllBoard */
+        SELECT COUNT(*)
+          FROM SNP_BOARD
+         WHERE BBS_UID = #{bbsUid}
+           AND DELETE_AT = 'N'
+    </select>
+
+    <insert id="insert" parameterType="SnippBoard">
+        /* snippBoard.insert */
+        INSERT INTO SNP_BOARD (
+             BBS_UID
+            ,TITLE
+            ,CONTENT
+            ,USE_AT
+            ,THUMBNAIL_SRC
+            ,CL_UID
+            ,DELETE_AT
+            ,REG_UID
+            ,REG_DT
+            ,UPDT_UID
+            ,UPDT_DT
+        ) VALUES (
+             #{bbsUid}
+            ,#{title}
+            ,#{content}
+            ,#{useAt}
+            ,#{thumbnailSrc}
+            ,#{clUid}
+            ,'N'
+            ,#{regUid}
+            ,CURRENT_TIMESTAMP
+            ,#{updtUid}
+            ,CURRENT_TIMESTAMP
+        )
+    </insert>
+
+    <update id="update" parameterType="SnippBoard">
+        /* snippBoard.update */
+        UPDATE SNP_BOARD
+           SET TITLE = #{title}
+              ,CONTENT = #{content}
+              ,UPDT_UID = #{updtUid}
+              ,UPDT_DT = CURRENT_TIMESTAMP
+         WHERE UID = #{uid}
+    </update>
+
+    <select id="getDetail" parameterType="Long" resultType="SnippBoardView">
+        /* snippBoard.getDetail */
+        SELECT SB.UID AS BOARD_UID
+              ,SB.BBS_UID
+              ,SB.TITLE
+              ,SB.CONTENT
+              ,SB.DELETE_AT
+              ,SB.REG_UID
+              ,SB.REG_DT
+              ,SU_REG.USER_ID AS REG_ID
+              ,SB.UPDT_UID
+              ,SB.UPDT_DT
+              ,SU_UPDT.USER_ID AS UPDT_ID
+          FROM SNP_BOARD SB
+          LEFT JOIN SNP_USER SU_REG ON SU_REG.UID = SB.REG_UID
+          LEFT JOIN SNP_USER SU_UPDT ON SU_UPDT.UID = SB.UPDT_UID
+         WHERE UID = #{uid}
+    </select>
+
+    <select id="page" parameterType="SnippBoardParam" resultType="SnippBoardList">
+        /* snippBoard.page */
+        SELECT SB.UID AS BOARD_UID
+              ,SB.BBS_UID
+              ,SB.TITLE
+              ,SB.CONTENT
+              ,SB.DELETE_AT
+              ,SB.USE_AT
+              ,SB.REG_UID
+              ,SB.REG_DT
+              ,SU_REG.USER_ID AS REG_ID
+              ,SU_REG.USER_NM AS REG_NM
+              ,SB.UPDT_UID
+              ,SB.UPDT_DT
+              ,SU_UPDT.USER_ID AS UPDT_ID
+              ,SU_UPDT.USER_NM AS UPDR_NM
+          FROM SNP_BOARD SB
+          LEFT JOIN SNP_USER SU_REG ON SU_REG.UID = SB.REG_UID
+          LEFT JOIN SNP_USER SU_UPDT ON SU_UPDT.UID = SB.UPDT_UID
+         WHERE 1 = 1
+           AND SB.DELETE_AT = 'N'
+        <if test="title != null and title != ''">
+           AND SB.TITLE LIKE CONCAT('%',#{title},'%')
+        </if>
+        <if test="bbsUid != null and bbsUid != ''">
+           AND SB.BBS_UID = #{bbsUid}
+        </if>
+        <if test="clUid != null and clUid != ''">
+           AND SB.CL_UID = #{clUid}
+        </if>
+         ORDER BY SB.REG_DT DESC
+        <if test="startNumber != null and endNumber != null">
+         LIMIT #{endNumber} OFFSET #{startNumber}
+        </if>
+    </select>
+
+    <select id="list" parameterType="SnippBoardParam" resultType="SnippBoardList">
+        /* snippBoard.list */
+        SELECT SB.UID AS BOARD_UID
+              ,SB.BBS_UID
+              ,SB.TITLE
+              ,SB.CONTENT
+              ,SB.DELETE_AT
+              ,SB.REG_UID
+              ,SB.REG_DT
+              ,SU_REG.USER_ID AS REG_ID
+              ,SB.UPDT_UID
+              ,SB.UPDT_DT
+              ,SU_UPDT.USER_ID AS UPDT_ID
+          FROM SNP_BOARD SB
+          LEFT JOIN SNP_USER SU_REG ON SU_REG.UID = SB.REG_UID
+          LEFT JOIN SNP_USER SU_UPDT ON SU_UPDT.UID = SB.UPDT_UID
+         WHERE 1 = 1
+           AND SB.DELETE_AT = 'N'
+        <if test="title != null and title != ''">
+           AND SB.TITLE LIKE CONCAT('%',#{title},'%')
+        </if>
+        <if test="bbsUid != null and bbsUid != ''">
+           AND SB.BBS_UID = #{bbsUid}
+        </if>
+        <if test="clUid != null and clUid != ''">
+           AND SB.CL_UID = #{clUid}
+        </if>
+         ORDER BY SB.REG_DT DESC
+    </select>
+
+    <select id="count" parameterType="SnippBoardParam" resultType="int">
+        /* snippBoard.count */
+        SELECT COUNT(*)
+          FROM SNP_BOARD SB
+          LEFT JOIN SNP_USER SU_REG ON SU_REG.UID = SB.REG_UID
+          LEFT JOIN SNP_USER SU_UPDT ON SU_UPDT.UID = SB.UPDT_UID
+         WHERE 1 = 1
+           AND SB.DELETE_AT = 'N'
+        <if test="title != null and title != ''">
+           AND SB.TITLE LIKE CONCAT('%',#{title},'%')
+        </if>
+        <if test="bbsUid != null and bbsUid != ''">
+           AND SB.BBS_UID = #{bbsUid}
+        </if>
+        <if test="clUid != null and clUid != ''">
+           AND SB.CL_UID = #{clUid}
+        </if>
+    </select>
+
+    <delete id="delete" parameterType="SnippBoard">
+        /* snippBoard.delete */
+        UPDATE SNP_BOARD
+           SET DELETE_AT = 'Y'
+              ,UPDT_UID = #{updtUid}
+              ,UPDT_DT = CURRENT_TIMESTAMP
+         WHERE UID = #{uid}
+    </delete>
+
+    <select id="countBoardUseCl" resultType="int" parameterType="Long">
+        /* snippBoard.countBoardUseCl */
+        SELECT COUNT(*)
+          FROM SNP_BOARD
+         WHERE DELETE_AT = 'N'
+           AND CL_UID = #{clUid}
+    </select>
+
+    <select id="getDetailOfBoard" resultType="SnippBoardDetail" parameterType="Long">
+        /* snippBoard.getDetailOfBoard */
+        SELECT SBOARD.UID AS BOARD_UID
+              ,SBBS.UID AS BBS_UID
+              ,SBCCL.UID AS CL_UID
+              ,SBOARD.TITLE
+              ,SBOARD.CONTENT
+              ,SBOARD.DELETE_AT
+          FROM SNP_BOARD SBOARD
+         INNER JOIN SNP_BBS SBBS ON SBBS.UID = SBOARD.BBS_UID
+          LEFT JOIN SNP_BBS_CL SBCCL ON SBCCL.UID = SBOARD.CL_UID
+         WHERE UID = #{uid}
+    </select>
+</mapper>
