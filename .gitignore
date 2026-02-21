@@ -47,3 +47,6 @@ out/
 ### docker ###
 docker/minio_data
 docker/seaweedfs_data
+
+
+gradle.properties
