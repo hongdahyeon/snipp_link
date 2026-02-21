@@ -51,11 +51,12 @@ spring:
       # 'always'일 경우: 'schema.sql(DDL)', 'data.sql(DML)' 파일을 찾아 수행
       mode: always #never
   docker:
-    use: true
+    use: false
     compose:
       file: ./docker/docker-compose.yml
       log-path: ./docker/logs  # 로그 저장 폴더 경로 추가
       lifecycle-management: start_and_stop
+      enabled: false # =>> 스프링 부트 기본 도커 컴포즈 지원 기능을 끔
 
 hong:
   short-url:
