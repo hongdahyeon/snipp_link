@@ -30,10 +30,9 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 @Order(1)
 @Component
-@Profile("!local")
 public class DockerComposeRunner implements ApplicationRunner {
 
-    @Value("${spring.docker.use:false}")
+    @Value("${spring.docker.compose.enabled:false}")
     private boolean useDocker;
 
     @Value("${spring.docker.compose.file}")

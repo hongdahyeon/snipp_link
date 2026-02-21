@@ -1,6 +1,6 @@
 package hong.snipp.link.snipp_link.global.hong.shortURL;
 
-import hong.snipp.link.snipp_link.domain.code.AccessTp;
+import hong.snipp.link.snipp_link.domain.enumcode.AccessTp;
 import hong.snipp.link.snipp_link.domain.shorturl.access.service.SnippSUrlAccessService;
 import hong.snipp.link.snipp_link.domain.shorturl.log.dto.request.SnippSUrlLogSave;
 import hong.snipp.link.snipp_link.domain.shorturl.log.service.SnippSUrlLogService;

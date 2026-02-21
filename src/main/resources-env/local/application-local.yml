@@ -51,7 +51,6 @@ spring:
       # 'always'일 경우: 'schema.sql(DDL)', 'data.sql(DML)' 파일을 찾아 수행
       mode: always #never
   docker:
-    use: false
     compose:
       file: ./docker/docker-compose.yml
       log-path: ./docker/logs  # 로그 저장 폴더 경로 추가
@@ -63,7 +62,7 @@ hong:
     secret-key: ENC(y1vnk0wEj21ZWHvsNs5PBS205F6TA98LcopBnfWPcFqkpp1fBOYZL6ILqh5zldH0kth2rHmhC/52C6EuEDnmxg==)
   base-url: 'http://localhost:8083'
   ckeditor:
-    path: D:/hongFileDir/snipp_link/
+    path: D:/hongFileDir/snipp_link/ckeditor/
     start-path: "/ckImage/"
     pattern: "/ckImage/**"
   max-session: 1 #-1  # 지정안할 경우 1 기본값 -> 1(중복 로그인방지), -1(무제한 중복 로그인 가능)
@@ -79,12 +78,18 @@ jwt:
   refresh-time: 86400000 # 24시간 (ms)
 
 s3-storage:
-  use: true
-  target: minio
-  bucket: snipp-link
-  access-key: ENC(b1qazW7Y6IL2Wv6pr8ljt4PBcbqHVEOD22S0y4TJR6m1remDtjnVsuOUOBRBFe6M)
-  secret-key: ENC(QS8FwT7UhW0NmzFQP7triSIc47t9pc4055sDqgiDIBCEzMLO2uBS1CZiL0DHA/iD)
-  region: us-east-1
-  endpoints:
-    minio: http://127.0.0.1:19000
-    seaweedfs: http://127.0.0.1:18333
+  type: minio  # minio, seaweedfs, local 중 선택 (없으면 local)
+  minio:
+    endpoint: http://127.0.0.1:19000
+    bucket: snipp-link
+    access-key: ENC(b1qazW7Y6IL2Wv6pr8ljt4PBcbqHVEOD22S0y4TJR6m1remDtjnVsuOUOBRBFe6M)
+    secret-key: ENC(QS8FwT7UhW0NmzFQP7triSIc47t9pc4055sDqgiDIBCEzMLO2uBS1CZiL0DHA/iD)
+    region: us-east-1
+  seaweedfs:
+    endpoint: http://127.0.0.1:18333
+    bucket: snipp-link
+    access-key: ENC(b1qazW7Y6IL2Wv6pr8ljt4PBcbqHVEOD22S0y4TJR6m1remDtjnVsuOUOBRBFe6M)
+    secret-key: ENC(QS8FwT7UhW0NmzFQP7triSIc47t9pc4055sDqgiDIBCEzMLO2uBS1CZiL0DHA/iD)
+    region: us-east-1
+  local:
+    path: D:/hongFileDir/snipp_link/storage/

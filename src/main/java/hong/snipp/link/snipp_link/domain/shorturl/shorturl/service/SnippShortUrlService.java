@@ -1,8 +1,8 @@
 package hong.snipp.link.snipp_link.domain.shorturl.shorturl.service;
 
 import hong.snipp.link.snipp_link.domain.shorturl.log.service.SnippSUrlLogService;
-import hong.snipp.link.snipp_link.domain.shorturl.shorturl.domain.SnippShortUrl;
-import hong.snipp.link.snipp_link.domain.shorturl.shorturl.domain.SnippShortUrlMapper;
+import hong.snipp.link.snipp_link.domain.shorturl.shorturl.entity.SnippShortUrl;
+import hong.snipp.link.snipp_link.domain.shorturl.shorturl.dao.SnippShortUrlMapper;
 import hong.snipp.link.snipp_link.domain.shorturl.shorturl.dto.request.SnippShortUrlCreate;
 import hong.snipp.link.snipp_link.domain.shorturl.shorturl.dto.request.SnippShortUrlParam;
 import hong.snipp.link.snipp_link.domain.shorturl.shorturl.dto.response.SnippShortUrlList;

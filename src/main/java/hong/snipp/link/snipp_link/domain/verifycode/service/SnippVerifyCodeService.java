@@ -1,7 +1,7 @@
 package hong.snipp.link.snipp_link.domain.verifycode.service;
 
-import hong.snipp.link.snipp_link.domain.verifycode.domain.SnippVerifyCode;
-import hong.snipp.link.snipp_link.domain.verifycode.domain.SnippVerifyCodeMapper;
+import hong.snipp.link.snipp_link.domain.verifycode.entity.SnippVerifyCode;
+import hong.snipp.link.snipp_link.domain.verifycode.dao.SnippVerifyCodeMapper;
 import hong.snipp.link.snipp_link.domain.verifycode.dto.request.SnippCheckVerifyCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +19,7 @@ import java.util.Map;
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
  * 2025-04-22        work       최초 생성
+ * 2026-02-22        home       패키지 구조 변경
  */
 @Service
 @RequiredArgsConstructor

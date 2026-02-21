@@ -1,6 +1,6 @@
 package hong.snipp.link.snipp_link.domain.filelog.service;
 
-import hong.snipp.link.snipp_link.domain.filelog.domain.SnippFileLogMapper;
+import hong.snipp.link.snipp_link.domain.filelog.dao.SnippFileLogMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
