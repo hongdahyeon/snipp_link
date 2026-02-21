@@ -1,6 +1,6 @@
 package hong.snipp.link.snipp_link.global.handler.login;
 
-import hong.snipp.link.snipp_link.domain.code.LoginTp;
+import hong.snipp.link.snipp_link.domain.codeenum.LoginTp;
 import hong.snipp.link.snipp_link.domain.loginhist.dto.request.SnippLoginHistSave;
 import hong.snipp.link.snipp_link.domain.loginhist.service.SnippLoginHistService;
 import hong.snipp.link.snipp_link.domain.user.dto.response.SnippUserView;

@@ -1,10 +1,13 @@
 package hong.snipp.link.snipp_link.domain.user.service;
 
-import hong.snipp.link.snipp_link.domain.code.SocialTp;
-import hong.snipp.link.snipp_link.domain.code.UserRole;
-import hong.snipp.link.snipp_link.domain.user.domain.SnippUser;
-import hong.snipp.link.snipp_link.domain.user.domain.SnippUserMapper;
-import hong.snipp.link.snipp_link.domain.user.dto.request.*;
+import hong.snipp.link.snipp_link.domain.codeenum.SocialTp;
+import hong.snipp.link.snipp_link.domain.codeenum.UserRole;
+import hong.snipp.link.snipp_link.domain.user.entity.SnippUser;
+import hong.snipp.link.snipp_link.domain.user.dao.SnippUserMapper;
+import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserChange;
+import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserChangePwd;
+import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserSave;
+import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserSearch;
 import hong.snipp.link.snipp_link.domain.user.dto.response.SnippUserList;
 import hong.snipp.link.snipp_link.domain.user.dto.response.SnippUserView;
 import hong.snipp.link.snipp_link.domain.verifycode.service.SnippVerifyCodeService;
@@ -35,7 +38,6 @@ import java.util.List;
  * 2025-04-25        work       {findUserByUserUid, changeUserLock, changeUserEnable, changeUser} 메소드 추가
  * 2026-01-12        home       findAllUserPage 소셜로그인 사용자 한국어 kor
  * 2026-02-05        work       findUserByUserId 추가
- * 2026-02-09        work       isExistUserRole 추가
  */
 @Service
 @RequiredArgsConstructor
@@ -75,20 +77,6 @@ public class SnippUserService {
     }
 
     /**
-     * @method      isExistUserRole
-     * @author      dahyeon
-     * @date        2026-02-09
-     * @deacription {role} 값을 갖고 있는 유저가 있는지 체크
-     *              -> 있다면: true (초기 데이터 role 갖는 유저 추가)
-     *              -> 없다면: false
-    **/
-    @Transactional(readOnly = true)
-    public boolean isExistUserRole(String role) {
-        int findUserRoleCnt = mapper.countByUserRole(role);
-        return findUserRoleCnt != 0;
-    }
-
-    /**
      * @method      saveUser
      * @author      work
      * @date        2025-04-21
@@ -96,12 +84,6 @@ public class SnippUserService {
     **/
     @Transactional
     public void saveUser(SnippUserSave request) {
-        String encodePassword = passwordEncoder.encode(request.getPassword());
-        mapper.insert(new SnippUser(request, encodePassword));
-    }
-
-    @Transactional
-    public void saveInitUser(SnippUserInitSave request) {
         String encodePassword = passwordEncoder.encode(request.getPassword());
         mapper.insert(new SnippUser(request, encodePassword));
     }

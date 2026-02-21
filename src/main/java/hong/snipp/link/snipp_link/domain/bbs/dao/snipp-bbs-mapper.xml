@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hong.snipp.link.snipp_link.domain.bbs.dao.SnippBbsMapper">
+
+    <insert id="insert" parameterType="SnippBbs" useGeneratedKeys="true" keyProperty="uid">
+        /* snippBbs.insert */
+        INSERT INTO SNP_BBS (
+             BBS_TP
+            ,BBS_NM
+            ,USE_AT
+            ,DELETE_AT
+            ,REG_UID
+            ,REG_DT
+            ,UPDT_UID
+            ,UPDT_DT
+        ) VALUES (
+             #{bbsTp}
+            ,#{bbsNm}
+            ,#{useAt}
+            ,'N'
+            ,#{regUid}
+            ,CURRENT_TIMESTAMP
+            ,#{updtUid}
+            ,CURRENT_TIMESTAMP
+        )
+    </insert>
+
+    <update id="update" parameterType="SnippBbs">
+        /* snippBbs.update */
+        UPDATE SNP_BBS
+           SET BBS_NM = #{bbsNm}
+              ,USE_AT = #{useAt}
+              ,UPDT_UID = #{updtUid}
+              ,UPDT_DT = CURRENT_TIMESTAMP
+         WHERE UID = #{uid}
+    </update>
+
+    <select id="getDetail" parameterType="Long" resultType="SnippBbsView">
+        /* snippBbs.getDetail */
+        SELECT SB.UID AS BBS_UID
+              ,SB.BBS_TP
+              ,SB.BBS_NM
+              ,SB.USE_AT
+              ,SB.DELETE_AT
+              ,SB.REG_UID
+              ,SB.REG_DT
+              ,SU_REG.USER_ID AS REG_ID
+              ,SB.UPDT_UID
+              ,SB.UPDT_DT
+              ,SU_UPDT.USER_ID AS UPDT_ID
+          FROM SNP_BBS SB
+          LEFT JOIN SNP_USER SU_REG ON SU_REG.UID = SB.REG_UID
+          LEFT JOIN SNP_USER SU_UPDT ON SU_UPDT.UID = SB.UPDT_UID
+         WHERE SB.UID = #{uid}
+    </select>
+
+    <select id="page" resultType="SnippBbsList" parameterType="SnippBbsParam">
+        /* snippBbs.page */
+        SELECT SB.UID AS BBS_UID
+              ,SB.BBS_TP
+              ,SB.BBS_NM
+              ,SB.USE_AT
+              ,SB.DELETE_AT
+              ,SB.REG_UID
+              ,SB.REG_DT
+              ,SU_REG.USER_ID AS REG_ID
+              ,SU_REG.USER_NM AS REG_NM
+              ,SB.UPDT_UID
+              ,SB.UPDT_DT
+              ,SU_UPDT.USER_ID AS UPDT_ID
+              ,SU_UPDT.USER_NM AS UPDT_NM
+          FROM SNP_BBS SB
+          LEFT JOIN SNP_USER SU_REG ON SU_REG.UID = SB.REG_UID
+          LEFT JOIN SNP_USER SU_UPDT ON SU_UPDT.UID = SB.UPDT_UID
+         WHERE 1 = 1
+           AND SB.DELETE_AT = 'N'
+        <if test="bbsNm != null and bbsNm != ''">
+           AND SB.BBS_NM LIKE CONCAT('%',#{bbsNm},'%')
+        </if>
+        <if test="bbsTp != null and bbsTp != ''">
+           AND SB.BBS_TP = #{bbsTp}
+        </if>
+        <if test="useAt != null and useAt != ''">
+           AND SB.USE_AT = #{useAt}
+        </if>
+         ORDER BY SB.REG_DT DESC
+        <if test="startNumber != null and endNumber != null">
+         LIMIT #{endNumber} OFFSET #{startNumber}
+        </if>
+    </select>
+
+    <select id="list" resultType="SnippBbsList" parameterType="SnippBbsParam">
+        /* snippBbs.list */
+        SELECT SB.UID AS BBS_UID
+              ,SB.BBS_TP
+              ,SB.BBS_NM
+              ,SB.USE_AT
+              ,SB.DELETE_AT
+              ,SB.REG_UID
+              ,SB.REG_DT
+              ,SU_REG.USER_ID AS REG_ID
+              ,SB.UPDT_UID
+              ,SB.UPDT_DT
+              ,SU_UPDT.USER_ID AS UPDT_ID
+          FROM SNP_BBS SB
+          LEFT JOIN SNP_USER SU_REG ON SU_REG.UID = SB.REG_UID
+          LEFT JOIN SNP_USER SU_UPDT ON SU_UPDT.UID = SB.UPDT_UID
+         WHERE 1 = 1
+           AND SB.DELETE_AT = 'N'
+        <if test="bbsNm != null and bbsNm != ''">
+           AND SB.BBS_NM LIKE CONCAT('%',#{bbsNm},'%')
+        </if>
+        <if test="bbsTp != null and bbsTp != ''">
+           AND SB.BBS_TP = #{bbsTp}
+        </if>
+        <if test="useAt != null and useAt != ''">
+           AND SB.USE_AT = #{useAt}
+        </if>
+         ORDER BY SB.REG_DT DESC
+    </select>
+
+    <select id="count" resultType="int" parameterType="SnippBbsParam">
+        /* snippBbs.count */
+        SELECT COUNT(*)
+          FROM SNP_BBS SB
+          LEFT JOIN SNP_USER SU_REG ON SU_REG.UID = SB.REG_UID
+          LEFT JOIN SNP_USER SU_UPDT ON SU_UPDT.UID = SB.UPDT_UID
+         WHERE 1 = 1
+           AND SB.DELETE_AT = 'N'
+        <if test="bbsNm != null and bbsNm != ''">
+           AND SB.BBS_NM LIKE CONCAT('%',#{bbsNm},'%')
+        </if>
+        <if test="bbsTp != null and bbsTp != ''">
+           AND SB.BBS_TP = #{bbsTp}
+        </if>
+        <if test="useAt != null and useAt != ''">
+           AND SB.USE_AT = #{useAt}
+        </if>
+    </select>
+
+    <delete id="delete" parameterType="SnippBbs">
+        /* snippBbs.delete */
+        UPDATE SNP_BBS
+           SET DELETE_AT = 'Y'
+               ,UPDT_UID = #{updtUid}
+               ,UPDT_DT = CURRENT_TIMESTAMP
+          WHERE UID = #{uid}
+    </delete>
+
+    <select id="view" parameterType="SnippBbs">
+        /* snippBbs.view */
+        SELECT UID
+              ,BBS_TP
+              ,BBS_NM
+              ,USE_AT
+          FROM SNP_BBS
+         WHERE UID = #{uid}
+    </select>
+
+    <select id="getRecentBbs" parameterType="String" resultType="SnippBbs">
+        /* snippBbs.getRecentBbs */
+        SELECT UID
+              ,BBS_TP
+              ,BBS_NM
+              ,USE_AT
+          FROM SNP_BBS
+         WHERE USE_AT = 'Y'
+           AND BBS_TP = #{bbsTp}
+         ORDER BY REG_DT DESC
+         LIMIT 1
+    </select>
+
+    <select id="countByBbsTp" parameterType="String" resultType="int">
+        /* snippBbs.countByBbsTp */
+        SELECT COUNT(*)
+          FROM SNP_BBS
+         WHERE BBS_TP = #{bbsTp}
+    </select>
+
+</mapper>

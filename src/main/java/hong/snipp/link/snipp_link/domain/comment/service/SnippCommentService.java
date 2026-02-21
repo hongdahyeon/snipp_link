@@ -1,7 +1,7 @@
 package hong.snipp.link.snipp_link.domain.comment.service;
 
-import hong.snipp.link.snipp_link.domain.comment.domain.SnippComment;
-import hong.snipp.link.snipp_link.domain.comment.domain.SnippCommentMapper;
+import hong.snipp.link.snipp_link.domain.comment.entity.SnippComment;
+import hong.snipp.link.snipp_link.domain.comment.dao.SnippCommentMapper;
 import hong.snipp.link.snipp_link.domain.comment.dto.request.SnippCommentChange;
 import hong.snipp.link.snipp_link.domain.comment.dto.request.SnippCommentSave;
 import hong.snipp.link.snipp_link.domain.comment.dto.response.SnippCommentList;

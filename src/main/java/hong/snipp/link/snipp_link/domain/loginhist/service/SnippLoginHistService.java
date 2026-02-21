@@ -1,7 +1,7 @@
 package hong.snipp.link.snipp_link.domain.loginhist.service;
 
-import hong.snipp.link.snipp_link.domain.loginhist.domain.SnippLoginHist;
-import hong.snipp.link.snipp_link.domain.loginhist.domain.SnippLoginHistMapper;
+import hong.snipp.link.snipp_link.domain.loginhist.entity.SnippLoginHist;
+import hong.snipp.link.snipp_link.domain.loginhist.dao.SnippLoginHistMapper;
 import hong.snipp.link.snipp_link.domain.loginhist.dto.request.SnippLoginHistParam;
 import hong.snipp.link.snipp_link.domain.loginhist.dto.request.SnippLoginHistSave;
 import hong.snipp.link.snipp_link.domain.loginhist.dto.response.SnippLoginHistList;
