@@ -23,8 +23,7 @@
 
     <select id="page" parameterType="SnippLoginHistParam" resultType="SnippLoginHistList">
         /* snippLoginHist.page */
-        SELECT CONCAT('MAIN', '_', SNH.UID) AS MAIN_ID
-              ,SNH.UID AS HIST_UID
+        SELECT SNH.UID AS HIST_UID
               ,SNH.USER_EMAIL
               ,SNH.LOGIN_DT
               ,SNH.ACCESS_IP
@@ -47,8 +46,7 @@
 
     <select id="list" parameterType="SnippLoginHistParam" resultType="SnippLoginHistList">
         /* snippLoginHist.list */
-        SELECT CONCAT('MAIN', '_', SNH.UID) AS MAIN_ID
-              ,SNH.UID AS HIST_UID
+        SELECT SNH.UID AS HIST_UID
               ,SNH.USER_EMAIL
               ,SNH.LOGIN_DT
               ,SNH.ACCESS_IP

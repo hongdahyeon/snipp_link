@@ -191,6 +191,10 @@ class GridTable {
     /**
      * {row} 클릭 이벤트
      * => 체크박스에 대해선 클릭 이벤트 무시
+     *
+     * # rowData 조회 #
+     * const mainId = args[1]._cells[0].data;
+     * const rowData = {JS}.{table_변수명}.getRowData(mainId)
      * */
     rowClick(handler) {
         const wrappedHandler = (p, n) => {
@@ -241,15 +245,24 @@ class GridTable {
     }
 
     _server() {
+        const accessToken = localStorage.getItem("accessToken")
         return {
             url: this._url,
             method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + accessToken,
+                'Content-Type': 'application/json'
+            },
             handle: (res) => {
                 if(res.status === 200) {
                     return res.json()
+                } else if(res.status === 401) {
+                    Sweet.alert("세션이 만료되었거나 다른 기기에서 로그인되었습니다.");
+                    location.href = "/login";
+                    return [];
                 } else {
-                    console.error('table error')
-                    return []
+                    console.error('table error');
+                    return [];
                 }
             },
             then: data => {

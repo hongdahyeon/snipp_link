@@ -5,6 +5,7 @@ import hong.snipp.link.snipp_link.global.handler.CustomAccessDeniedHandler;
 import hong.snipp.link.snipp_link.global.handler.CustomAuthenticationHandler;
 import hong.snipp.link.snipp_link.global.handler.login.CustomLoginFailureHandler;
 import hong.snipp.link.snipp_link.global.handler.login.CustomLoginSuccessHandler;
+import hong.snipp.link.snipp_link.global.handler.login.CustomLogoutSuccessHandler;
 import hong.snipp.link.snipp_link.global.jwt.JwtAuthenticationFilter;
 import hong.snipp.link.snipp_link.global.jwt.JwtProvider;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,6 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 import org.springframework.web.cors.CorsConfiguration;
 
@@ -44,12 +44,14 @@ import java.util.List;
  * 2026-02-02   work        sessionManagement 적용
  * 2026-02-05   work        JwtAuthenticationFilter 추가
  * 2026-02-05   work        JWT 사용으로 인해 CSRF 필터는 끄기(비활성화)
+ * 2026-02-06   work        로그아웃 성공 핸들러 추가
  */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final CustomLogoutSuccessHandler logoutHandler;
     private final CustomLoginSuccessHandler successHandler;
     private final CustomLoginFailureHandler failureHandler;
     private final CustomAccessDeniedHandler deniedHandler;
@@ -180,7 +182,8 @@ public class SecurityConfig {
     private void configureLogout(LogoutConfigurer<HttpSecurity> logoutConfigurer) {
         logoutConfigurer
                 .logoutUrl(Paths.LOGOUT) // 로그아웃 URL 설정
-                .logoutSuccessUrl(Paths.LOGIN) // 로그아웃 성공 후 리다이렉트할 URL 설정
+//                .logoutSuccessUrl(Paths.LOGIN) // 로그아웃 성공 후 리다이렉트할 URL 설정
+                .logoutSuccessHandler(logoutHandler)
                 .invalidateHttpSession(true) // 세션 무효화
                 .clearAuthentication(true); // 인증 정보 지우기
     }

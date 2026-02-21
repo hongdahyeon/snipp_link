@@ -16,7 +16,8 @@
                 <div class="d-flex flex-column flex-md-row justify-content-between mb-2 gap-2">
                     <div class="d-flex gap-2"></div>
                     <div>
-                        <button type="button" id="save-btn" class="btn-primary-custom">저장</button>
+                        <button type="button" id="save-btn" class="btn-primary-custom">수정</button>
+                        <button type="button" id="delete-btn" class="btn-cancel-custom" th:if="${form?.regUid == loginUid}" >삭제</button>
                         <button type="button" id="cancel-btn" class="btn-cancel-custom">취소</button>
                     </div>
                 </div>
@@ -27,7 +28,9 @@
                             <div class="col-lg-12 col-xl-12">
                                 <div class="mb-3">
                                     <label class="form-label custom-label" for="title">제목<span class="required">*</span></label>
-                                    <input class="form-control custom-input" id="title" name="title" type="text" placeholder="제목을 입력하세요." required="">
+                                    <input class="form-control custom-input" id="title" name="title"
+                                           th:value="${form?.title}"
+                                           type="text" placeholder="제목을 입력하세요." required="">
                                     <div class="invalid-feedback">필수 입력값입니다.</div>
                                 </div>
                             </div>
@@ -38,11 +41,11 @@
                                     <label class="form-label custom-label" for="useAt-div">사용여부<span class="required">*</span></label>
                                     <div class="d-flex gap-4" id="useAt-div">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="useAt" value="Y" id="useAt-Y" checked="">
+                                            <input class="form-check-input" type="radio" name="useAt" value="Y" id="useAt-Y" checked="" th:checked="${form?.useAt == 'Y'}">
                                             <label class="form-check-label" for="useAt-Y">사용</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="useAt" value="N" id="useAt-N">
+                                            <input class="form-check-input" type="radio" name="useAt" value="N" id="useAt-N" th:checked="${form?.useAt == 'N'}">
                                             <label class="form-check-label" for="useAt-N">미사용</label>
                                         </div>
                                     </div>
@@ -73,6 +76,34 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row mb-4">
+                            <div class="col-lg-12 col-xl-12">
+                                <div class="mb-3">
+                                    <label class="form-label custom-label">파일 첨부</label>
+                                    <div class="custom-file-uploader p-3 border rounded-3 bg-white shadow-sm mb-3" style="border-style: dashed !important;">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <button type="button" class="btn btn-secondary btn-sm px-3" onclick="$('#fileInput').click();">
+                                                <i class="bi bi-folder2-open me-2"></i>파일 선택
+                                            </button>
+                                            <span class="text-muted small" id="file-count-info">추가할 파일을 선택하세요.</span>
+                                            <input type="file" class="d-none" id="fileInput" name="files" multiple>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2" id="file-list-box">
+                                        <div th:each="file : ${form.files}"
+                                             class="file-row d-flex align-items-center justify-content-between mb-2 p-2 border rounded bg-light"
+                                             th:id="'file-row-' + ${file.fileId}">
+                                            <div class="d-flex align-items-center">
+                                                <i class="bi bi-file-earmark-check me-2 text-primary"></i>
+                                                <span class="small text-dark fw-bold" th:text="${file.orgFileNm}">파일명.png</span>
+                                            </div>
+                                            <button type="button" class="btn-close delete-existing-btn"
+                                                    th:data-file-id="${file.fileId}" aria-label="Delete"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
 
@@ -93,10 +124,15 @@
 
         const type = [[${type}]]
         const bbsUid = [[${recentBbs?.uid}]]
+        const form = [[${form}]]
+        const boardUid = [[${boardUid}]]
 
         $(function () {
 
-            boardJS.initContent();
+            const fileUid = form?.fileUid
+            boardJS.initContent(form?.content);
+
+            boardJS.initFile();
 
             $("#selectClBtn").on('click', () => {
                 faqClChooseModal.openModal();
@@ -105,8 +141,12 @@
                 faqClChooseModal.closeModal();
             });
 
+            $("#delete-btn").on('click', () => {
+               boardJS.deleteBoard(boardUid, type);
+            });
+
             $("#save-btn").on('click', () => {
-                boardJS.saveBoardForm();
+                boardJS.saveBoardForm(false, boardUid, fileUid);
             });
 
             $("#cancel-btn").on('click', () => {

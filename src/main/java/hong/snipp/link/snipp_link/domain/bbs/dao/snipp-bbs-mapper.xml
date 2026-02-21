@@ -56,8 +56,7 @@
 
     <select id="page" resultType="SnippBbsList" parameterType="SnippBbsParam">
         /* snippBbs.page */
-        SELECT CONCAT('MAIN', '_', SB.UID) AS MAIN_ID
-              ,SB.UID AS BBS_UID
+        SELECT SB.UID AS BBS_UID
               ,SB.BBS_TP
               ,SB.BBS_NM
               ,SB.USE_AT
@@ -169,6 +168,13 @@
            AND BBS_TP = #{bbsTp}
          ORDER BY REG_DT DESC
          LIMIT 1
+    </select>
+
+    <select id="countByBbsTp" parameterType="String" resultType="int">
+        /* snippBbs.countByBbsTp */
+        SELECT COUNT(*)
+          FROM SNP_BBS
+         WHERE BBS_TP = #{bbsTp}
     </select>
 
 </mapper>

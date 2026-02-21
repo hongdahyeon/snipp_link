@@ -32,7 +32,7 @@ var shortUrlJS = {
             }))
             .init()
             .rowClick((...args) => {
-                const mainId = args[0]['data']
+                const mainId = args[1]._cells[0].data;
                 const rowData = shortUrlJS.table.getRowData(mainId)
                 console.log(">> rowData: ", rowData)
                 // todo : access-log 정보로 추가 작업 진행

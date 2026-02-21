@@ -51,7 +51,7 @@ public class Paths {
             ,new AntPathRequestMatcher("/api/snipp/**")
             ,new AntPathRequestMatcher("/snipp/**")
             ,new AntPathRequestMatcher("/ckImage/**")
-    };;
+    };
 
     public static final AntPathRequestMatcher[] ROLE_SUPER = new  AntPathRequestMatcher[]{
              new AntPathRequestMatcher("/api/snipp/**/super/**")
