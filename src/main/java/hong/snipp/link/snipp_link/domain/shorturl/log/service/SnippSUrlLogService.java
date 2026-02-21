@@ -1,7 +1,7 @@
 package hong.snipp.link.snipp_link.domain.shorturl.log.service;
 
-import hong.snipp.link.snipp_link.domain.shorturl.log.domain.SnippSUrlLog;
-import hong.snipp.link.snipp_link.domain.shorturl.log.domain.SnippSUrlLogMapper;
+import hong.snipp.link.snipp_link.domain.shorturl.log.entity.SnippSUrlLog;
+import hong.snipp.link.snipp_link.domain.shorturl.log.dao.SnippSUrlLogMapper;
 import hong.snipp.link.snipp_link.domain.shorturl.log.dto.request.SnippSUrlLogParam;
 import hong.snipp.link.snipp_link.domain.shorturl.log.dto.request.SnippSUrlLogSave;
 import hong.snipp.link.snipp_link.domain.shorturl.log.dto.response.SnippSUrlLogList;

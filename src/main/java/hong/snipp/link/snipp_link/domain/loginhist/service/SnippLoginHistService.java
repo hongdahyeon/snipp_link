@@ -1,7 +1,7 @@
 package hong.snipp.link.snipp_link.domain.loginhist.service;
 
-import hong.snipp.link.snipp_link.domain.loginhist.domain.SnippLoginHist;
-import hong.snipp.link.snipp_link.domain.loginhist.domain.SnippLoginHistMapper;
+import hong.snipp.link.snipp_link.domain.loginhist.entity.SnippLoginHist;
+import hong.snipp.link.snipp_link.domain.loginhist.dao.SnippLoginHistMapper;
 import hong.snipp.link.snipp_link.domain.loginhist.dto.request.SnippLoginHistParam;
 import hong.snipp.link.snipp_link.domain.loginhist.dto.request.SnippLoginHistSave;
 import hong.snipp.link.snipp_link.domain.loginhist.dto.response.SnippLoginHistList;
@@ -24,6 +24,7 @@ import java.util.List;
  * -----------------------------------------------------------
  * 2025-04-21        work       최초 생성
  * 2025-04-28        work       {findAllLoginHistPage, findAllLoginHistList} 메소드 추가
+ * 2026-02-22        home       패키지 구조 변경
  */
 @Service
 @RequiredArgsConstructor

@@ -1,17 +1,16 @@
 package hong.snipp.link.snipp_link.domain.file.service;
 
 
-import hong.snipp.link.snipp_link.domain.code.FileStorageTp;
-import hong.snipp.link.snipp_link.domain.file.domain.SnippFile;
-import hong.snipp.link.snipp_link.domain.file.domain.SnippFileMapper;
+import hong.snipp.link.snipp_link.domain.enumcode.FileStorageTp;
+import hong.snipp.link.snipp_link.domain.file.dao.SnippFileMapper;
 import hong.snipp.link.snipp_link.domain.file.dto.request.SnippFileParam;
 import hong.snipp.link.snipp_link.domain.file.dto.request.SnippFileUpload;
 import hong.snipp.link.snipp_link.domain.file.dto.response.SnippFileList;
 import hong.snipp.link.snipp_link.domain.file.dto.response.SnippFileView;
+import hong.snipp.link.snipp_link.domain.file.entity.SnippFile;
 import hong.snipp.link.snipp_link.global.bean.page.Page;
 import hong.snipp.link.snipp_link.global.bean.page.Pageable;
-import hong.snipp.link.snipp_link.global.docker.s3.S3Config;
-import hong.snipp.link.snipp_link.global.docker.s3.StorageService;
+import hong.snipp.link.snipp_link.global.storage.StorageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -34,6 +33,7 @@ import java.util.UUID;
  * 2026-02-08        work       최초 생성
  * 2026-02-08        work       파일 페이징, 리스트 조회
  * 2026-02-09        work       {findFileByFileId, deleteFiles} 추가
+ * 2026-02-22        home       패키지 구조 변경
  */
 
 @Slf4j
@@ -43,7 +43,6 @@ public class SnippFileService {
 
     private final SnippFileMapper mapper;
     private final StorageService storageService;
-    private final S3Config s3Config;
 
     /**
      * @method      createFileId
@@ -74,9 +73,6 @@ public class SnippFileService {
 
                 String fileId = this.createFileId();
 
-                String bucket = s3Config.getBucket();
-                String endpoint = s3Config.getEndpoints().get(s3Config.getTarget());
-
                 String originalFilename = file.getOriginalFilename();
                 String extension = "";
                 if ( originalFilename.contains(".") ) {
@@ -87,10 +83,9 @@ public class SnippFileService {
                 String fileType = file.getContentType();
                 long fileSize = file.getSize();
                 String fileNm = String.format("%s.%s", fileId, extension);
-                String fileUrl = String.format("%s/%s/%s", endpoint, bucket, fileNm);
 
                 // {file} 업로드
-                storageService.uploadFromInputStream(file.getInputStream(), fileSize, fileNm, fileType);
+                String fileUrl = storageService.uploadFromInputStream(file.getInputStream(), fileSize, fileNm, fileType);
 
                 // insert
                 SnippFileUpload uploadDto = SnippFileUpload.builder()

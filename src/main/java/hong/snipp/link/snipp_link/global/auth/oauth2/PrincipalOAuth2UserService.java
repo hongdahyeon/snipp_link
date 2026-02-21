@@ -1,6 +1,6 @@
 package hong.snipp.link.snipp_link.global.auth.oauth2;
 
-import hong.snipp.link.snipp_link.domain.code.SocialTp;
+import hong.snipp.link.snipp_link.domain.enumcode.SocialTp;
 import hong.snipp.link.snipp_link.domain.socialuser.dto.request.SnippOAuth2UserSave;
 import hong.snipp.link.snipp_link.domain.user.dto.response.SnippUserView;
 import hong.snipp.link.snipp_link.domain.user.service.SnippAuthUserService;

@@ -91,6 +91,7 @@ public class MyBatisConfig {
         // 3. mapper 위치
         Resource[] resources = new PathMatchingResourcePatternResolver().getResources(mapperLocations);
         factoryBean.setMapperLocations(resources);
+        System.out.println("로드된 매퍼 개수: " + resources.length);
 
         // 4. dto, vo 위치
         factoryBean.setTypeAliasesPackage(typeAliasesPackage);

@@ -2,8 +2,8 @@ package hong.snipp.link.snipp_link.global.initializer;
 
 import hong.snipp.link.snipp_link.domain.bbs.dto.request.SnippBbsSave;
 import hong.snipp.link.snipp_link.domain.bbs.service.SnippBbsService;
-import hong.snipp.link.snipp_link.domain.code.BbsTp;
-import hong.snipp.link.snipp_link.domain.code.UserRole;
+import hong.snipp.link.snipp_link.domain.enumcode.BbsTp;
+import hong.snipp.link.snipp_link.domain.enumcode.UserRole;
 import hong.snipp.link.snipp_link.domain.user.dto.request.SnippUserInitSave;
 import hong.snipp.link.snipp_link.domain.user.service.SnippUserService;
 import lombok.RequiredArgsConstructor;
