@@ -1,6 +1,6 @@
 package hong.snipp.link.snipp_link.domain.loginhist.dto.response;
 
-import hong.snipp.link.snipp_link.domain.code.LoginTp;
+import hong.snipp.link.snipp_link.domain.codeenum.LoginTp;
 import hong.snipp.link.snipp_link.global.bean.ResponseIdBean;
 import lombok.AccessLevel;
 import lombok.Getter;

@@ -88,11 +88,13 @@ public class MyBatisConfig {
         // factoryBean.setConfigLocation(new
         // PathMatchingResourcePatternResolver().getResource(configLocation));
 
-        // 3. mapper 위치
+        // 3. mapper 위치 : XML 위치 설정 (mapper-locations 매칭)
         Resource[] resources = new PathMatchingResourcePatternResolver().getResources(mapperLocations);
+        System.out.println("로드된 매퍼 개수: " + resources.length); // 0이 나오면 경로 문제입니다.
         factoryBean.setMapperLocations(resources);
 
-        // 4. dto, vo 위치
+        // 4. 별칭 패키지 설정 (type-aliases-package 매칭)
+        // => XML 내에서 'hong.snipp...SnippBbs' 대신 {SnippBbs}로만 사용 가능
         factoryBean.setTypeAliasesPackage(typeAliasesPackage);
 
         // 5. plugins: interceptor

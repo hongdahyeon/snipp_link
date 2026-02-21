@@ -44,6 +44,5 @@ out/
 ### env ###
 .env
 
-### docker ###
-docker/minio_data
-docker/seaweedfs_data
+# Gradle personal settings
+gradle.properties

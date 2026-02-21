@@ -1,7 +1,7 @@
 package hong.snipp.link.snipp_link.domain.board.service;
 
-import hong.snipp.link.snipp_link.domain.board.domain.SnippBoard;
-import hong.snipp.link.snipp_link.domain.board.domain.SnippBoardMapper;
+import hong.snipp.link.snipp_link.domain.board.entity.SnippBoard;
+import hong.snipp.link.snipp_link.domain.board.dao.SnippBoardMapper;
 import hong.snipp.link.snipp_link.domain.board.dto.request.SnippBoardChange;
 import hong.snipp.link.snipp_link.domain.board.dto.request.SnippBoardParam;
 import hong.snipp.link.snipp_link.domain.board.dto.request.SnippBoardSave;

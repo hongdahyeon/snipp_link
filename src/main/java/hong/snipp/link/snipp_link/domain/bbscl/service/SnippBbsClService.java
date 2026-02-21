@@ -1,7 +1,7 @@
 package hong.snipp.link.snipp_link.domain.bbscl.service;
 
-import hong.snipp.link.snipp_link.domain.bbscl.domain.SnippBbsCl;
-import hong.snipp.link.snipp_link.domain.bbscl.domain.SnippBbsClMapper;
+import hong.snipp.link.snipp_link.domain.bbscl.entity.SnippBbsCl;
+import hong.snipp.link.snipp_link.domain.bbscl.dao.SnippBbsClMapper;
 import hong.snipp.link.snipp_link.domain.bbscl.dto.request.SnippBbsClChange;
 import hong.snipp.link.snipp_link.domain.bbscl.dto.request.SnippBbsClParam;
 import hong.snipp.link.snipp_link.domain.bbscl.dto.request.SnippBbsClSave;
